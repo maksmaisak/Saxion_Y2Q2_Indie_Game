@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -397,6 +397,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1035846791158146, guid: 4082596e3009e497a955c66031ab729e, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4082596e3009e497a955c66031ab729e, type: 2}
   m_IsPrefabAsset: 0
@@ -673,7 +677,7 @@ MonoBehaviour:
   virtualCamera: {fileID: 257782500}
   zoomSpeed: 100
   minCameraDistance: 10
-  maxCameraDistance: 30
+  maxCameraDistance: 60
 --- !u!1 &282840810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,7 +1776,7 @@ MonoBehaviour:
     type: 2}
   bulletSpawnLocation: {fileID: 1284353177}
   reloadInterval: 1
-  bulletSpeed: 50
+  bulletSpeed: 75
 --- !u!1 &752647028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3412,7 +3416,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1599982681
 Transform:
   m_ObjectHideFlags: 0
