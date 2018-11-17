@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
+using UnityEngine.Serialization;
 
 public class PlayerShootingController : MonoBehaviour
 {
@@ -19,10 +20,12 @@ public class PlayerShootingController : MonoBehaviour
     [SerializeField] FovDisplay fovDisplay;
     [SerializeField] float aimingAngleDecreasePerSecond = 10f;
     [SerializeField] float aimingAngleIncreasePerSecond = 40f;
-    [SerializeField] float maxSafeAimingTargetMovementPerSecond = 1f;
+    [SerializeField] float maxMouseMovementForAiming = 1f;
+    [SerializeField] float maxOwnMovementForAiming = 1f;
 
     private float timeWhenCanShoot;
     private Vector3 previousAimingTargetPosition;
+    private Vector3 previousOwnPosition;
 
     void Start()
     {
@@ -35,6 +38,7 @@ public class PlayerShootingController : MonoBehaviour
         Shoot();
         
         previousAimingTargetPosition = aimingTarget.position;
+        previousOwnPosition = transform.position;
     }
     
     void UpdateFovDisplay()
@@ -61,19 +65,14 @@ public class PlayerShootingController : MonoBehaviour
         {
             currentAimingFov.maxAngle = noAimingFov.maxAngle;
         }
+        else if (!IsAiming())
+        {
+            currentAimingFov.maxAngle += aimingAngleIncreasePerSecond * Time.deltaTime;
+        }
         else
         {
-            Vector3 deltaAimingTarget = aimingTarget.transform.position - previousAimingTargetPosition;
-            if (deltaAimingTarget.sqrMagnitude > maxSafeAimingTargetMovementPerSecond *
-                maxSafeAimingTargetMovementPerSecond * Time.deltaTime * Time.deltaTime)
-            {
-                currentAimingFov.maxAngle += aimingAngleIncreasePerSecond * Time.deltaTime;
-            }
-            else
-            {
-                currentAimingFov.maxAngle -= aimingAngleDecreasePerSecond * Time.deltaTime;
-                if (currentAimingFov.maxAngle < 0f) currentAimingFov.maxAngle = 0.01f;
-            }
+            currentAimingFov.maxAngle -= aimingAngleDecreasePerSecond * Time.deltaTime;
+            if (currentAimingFov.maxAngle < 0f) currentAimingFov.maxAngle = 0.01f;
         }
         currentAimingFov.maxAngle = Mathf.Clamp(currentAimingFov.maxAngle, 1f, noAimingFov.maxAngle);
         fovDisplay.fov = currentAimingFov;
@@ -88,14 +87,28 @@ public class PlayerShootingController : MonoBehaviour
         var spawnLocation = bulletSpawnLocation ? bulletSpawnLocation : transform;
         Vector3 position = spawnLocation.position;
         Vector3 toTarget = (aimingTarget.position - position).ProjectOntoPlane(Vector3.up).normalized;
-        var bullet = Instantiate(bulletPrefab, position, Quaternion.LookRotation(toTarget));
-
-        bullet.GetComponent<Rigidbody>().velocity = toTarget * bulletSpeed;
+        var imprecisionOffset = Quaternion.AngleAxis(Random.Range(-currentAimingFov.maxAngle * 0.5f, currentAimingFov.maxAngle * 0.5f), Vector3.up);
+        Vector3 bulletForward = imprecisionOffset * toTarget;
+        
+        var bullet = Instantiate(bulletPrefab, position, Quaternion.LookRotation(bulletForward));
+        bullet.GetComponent<Rigidbody>().velocity = bulletForward * bulletSpeed;
         
         timeWhenCanShoot = Time.time + reloadInterval;
     }
     
     bool CanShoot() => Time.time >= timeWhenCanShoot;
     float TimeTillCanShoot() => timeWhenCanShoot - Time.time;
-    
+
+    bool IsAiming()
+    {
+        Vector3 deltaAimingTarget = aimingTarget.transform.position - previousAimingTargetPosition;
+        if (deltaAimingTarget.sqrMagnitude >= Sqr(maxMouseMovementForAiming * Time.deltaTime)) return false;
+
+        Vector3 deltaOwn = transform.position - previousOwnPosition;
+        if (deltaOwn.sqrMagnitude >= Sqr(maxOwnMovementForAiming * Time.deltaTime)) return false;
+
+        return true;
+    }
+
+    static float Sqr(float value) => value * value;
 }

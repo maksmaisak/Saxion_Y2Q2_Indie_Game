@@ -35,10 +35,10 @@ public class Health : MonoBehaviour {
         }
     }
 
-    public bool canBeReduced { get { return _canBeReduced; }}
+    public bool canBeReduced => _canBeReduced;
 
-    public bool isAlive { get { return health > 0; }}
-    public bool isDead  { get { return health <= 0;}}
+    public bool isAlive => health > 0;
+    public bool isDead => health <= 0;
 
     void OnValidate() {
 
@@ -54,19 +54,15 @@ public class Health : MonoBehaviour {
         int oldValue = _health;
         _health = newHealth;
 
-        if (OnHealthChanged != null) {
-            OnHealthChanged.Invoke(this, oldValue, newHealth);
-        }
+        OnHealthChanged?.Invoke(this, oldValue, newHealth);
         OnHealthChangedUnityEvent.Invoke(oldValue, newHealth);
 
         if (_health <= 0) {
-
-            if (OnDeath != null) {
-                OnDeath.Invoke(this);
-            }
+            
+            OnDeath?.Invoke(this);
             OnDeathUnityEvent.Invoke();
 
-            if (destroyOnDeath) Destroy(gameObject);
+            if (Application.isPlaying && destroyOnDeath) Destroy(gameObject);
         }
 
         return this;
@@ -99,7 +95,6 @@ public class Health : MonoBehaviour {
     private void ValidateMaxHealth() {
 
         if (_health > _maxHealth) {
-
             SetHealth(_maxHealth);
         }
     }

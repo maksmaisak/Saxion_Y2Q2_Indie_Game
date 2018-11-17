@@ -2,9 +2,8 @@
 using System;
 using UnityEngine;
 
-public class FSM<AgentT> where AgentT : Component, IAgent
+public class FSM<AgentT> where AgentT : Component
 {
-
     // Maps the class name of a state to a specific instance of that state
     private Dictionary<Type, FSMState<AgentT>> stateCache;
 
@@ -22,12 +21,7 @@ public class FSM<AgentT> where AgentT : Component, IAgent
         stateCache = new Dictionary<Type, FSMState<AgentT>>();
         DetectExistingStates();
     }
-
-    public void Update()
-    {
-        //if (currentState != null) Debug.Log("Executing state " + currentState);
-    }
-
+    
     public FSMState<AgentT> GetCurrentState()
     {
         return currentState;
@@ -44,7 +38,7 @@ public class FSM<AgentT> where AgentT : Component, IAgent
 
     /**
 	 * Tells the FSM to enter a state which is a subclass of AbstractState<T>.
-	 * So for exampe for FSM<Bob> the state entered must be a subclass of AbstractState<Bob>
+	 * So for example for FSM<Bob> the state entered must be a subclass of AbstractState<Bob>
 	 */
     public void ChangeState<StateT>() where StateT : FSMState<AgentT>
     {

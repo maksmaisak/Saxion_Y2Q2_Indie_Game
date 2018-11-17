@@ -34,8 +34,9 @@ public class PersistentSingleton<T> : MyBehaviour where T : PersistentSingleton<
         return gameObject.AddComponent<T>();
     }
 
-    protected virtual void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         isApplicationQuitting = true;
     }
 }

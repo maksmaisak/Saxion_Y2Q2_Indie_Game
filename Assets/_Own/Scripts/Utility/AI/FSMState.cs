@@ -1,29 +1,31 @@
 using System;
 using UnityEngine;
 
-public class FSMState<T> : MonoBehaviour where T : class, IAgent
+public class FSMState<TAgent> : MyBehaviour
 {
-    protected T agent;
+    protected TAgent agent;
 
-    public void SetAgent(T agent)
+    public void SetAgent(TAgent agent)
     {
-
         Debug.Assert(this.agent == null);
         this.agent = agent;
     }
 
     public virtual void Enter()
     {
-
-        agent.Print("entered state:" + this);
+        Print("entered");
         enabled = true;
     }
 
     public virtual void Exit()
     {
-
-        agent.Print("exited state:" + this);
+        Print("exited");
         enabled = false;
+    }
+
+    protected void Print(string message)
+    {
+        Debug.Log($"{this} of {agent}: {message}");
     }
 }
 
