@@ -18,15 +18,13 @@ public class EnemyStateInvestigateDisturbance : FSMState<Enemy>
         
         while (enabled)
         {
-            Assert.IsTrue(agent.lastHeardGunshotPosition.HasValue);
-            agent.navMeshAgent.SetDestination(agent.lastHeardGunshotPosition.Value);
-            agent.navMeshAgent.isStopped = false;
-            
-            if (agent.navMeshAgent.remainingDistance < Mathf.Max(stoppingDistance, agent.navMeshAgent.stoppingDistance))
+            Assert.IsTrue(agent.lastHeardDisturbancePositions.HasValue);
+            agent.navMeshAgent.SetDestination(agent.lastHeardDisturbancePositions.Value);
+           
+            if (!agent.navMeshAgent.pathPending && agent.navMeshAgent.remainingDistance < Mathf.Max(stoppingDistance, agent.navMeshAgent.stoppingDistance))
             {
-                agent.navMeshAgent.isStopped = true;
-                agent.fsm.ChangeState<EnemyStateWander>();
-                yield break;
+                agent.navMeshAgent.SetDestination(transform.position);
+                agent.fsm.ChangeState<EnemyStateLookAround>();
             }
             
             yield return null;

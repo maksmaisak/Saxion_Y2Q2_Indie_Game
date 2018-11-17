@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 114999423508783734}
   - component: {fileID: 114723270555857622}
   - component: {fileID: 114328300123783952}
+  - component: {fileID: 114340400958744734}
   - component: {fileID: 114000117299039316}
   - component: {fileID: 114998865380716300}
   m_Layer: 11
@@ -94,7 +95,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
   m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
-  m_LocalPosition: {x: 4.67, y: 0, z: 9.73}
+  m_LocalPosition: {x: 3.17, y: 0, z: 7.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4142280785892910}
@@ -110,8 +111,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1275381495000112}
   m_LocalRotation: {x: 0.35355338, y: -0.1464466, z: 0.35355338, w: 0.8535535}
-  m_LocalPosition: {x: 0, y: 1.23, z: 0.39}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 1.359, z: 0.21}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 4063796871211330}
   m_RootOrder: 2
@@ -124,7 +125,7 @@ Transform:
   m_GameObject: {fileID: 1663934442276824}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.75, z: 0}
-  m_LocalScale: {x: 1, y: 1.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 1.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 4063796871211330}
   m_RootOrder: 0
@@ -298,11 +299,16 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dde3388017694687b741d16e089d8946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duration: 30
+  circleDistance: 3
+  circleRadius: 2
+  angleChange: 60
+  minDistanceToObstacle: 5
 --- !u!114 &114180836984626622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -314,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f1f74f529443ac9b407069eb5e69fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numBaseRays: 100
+  numBaseRays: 200
   _fov:
     maxAngle: 100
     maxDistance: 30
@@ -352,14 +358,27 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a2a757945104317ba8daa4309709265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDelay: 0.1
-  maxDelay: 1
+  minDelay: 0.05
+  maxDelay: 0.1
   stoppingDistance: 4
+--- !u!114 &114340400958744734
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305885103597862}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8980adee30224c78b2573d5e6b220ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 4
+  rotationPerSecond: 180
 --- !u!114 &114723270555857622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -371,17 +390,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db710f29eab4d869ba1fee5252d096b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disturbanceHearingRadius: 20
+  rotationSpeed: 20
+  rotationSpeedChange: 50
+  rotationSpeedCap: 70
 --- !u!114 &114998865380716300
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df3b7276c95b44f7829f1a5ebaedb0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stoppingDistanceBeforeLastPlayerPosition: 2
 --- !u!114 &114999423508783734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -409,12 +433,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 1305885103597862}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.8
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

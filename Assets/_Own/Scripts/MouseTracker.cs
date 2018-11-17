@@ -19,7 +19,10 @@ public class MouseTracker : MonoBehaviour
         if (Physics.Raycast(ray, out hit, maxRaycastDistance, Physics.DefaultRaycastLayers))
         {
             transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
-            //transform.position = hit.point;
+        }
+        else
+        {
+            transform.position = ray.GetPoint(camera.transform.position.y / Vector3.Dot(camera.transform.forward, ray.direction));
         }
     }
 }
