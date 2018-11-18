@@ -1,28 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Assertions;
 
 public class EnemyStateWander : FSMState<Enemy>
 {
     [SerializeField] float duration = 10f;
-    [SerializeField] float circleDistance = 3f;
-    [SerializeField] float circleRadius = 2f;
-    [SerializeField] float angleChange = 10f;
+    [SerializeField] float nextPositionDistance = 10f;
     [SerializeField] float minDistanceToObstacle = 3f;
-
-    float currentAngle = 0f;
-
-    public Vector3 GetRelativeTargetPosition()
-    {
-        Vector3 forward = transform.forward;
-        forward.y = 0f;
-        forward.Normalize();
-        Vector3 circleDisplacement = forward * circleDistance;
-
-        currentAngle += Random.Range(-angleChange / 2f, angleChange / 2f) * Time.deltaTime;
-        Vector3 circleOutwardVector = Quaternion.AngleAxis(currentAngle, Vector3.up) * forward * circleRadius;
-
-        return circleDisplacement + circleOutwardVector;
-    }
     
     void OnEnable()
     {
@@ -31,18 +15,20 @@ public class EnemyStateWander : FSMState<Enemy>
 
     void Update()
     {
-        Vector3 targetPosition = transform.position + GetRelativeTargetPosition();
-        NavMeshHit hit;
-        if (agent.navMeshAgent.Raycast(targetPosition, out hit))
-        {
-            targetPosition = hit.position;
+        if (agent.navMeshAgent.remainingDistance <= Mathf.Max(minDistanceToObstacle, agent.navMeshAgent.stoppingDistance)) {
+            agent.navMeshAgent.destination = GetNextPosition();
         }
+    }
 
-        if ((targetPosition - transform.position).sqrMagnitude < minDistanceToObstacle * minDistanceToObstacle)
-        {
-            currentAngle += 180f + Random.Range(-90f, 90f);
-        }
-               
-        agent.navMeshAgent.SetDestination(targetPosition);
+    private Vector3 GetNextPosition()
+    {
+        Vector2 randomOnUnitCircle = Random.insideUnitCircle.normalized * nextPositionDistance;
+        Vector3 delta = new Vector3(randomOnUnitCircle.x, 0f, randomOnUnitCircle.y);
+
+        NavMeshHit hit;
+        bool foundPosition = NavMesh.SamplePosition(transform.position + delta, out hit, nextPositionDistance, NavMesh.AllAreas);
+        Assert.IsTrue(foundPosition);
+        
+        return hit.position;
     }
 }

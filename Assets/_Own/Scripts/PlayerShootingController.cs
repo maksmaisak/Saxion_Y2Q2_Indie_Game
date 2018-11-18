@@ -101,7 +101,11 @@ public class PlayerShootingController : MonoBehaviour
 
     bool IsAiming()
     {
-        Vector3 deltaAimingTarget = aimingTarget.transform.position - previousAimingTargetPosition;
+        Vector3 aimingTargetPosition = aimingTarget.transform.position;
+        Vector3 ownPosition = transform.position;
+        
+        Vector3 deltaAimingTarget = aimingTargetPosition - previousAimingTargetPosition;
+        deltaAimingTarget -= Vector3.Project(deltaAimingTarget, aimingTargetPosition - ownPosition);
         if (deltaAimingTarget.sqrMagnitude >= Sqr(maxMouseMovementForAiming * Time.deltaTime)) return false;
 
         Vector3 deltaOwn = transform.position - previousOwnPosition;

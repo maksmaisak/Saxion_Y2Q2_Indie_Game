@@ -1,17 +1,29 @@
+using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 public class EnemyStateLookAround : FSMState<Enemy>
 {
     [SerializeField] float duration = 4f;
-    [SerializeField] float rotationPerSecond = 90f;
-    
-    void OnEnable()
+
+    private Tween currentTween;
+        
+    void OnEnable() => StartCoroutine(Work());
+    void OnDisable()
     {
-        this.Delay(duration, () => agent.fsm.ChangeState<EnemyStateWander>());
+        currentTween?.Kill();
+        StopAllCoroutines();
     }
-    
-    void Update()
-    {        
-        transform.rotation *= Quaternion.AngleAxis(rotationPerSecond * Time.deltaTime, Vector3.up);
+
+    IEnumerator Work()
+    {
+        currentTween = transform.DOPunchRotation(Vector3.up * 135f, duration, vibrato: 1);
+        yield return currentTween.WaitForCompletion();
+        
+        currentTween = transform.DOPunchRotation(Vector3.up * -135f, duration, vibrato: 1);
+        yield return currentTween.WaitForCompletion();
+
+        currentTween = null;
+        agent.fsm.ChangeState<EnemyStateWander>();
     }
 }
