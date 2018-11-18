@@ -304,10 +304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde3388017694687b741d16e089d8946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 30
-  circleDistance: 3
-  circleRadius: 2
-  angleChange: 60
+  duration: 60
+  nextPositionDistance: 10
   minDistanceToObstacle: 5
 --- !u!114 &114180836984626622
 MonoBehaviour:
@@ -322,7 +320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numBaseRays: 200
   _fov:
-    maxAngle: 100
+    maxAngle: 120
     maxDistance: 30
     blockingLayerMask:
       serializedVersion: 2
@@ -364,7 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDelay: 0.05
-  maxDelay: 0.1
+  maxDelay: 0.5
   stoppingDistance: 4
 --- !u!114 &114340400958744734
 MonoBehaviour:
@@ -378,7 +376,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 4
-  rotationPerSecond: 180
 --- !u!114 &114723270555857622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -420,7 +417,7 @@ MonoBehaviour:
   fovDisplay: {fileID: 114180836984626622}
   playerTransform: {fileID: 0}
   currentFov:
-    maxAngle: 100
+    maxAngle: 120
     maxDistance: 30
     blockingLayerMask:
       serializedVersion: 2
