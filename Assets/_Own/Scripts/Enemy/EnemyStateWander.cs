@@ -40,7 +40,7 @@ public class EnemyStateWander : FSMState<Enemy>
 
         if ((targetPosition - transform.position).sqrMagnitude < minDistanceToObstacle * minDistanceToObstacle)
         {
-            currentAngle += 180f + Random.Range(0f, 270f);
+            currentAngle += 180f + Random.Range(-90f, 90f);
         }
                
         agent.navMeshAgent.SetDestination(targetPosition);

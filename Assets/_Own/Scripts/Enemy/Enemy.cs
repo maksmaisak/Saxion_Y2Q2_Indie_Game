@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour
 
 		RaycastHit hit;
 		if (!Physics.Raycast(ownPosition, toPlayer, out hit, currentFov.maxDistance, currentFov.blockingLayerMask)) 
-			return false;
+			return true;
 		
 		return hit.distance * hit.distance > toPlayer.sqrMagnitude;
 	}

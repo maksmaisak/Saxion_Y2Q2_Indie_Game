@@ -10,7 +10,7 @@ public class EnemyStateChasePlayer : FSMState<Enemy>
 
         if (!agent.isPlayerVisible && CloseToLastKnownPlayerLocation())
         {
-            agent.fsm.ChangeState<EnemyStateWander>();
+            agent.fsm.ChangeState<EnemyStateLookAround>();
         }
     }
 
