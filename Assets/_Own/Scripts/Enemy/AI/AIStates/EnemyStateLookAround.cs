@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
-public class EnemyStateLookAround : FSMState<Enemy>
+public class EnemyStateLookAround : FSMState<EnemyAI>
 {
     [SerializeField] float duration = 4f;
 

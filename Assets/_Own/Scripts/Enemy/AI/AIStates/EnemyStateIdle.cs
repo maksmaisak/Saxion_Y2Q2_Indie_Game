@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyStateIdle : FSMState<Enemy>, IEventReceiver<Disturbance>
+public class EnemyStateIdle : FSMState<EnemyAI>, IEventReceiver<Disturbance>
 {
     [SerializeField] float disturbanceHearingRadius = 10f;
     [SerializeField] float rotationSpeed = 100f;
@@ -15,17 +15,13 @@ public class EnemyStateIdle : FSMState<Enemy>, IEventReceiver<Disturbance>
         agent.lastHeardDisturbancePositions = shot.position;
         
         if (enabled)
-        {
             agent.fsm.ChangeState<EnemyStateInvestigateDisturbance>();
-        }
     }
 
     private void OnEnable()
     {
         if (Random.value < 0.5f)
-        {
             rotationSpeed = -rotationSpeed;
-        }
     }
 
     void Update()

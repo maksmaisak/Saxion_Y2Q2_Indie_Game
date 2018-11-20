@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions;
 
-public class EnemyStateInvestigateDisturbance : FSMState<Enemy>
+public class EnemyStateInvestigateDisturbance : FSMState<EnemyAI>
 {
     [SerializeField] float minDelay = 0.1f;
     [SerializeField] float maxDelay = 1f;

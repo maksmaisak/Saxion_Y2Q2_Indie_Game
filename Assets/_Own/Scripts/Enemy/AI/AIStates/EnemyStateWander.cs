@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions;
 
-public class EnemyStateWander : FSMState<Enemy>
+public class EnemyStateWander : FSMState<EnemyAI>
 {
     [SerializeField] float duration = 10f;
     [SerializeField] float nextPositionDistance = 10f;

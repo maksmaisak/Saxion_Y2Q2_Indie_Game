@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stoppingDistanceBeforeLastPlayerPosition: 2
+  isDestinationSet: 0
 --- !u!114 &114999423508783734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -414,14 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f94513ecae8c24d168e427c1fa80ecee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fovDisplay: {fileID: 114180836984626622}
-  playerTransform: {fileID: 0}
-  currentFov:
-    maxAngle: 120
-    maxDistance: 30
-    blockingLayerMask:
-      serializedVersion: 2
-      m_Bits: 1
+  enableAI: 0
 --- !u!195 &195546136665236794
 NavMeshAgent:
   m_ObjectHideFlags: 1
