@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class EnemyIndicatorOnHUD : MonoBehaviour
 {
     [SerializeField] Color colorIdle = Color.white;
@@ -13,7 +14,6 @@ public class EnemyIndicatorOnHUD : MonoBehaviour
     [SerializeField] Image image;
     [SerializeField] Transform trackedTransform;
     [SerializeField] Vector2 viewportPadding;
-    //[SerializeField] float maxMagnitude = 0.8f;
     
     private Canvas canvas;
     private RectTransform rectTransform;
@@ -34,21 +34,12 @@ public class EnemyIndicatorOnHUD : MonoBehaviour
         if (!trackedTransform) return;
 
         Vector3 viewportPosition = Camera.main.WorldToViewportPoint(trackedTransform.position);
-        Debug.Log(viewportPosition);
 
         if (viewportPosition.z < 0f) viewportPosition = -viewportPosition;
         viewportPosition.x = Mathf.Clamp(viewportPosition.x, viewportPadding.x, 1f - viewportPadding.x);
         viewportPosition.y = Mathf.Clamp(viewportPosition.y, viewportPadding.y, 1f - viewportPadding.y);
-
-        Vector2 viewportPosition2D = new Vector2(viewportPosition.x, viewportPosition.y);
-        /*Vector2 fromCenter = viewportPosition2D - new Vector2(0.5f, 0.5f);
-
-        if (fromCenter.magnitude > maxMagnitude)
-        {
-            viewportPosition2D = new Vector2(0.5f, 0.5f) + fromCenter * maxMagnitude;
-        }*/
         
-        rectTransform.anchorMin = rectTransform.anchorMax = viewportPosition2D;
+        rectTransform.anchorMin = rectTransform.anchorMax = viewportPosition;
         rectTransform.anchoredPosition = Vector2.zero;
     }
     
