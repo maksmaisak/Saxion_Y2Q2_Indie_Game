@@ -6,8 +6,8 @@ using  Cinemachine.Utility;
 using Unity.Collections;
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(Enemy))]
 [DisallowMultipleComponent]
+[RequireComponent(typeof(NavMeshAgent), typeof(Health))]
 public class EnemyAI : MonoBehaviour {
 	
 	[Header("AI Search Settings")]
@@ -16,7 +16,6 @@ public class EnemyAI : MonoBehaviour {
 	[SerializeField] float maxViewDistance 			= 20.0f;
 	
 	/********* PUBLIC *********/
-	public Enemy owner { get; private set; }
 	public Health health {get; private set;}
 	
 	public FSM<EnemyAI> fsm {get; private set;}
@@ -27,15 +26,12 @@ public class EnemyAI : MonoBehaviour {
 	
 	public Transform targetTransform { get; private set; }
 	public bool isPlayerVisible { get; private set; }
+	public FovInfo fov { get; private set; }
 	
 	/********* PRIVATE *********/
-	private FovInfo fov { get; set; }
 	
 	void Start()
-	{
-		owner = gameObject.GetComponent<Enemy>();
-		Assert.IsNotNull(owner);
-		
+	{		
 		targetTransform = FindObjectOfType<PlayerShootingController>()?.transform;
 		Assert.IsNotNull(targetTransform);
 
@@ -61,6 +57,9 @@ public class EnemyAI : MonoBehaviour {
 		isPlayerVisible = Visibility.CanSeeObject(transform, targetTransform, fov);
 
 		if (isPlayerVisible)
+		{
 			lastKnownPlayerPosition = targetTransform.position;
+			fsm.ChangeState<EnemyStateDistracted>();
+		}
 	}
 }

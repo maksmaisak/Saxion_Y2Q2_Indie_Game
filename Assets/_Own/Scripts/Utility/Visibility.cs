@@ -16,6 +16,6 @@ public class Visibility {
         if (!Physics.Raycast(ownPosition, toOther, out hit, fov.maxDistance, fov.blockingLayerMask)) 
             return true;
 
-        return hit.distance * hit.distance > toOther.sqrMagnitude;
+        return hit.distance * hit.distance < toOther.sqrMagnitude;
     }
 }
