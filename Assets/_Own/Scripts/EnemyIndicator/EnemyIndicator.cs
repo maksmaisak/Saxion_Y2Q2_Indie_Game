@@ -33,6 +33,16 @@ public class EnemyIndicator : MonoBehaviour
 		transform.localScale *= desiredScreenSize / onScreenSize;
 	}
 
+	void OnBecameVisible()
+	{
+		Debug.Log(this + " became visible.");
+	}
+
+	private void OnBecameInvisible()
+	{
+		Debug.Log(this + " became invisible.");
+	}
+
 	public void SetStateIdle()
 	{
 		spriteRenderer.color = colorIdle;
