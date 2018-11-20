@@ -13,9 +13,9 @@ public class Visibility {
         if (Vector3.Angle(toOther, transform.forward) > fov.maxAngle * 0.5f) return false;
 
         RaycastHit hit;
-        if (!Physics.Raycast(ownPosition, toOther, out hit, fov.maxDistance, fov.blockingLayerMask)) 
+        if (!Physics.Raycast(ownPosition, toOther, out hit, fov.maxDistance, fov.layerMask)) 
             return true;
 
-        return hit.distance * hit.distance < toOther.sqrMagnitude;
+        return hit.distance * hit.distance > toOther.sqrMagnitude;
     }
 }

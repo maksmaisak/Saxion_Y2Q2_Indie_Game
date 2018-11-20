@@ -39,7 +39,7 @@ public class EnemyAI : MonoBehaviour {
 		health 			= GetComponent<Health>();
 		navMeshAgent 	= GetComponent<NavMeshAgent>();
 		fov 			= new FovInfo {
-			maxAngle = maxViewAngle, maxDistance = maxViewDistance, blockingLayerMask = blockingLayerMask
+			maxAngle = maxViewAngle, maxDistance = maxViewDistance, layerMask = blockingLayerMask
 		};
 		
 		health.OnDeath += sender => new Disturbance(transform.position).PostEvent();
