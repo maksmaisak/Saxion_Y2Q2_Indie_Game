@@ -13,7 +13,8 @@ public class EnemyIndicatorOnHUD : MonoBehaviour
     [SerializeField] Color colorAggressive = Color.red;
     [SerializeField] Image image;
     [SerializeField] Transform trackedTransform;
-    [SerializeField] Vector2 viewportPadding;
+    [SerializeField] Transform playerTransform;
+    [SerializeField] Vector2 interpolationPadding;
     
     private Canvas canvas;
     private RectTransform rectTransform;
@@ -33,16 +34,49 @@ public class EnemyIndicatorOnHUD : MonoBehaviour
     {
         if (!trackedTransform) return;
 
-        Vector3 viewportPosition = Camera.main.WorldToViewportPoint(trackedTransform.position);
-
-        if (viewportPosition.z < 0f) viewportPosition = -viewportPosition;
-        viewportPosition.x = Mathf.Clamp(viewportPosition.x, viewportPadding.x, 1f - viewportPadding.x);
-        viewportPosition.y = Mathf.Clamp(viewportPosition.y, viewportPadding.y, 1f - viewportPadding.y);
-        
-        rectTransform.anchorMin = rectTransform.anchorMax = viewportPosition;
+        rectTransform.anchorMin = rectTransform.anchorMax = GetRectPosition();
         rectTransform.anchoredPosition = Vector2.zero;
     }
-    
+
+    private Vector3 GetRectPosition()
+    {
+        Camera camera = Camera.main;
+        Transform cameraTransform = camera.transform;
+        Vector3 viewportPosition = camera.WorldToViewportPoint(trackedTransform.position);
+
+        var viewportRect = Rect.MinMaxRect(0f, 0f, 1f, 1f);
+        var innerViewportRect = viewportRect.Inflated(-interpolationPadding);
+
+        // Off screen
+        if (viewportPosition.z < 0f || !viewportRect.Contains(viewportPosition))
+        {
+            return GetPositionForOutOfScreenObject(cameraTransform, innerViewportRect, playerTransform);
+        }
+        
+        // Within the interpolation zone
+        if (!innerViewportRect.Contains(viewportPosition))
+        {
+            var fromCenter = (Vector2)viewportPosition - new Vector2(0.5f, 0.5f);
+            var overlap = new Vector2(Mathf.Abs(fromCenter.x), Mathf.Abs(fromCenter.y)) - (new Vector2(0.5f, 0.5f) - interpolationPadding);
+            if (overlap.x < 0f) overlap.x = 0f;
+            if (overlap.y < 0f) overlap.y = 0f;
+            
+            float t = Mathf.Clamp01(overlap.x / interpolationPadding.x + overlap.y / interpolationPadding.y);
+            Vector3 fromOffscreenPosition = GetPositionForOutOfScreenObject(cameraTransform, innerViewportRect, playerTransform);
+            return Vector2.Lerp(viewportPosition, fromOffscreenPosition, t);
+        }
+
+        // On screen
+        return viewportPosition;
+    }
+
+    private Vector3 GetPositionForOutOfScreenObject(Transform cameraTransform, Rect containingRect, Transform targetTransform = null)
+    {
+        Vector3 relativePos = trackedTransform.position - (targetTransform ? targetTransform : cameraTransform).position;
+        Vector2 projectedPos = new Vector2(Vector3.Dot(relativePos, cameraTransform.right), Vector3.Dot(relativePos, cameraTransform.up));
+        return Rect.NormalizedToPoint(containingRect, new Vector2(0.5f, 0.5f) + projectedPos.normalized * 0.5f);
+    }
+
     public void SetStateIdle()
     {
         image.color = colorIdle;
