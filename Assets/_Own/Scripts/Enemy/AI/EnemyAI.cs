@@ -29,8 +29,6 @@ public class EnemyAI : MonoBehaviour {
 	public bool isPlayerVisible { get; private set; }
 	
 	/********* PRIVATE *********/
-	private float searchPlayerDiff  = 0.0f;
-	private float searchPlayerTimer = 0.05f;
 	private FovInfo fov { get; set; }
 	
 	void Start()
@@ -55,11 +53,14 @@ public class EnemyAI : MonoBehaviour {
 
 	public void Update()
 	{
-		if (searchPlayerDiff >= searchPlayerTimer)
-		{
-			searchPlayerDiff -= searchPlayerTimer;
-			isPlayerVisible = Visibility.CanSeeObject(transform, targetTransform, fov);
-		}
-		else searchPlayerDiff += Time.deltaTime;
+		LookForPlayer();
+	}
+
+	public void LookForPlayer()
+	{
+		isPlayerVisible = Visibility.CanSeeObject(transform, targetTransform, fov);
+
+		if (isPlayerVisible)
+			lastKnownPlayerPosition = targetTransform.position;
 	}
 }
