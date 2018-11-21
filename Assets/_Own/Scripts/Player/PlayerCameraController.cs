@@ -63,6 +63,9 @@ public class PlayerCameraController : MonoBehaviour
         primaryVirtualCamera.enabled = !isSniping;
         sniperZoomVirtualCamera.enabled = isSniping;
         
+        if (!isSniping) PointSniperCameraAtMouse();
+        else PointPrimaryCameraAtMouse();
+        
         foreach (Renderer r in renderers) r.enabled = !isSniping;
 
         if (activeInThirdPersonOnly) activeInThirdPersonOnly.SetActive(!isSniping);
@@ -71,7 +74,7 @@ public class PlayerCameraController : MonoBehaviour
 
     private void PointSniperCameraAtMouse()
     {
-        if (!sniperZoomVirtualCamera.LookAt) return;
+        Assert.IsNotNull(sniperZoomVirtualCamera.LookAt);
         
         var rotation = Quaternion.LookRotation(sniperZoomVirtualCamera.LookAt.position - sniperZoomVirtualCamera.transform.position);
         Vector3 eulerAngles = rotation.eulerAngles;
@@ -83,7 +86,7 @@ public class PlayerCameraController : MonoBehaviour
 
     private void PointPrimaryCameraAtMouse()
     {
-        if (!sniperZoomVirtualCamera.LookAt) return;
+        Assert.IsNotNull(sniperZoomVirtualCamera.LookAt);
         
         var rotation = Quaternion.LookRotation(sniperZoomVirtualCamera.LookAt.position - primaryVirtualCamera.transform.position);
         Vector3 eulerAngles = rotation.eulerAngles;
