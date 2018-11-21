@@ -4,20 +4,17 @@ using DG.Tweening;
 using Unity.Collections;
 
 public class EnemyStateChasePlayer : FSMState<EnemyAI>
-{  
-    private Tweener currentTween;
-    private bool isRotating = false;
-    
+{
+    [SerializeField] float minimumChaseTimeTreshold = 2.0f;
+    [SerializeField] float faceTargetSpeed = 2.0f;
+
     private void OnEnable()
     {
-        agent.SetAIState(AIState.ChasePlayer);
+        agent.minimumTimeTreshold = minimumChaseTimeTreshold;
         StartCoroutine(Work());
     }
 
-    private void OnDisable()
-    {
-        StopAllCoroutines();
-    }
+    private void OnDisable() => StopAllCoroutines();
 
     private IEnumerator Work()
     {
@@ -25,10 +22,13 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         {
             agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
 
-            transform.rotation = Quaternion.LookRotation(agent.targetTransform.position - transform.position);
-            
-            if (!agent.isPlayerVisible && agent.CloseToLastKnownPlayerLocation())              
-                if (agent.GetTimeSinceLastPlayerSeen() > 2.0f)
+            if (agent.isPlayerVisible)
+                transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                     Quaternion.LookRotation(agent.targetTransform.position - transform.position),
+                                                     Time.deltaTime * faceTargetSpeed);
+
+            if (!agent.isPlayerVisible && agent.CloseToLastKnownPlayerLocation())
+                if (agent.GetTimeSinceLastPlayerSeen() > minimumChaseTimeTreshold)
                     agent.fsm.ChangeState<EnemyStateWander>();
 
             yield return null;

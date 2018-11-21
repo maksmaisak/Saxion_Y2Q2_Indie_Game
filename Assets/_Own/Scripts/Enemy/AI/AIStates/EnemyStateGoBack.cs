@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class EnemyStateGoBack : FSMState<EnemyAI>
 {
+    [SerializeField] float delayToGoIdle = 0.5f;
     [SerializeField] float stoppingDistanceBeforeSpawnPosition = 5.0f;
 
     private void OnEnable()
     {
-        agent.SetAIState(AIState.GoingBack);
         agent.navMeshAgent.SetDestination(agent.spawnPosition);
+
+        agent.minimumTimeTreshold       = 0.0f;
+        agent.canInvestigateDisturbance = true;
 
         StartCoroutine(Work());
     }
 
+    private void OnDisable() => StopAllCoroutines();
+
     private IEnumerator Work()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(delayToGoIdle);
 
         while(enabled)
         {

@@ -64,7 +64,7 @@ public class EnemyIndicator : MonoBehaviour
     public void SetState(float stateInterpolation)
     {
         currentValue = stateInterpolation;
-        
+
         stateInterpolation = Mathf.Clamp(stateInterpolation, 0f, 2f);
         if (stateInterpolation <= 1f)
         {
@@ -72,18 +72,18 @@ public class EnemyIndicator : MonoBehaviour
             imageIdle.fillAmount = 1f - stateInterpolation;
             imageSuspicious.fillOrigin = (int)Image.OriginVertical.Bottom;
             imageSuspicious.fillAmount = stateInterpolation;
-            
+
             imageAggressive.fillAmount = 0f;
         }
         else
         {
             stateInterpolation -= 1f;
-            
+
             imageSuspicious.fillOrigin = (int)Image.OriginVertical.Top;
             imageSuspicious.fillAmount = 1f - stateInterpolation;
             imageAggressive.fillOrigin = (int)Image.OriginVertical.Bottom;
             imageAggressive.fillAmount = stateInterpolation;
-            
+
             imageIdle.fillAmount = 0f;
         }
     }
