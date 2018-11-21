@@ -7,6 +7,8 @@ public class PlayerCameraController : MonoBehaviour
 {
     [SerializeField] CinemachineFreeLook primaryVirtualCamera;
     [SerializeField] CinemachineVirtualCamera sniperZoomVirtualCamera;
+    [SerializeField] GameObject activeInThirdPersonOnly;
+    [SerializeField] GameObject activeInSniperZoomOnly;
     [SerializeField] float zoomSpeed = 10f;
     [SerializeField] float primaryMaxFov = 40f;
     [SerializeField] float primaryMinFov = 40f;
@@ -62,6 +64,9 @@ public class PlayerCameraController : MonoBehaviour
         sniperZoomVirtualCamera.enabled = isSniping;
         
         foreach (Renderer r in renderers) r.enabled = !isSniping;
+
+        if (activeInThirdPersonOnly) activeInThirdPersonOnly.SetActive(!isSniping);
+        if (activeInSniperZoomOnly) activeInSniperZoomOnly.SetActive(isSniping);
     }
 
     private void PointSniperCameraAtMouse()
