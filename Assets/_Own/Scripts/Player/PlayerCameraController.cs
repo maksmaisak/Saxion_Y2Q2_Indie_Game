@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.Assertions;
@@ -14,6 +15,7 @@ public class PlayerCameraController : MonoBehaviour
 
     [SerializeField] float currentFov;
 
+    private bool isSniping = false;
     private Renderer[] renderers;
         
     void Start()
@@ -22,6 +24,8 @@ public class PlayerCameraController : MonoBehaviour
         Assert.IsNotNull(sniperZoomVirtualCamera);
 
         currentFov = primaryVirtualCamera.m_Lens.FieldOfView;
+        isSniping = currentFov < primaryMinFov;
+        
         renderers = GetComponentsInChildren<Renderer>();
     }
 
@@ -30,21 +34,20 @@ public class PlayerCameraController : MonoBehaviour
         float scrollAmount = Input.GetAxis("Mouse ScrollWheel");
         float zoomAmount = scrollAmount * zoomSpeed;
 
-        float previousFov = currentFov;
         currentFov += zoomAmount;
 
-        bool isSniperZoom = previousFov < primaryMinFov;
-        if (previousFov >= primaryMinFov && currentFov < primaryMinFov)
+        if (!isSniping && currentFov < primaryMinFov) // Primary to sniper
         {
-            isSniperZoom = true;
+            isSniping = true;
             PointSniperCameraAtMouse();
         }
-        else if (previousFov <= sniperMaxFov && currentFov > sniperMaxFov)
+        else if (isSniping && currentFov > sniperMaxFov) // Sniper to primary
         {
-            isSniperZoom = false;
+            isSniping = false;
+            PointPrimaryCameraAtMouse();
         }
         
-        if (isSniperZoom)
+        if (isSniping)
         {
             currentFov = Mathf.Clamp(currentFov, sniperMinFov, sniperMaxFov);
             sniperZoomVirtualCamera.m_Lens.FieldOfView = currentFov;
@@ -54,18 +57,15 @@ public class PlayerCameraController : MonoBehaviour
             currentFov = Mathf.Clamp(currentFov, primaryMinFov, primaryMaxFov);
             primaryVirtualCamera.m_Lens.FieldOfView = currentFov;
         }
+        
+        primaryVirtualCamera.enabled = !isSniping;
+        sniperZoomVirtualCamera.enabled = isSniping;
 
-        if (!isSniperZoom) PointSniperCameraAtMouse();
+        // Keep the inactive camera pointing at the same place as the active one.
+        //if (isSniping) PointPrimaryCameraAtMouse();
+        //else PointSniperCameraAtMouse();
         
-        primaryVirtualCamera.enabled = !isSniperZoom;
-        sniperZoomVirtualCamera.enabled = isSniperZoom;
-        //primaryVirtualCamera.Priority = isSniperZoom ? 0 : 10;
-        //sniperZoomVirtualCamera.Priority = isSniperZoom ? 10 : 0;
-        
-        foreach (Renderer r in renderers)
-        {
-            r.enabled = !isSniperZoom;
-        }
+        foreach (Renderer r in renderers) r.enabled = !isSniping;
     }
 
     private void PointSniperCameraAtMouse()
@@ -73,12 +73,32 @@ public class PlayerCameraController : MonoBehaviour
         if (!sniperZoomVirtualCamera.LookAt) return;
         
         var rotation = Quaternion.LookRotation(sniperZoomVirtualCamera.LookAt.position - sniperZoomVirtualCamera.transform.position);
+        Vector3 eulerAngles = rotation.eulerAngles;
         var pov = sniperZoomVirtualCamera.GetCinemachineComponent<CinemachinePOV>();
 
-        var eulerAngles = rotation.eulerAngles;
-        Debug.Log(eulerAngles);
         pov.m_VerticalAxis.Value = WrapEulerAngle(eulerAngles.x, pov.m_VerticalAxis.m_MinValue, pov.m_VerticalAxis.m_MaxValue);
         pov.m_HorizontalAxis.Value = WrapEulerAngle(eulerAngles.y, pov.m_HorizontalAxis.m_MinValue, pov.m_HorizontalAxis.m_MaxValue);
+    }
+
+    private void PointPrimaryCameraAtMouse()
+    {
+        if (!sniperZoomVirtualCamera.LookAt) return;
+        
+        var rotation = Quaternion.LookRotation(sniperZoomVirtualCamera.LookAt.position - primaryVirtualCamera.transform.position);
+        Vector3 eulerAngles = rotation.eulerAngles;
+        CinemachineFreeLook cam = primaryVirtualCamera;
+
+        // OPTIMIZATION Cache this.
+        float maxAngle = Mathf.Atan(cam.m_Orbits.Max(o => o.m_Height / o.m_Radius)) * Mathf.Rad2Deg;
+        float minAngle = Mathf.Atan(cam.m_Orbits.Min(o => o.m_Height / o.m_Radius)) * Mathf.Rad2Deg;
+
+        float yAxisAngle = WrapEulerAngle(eulerAngles.x, -90f, 90f);
+        float yAxisValue = Remap(minAngle, maxAngle, cam.m_YAxis.m_MinValue, cam.m_YAxis.m_MaxValue, yAxisAngle);
+        //Debug.Log(yAxisValue);
+        cam.m_YAxis.Value = Mathf.Clamp01(yAxisValue);
+        
+        cam.m_XAxis.Value = WrapEulerAngle(eulerAngles.y, cam.m_XAxis.m_MinValue, cam.m_XAxis.m_MaxValue);
+        //Debug.Log(cam.m_XAxis.Value);
     }
 
     private static float WrapEulerAngle(float angle, float min, float max)
@@ -87,5 +107,10 @@ public class PlayerCameraController : MonoBehaviour
         while (angle < min) angle += delta;
         while (angle > max) angle -= delta;
         return angle;
+    }
+    
+    /// Value in range (aMin, aMax) -> value in range (bMin, bMax)
+    private static float Remap(float aMin, float aMax, float bMin, float bMax, float value) {
+        return Mathf.Lerp(bMin, bMax, Mathf.InverseLerp(aMin, aMax, value));
     }
 }
