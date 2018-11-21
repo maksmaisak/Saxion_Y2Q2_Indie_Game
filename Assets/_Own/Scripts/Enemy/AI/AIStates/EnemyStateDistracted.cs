@@ -6,7 +6,7 @@ using DG.Tweening;
 public class EnemyStateDistracted : FSMState<EnemyAI>
 {
     [SerializeField] private float secondsUntillChase = 2.0f;
-    [SerializeField] private float secondsUntillMoveToTarget = 0.5f;
+    [SerializeField] private float secondsUntillMoveToTarget = 1.0f;
     [SerializeField] private float maxSecondsDistracted = 4.0f;
 
     private bool isMovingToTarget;
@@ -34,7 +34,7 @@ public class EnemyStateDistracted : FSMState<EnemyAI>
                 if (!isMovingToTarget)
                 {
                     isMovingToTarget = true;
-                    transform.DORotateQuaternion(Quaternion.LookRotation(agent.lastKnownPlayerPosition - transform.position), 0.1f).SetEase(Ease.Linear);
+                    transform.DORotateQuaternion(Quaternion.LookRotation(agent.lastKnownPlayerPosition - transform.position), 0.3f).SetEase(Ease.Linear);
                     StartCoroutine(InvestigatePlayer());
                 }
             }
