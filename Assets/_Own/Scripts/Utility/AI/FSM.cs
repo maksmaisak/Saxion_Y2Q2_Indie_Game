@@ -43,19 +43,16 @@ public class FSM<AgentT> where AgentT : Component
     public void ChangeState<StateT>() where StateT : FSMState<AgentT>
     {
         // Check if a state like this was already in our cache
-        if (!stateCache.ContainsKey(typeof(StateT)))
+        FSMState<AgentT> newState;
+        if (!stateCache.TryGetValue(typeof(StateT), out newState))
         {
             // If not, create it, passing in the target
-            StateT state = agent.gameObject.AddComponent<StateT>();
-            state.SetAgent(agent);
-            stateCache[typeof(StateT)] = state;
-            ChangeState(state);
+            newState = agent.gameObject.AddComponent<StateT>();
+            newState.SetAgent(agent);
+            stateCache[typeof(StateT)] = newState;
         }
-        else
-        {
-            FSMState<AgentT> newState = stateCache[typeof(StateT)];
-            ChangeState(newState);
-        }
+
+        ChangeState(newState);
     }
 
     private void ChangeState(FSMState<AgentT> newState)
