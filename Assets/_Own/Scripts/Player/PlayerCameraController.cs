@@ -60,10 +60,6 @@ public class PlayerCameraController : MonoBehaviour
         
         primaryVirtualCamera.enabled = !isSniping;
         sniperZoomVirtualCamera.enabled = isSniping;
-
-        // Keep the inactive camera pointing at the same place as the active one.
-        //if (isSniping) PointPrimaryCameraAtMouse();
-        //else PointSniperCameraAtMouse();
         
         foreach (Renderer r in renderers) r.enabled = !isSniping;
     }
