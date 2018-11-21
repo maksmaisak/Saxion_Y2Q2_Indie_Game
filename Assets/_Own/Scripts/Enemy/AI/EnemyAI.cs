@@ -28,6 +28,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
     [SerializeField] float maxViewAngle = 60.0f;
     [SerializeField] float maxViewDistance = 20.0f;
     [SerializeField] float disturbanceHearingRadius = 10f;
+    [SerializeField] float maxSearchRadius = 7.0f;
     [Space]
     [Header("AI Movement")]
     [SerializeField] float stoppingDistanceBeforeLastPlayerPosition = 2f;
@@ -112,17 +113,20 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
         {
             if (wasPlayerPreviouslySeen)
             {
-                lastSeenTime             = Time.time;
+                lastSeenTime             = Time.time - Time.deltaTime;
                 lastSeenTimeDiff         = seenTimeDiff;
                 trackingProgress         = seenTimeDiff;
                 seenTimeDiff             = 0;
                 wasPlayerPreviouslySeen  = false;
             }
+            
+            if (GetTimeSinceLastPlayerSeen() < 2.0f)
+                lastKnownPlayerPosition = targetTransform.position;
         }
     }
 
     private void CheckStates()
-    {
+    {        
         if (!wasPlayerPreviouslySeen)
             wasPlayerPreviouslySeen = true;
 
@@ -132,7 +136,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
         seenTimeDiff += Time.deltaTime * seenTimeMultiplier;
         lastKnownPlayerPosition = targetTransform.position;
 
-        if (Time.time - lastSeenTime < 0.5f)
+        if (Time.time - lastSeenTime < 2.0f)
             seenTimeDiff = lastSeenTimeDiff;
 
         trackingProgress = seenTimeDiff;
@@ -218,11 +222,18 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
         currentAIState = newState;
     }
 
+    public float GetTimeSinceLastPlayerSeen()
+    {
+        return Time.time - lastSeenTime;
+    }
+    
     protected override void OnDestroy()
     {
          base.OnDestroy();
+
+        if (indicator != null)
+            Destroy(indicator.gameObject);
         
-        Destroy(indicator.gameObject);
         indicator = null;
     }
 }

@@ -3073,6 +3073,36 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114598208538951072, guid: bd10c1459ab4048a4b7813998f87f81b,
+        type: 2}
+      propertyPath: secondsUntillMoveToTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114824004397904264, guid: bd10c1459ab4048a4b7813998f87f81b,
+        type: 2}
+      propertyPath: minDelay
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340400958744734, guid: bd10c1459ab4048a4b7813998f87f81b,
+        type: 2}
+      propertyPath: duration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000117299039316, guid: bd10c1459ab4048a4b7813998f87f81b,
+        type: 2}
+      propertyPath: duration
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114655431840501490, guid: bd10c1459ab4048a4b7813998f87f81b,
+        type: 2}
+      propertyPath: stoppingDistanceBeforeSpawnPosition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114079209304563808, guid: bd10c1459ab4048a4b7813998f87f81b,
+        type: 2}
+      propertyPath: maxViewAngle
+      value: 80
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd10c1459ab4048a4b7813998f87f81b, type: 2}
   m_IsPrefabAsset: 0

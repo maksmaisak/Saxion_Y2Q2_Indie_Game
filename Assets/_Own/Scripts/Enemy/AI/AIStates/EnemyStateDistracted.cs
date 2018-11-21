@@ -15,7 +15,9 @@ public class EnemyStateDistracted : FSMState<EnemyAI>
 
     private void OnEnable()
     {
-        secondsDistracted       = 0;
+        secondsDistracted        = 0;
+        isMovingToTarget         = false;
+        
         agent.SetAIState(AIState.Distracted);
 
         StartCoroutine(Work());
