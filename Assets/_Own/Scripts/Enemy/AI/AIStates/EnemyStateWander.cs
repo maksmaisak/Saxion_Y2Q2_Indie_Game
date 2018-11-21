@@ -9,13 +9,15 @@ public class EnemyStateWander : FSMState<EnemyAI>
     [SerializeField] float duration = 10f;
     [SerializeField] float nextPositionDistance = 10f;
     [SerializeField] float minDistanceToObstacle = 3f;
- 
+    [SerializeField] float wanderTimeTreshold = 1f;
+
     void OnEnable()
     {
-        agent.SetAIState(AIState.Wander);
-        
+        agent.minimumTimeTreshold = wanderTimeTreshold;
         this.Delay(duration, () => agent.fsm.ChangeState<EnemyStateGoBack>());
     }
+
+    private void OnDisable() => StopAllCoroutines();
 
     void Update()
     {
@@ -23,16 +25,16 @@ public class EnemyStateWander : FSMState<EnemyAI>
             agent.navMeshAgent.destination = GetNextPosition();
         }
     }
-    
+
     private Vector3 GetNextPosition()
     {
-        Vector2 randomOnUnitCircle = Random.insideUnitCircle.normalized * nextPositionDistance;
-        Vector3 delta = new Vector3(randomOnUnitCircle.x, 0f, randomOnUnitCircle.y);
+        Vector2 randomOnUnitCircle  = Random.insideUnitCircle.normalized * nextPositionDistance;
+        Vector3 delta               = new Vector3(randomOnUnitCircle.x, 0f, randomOnUnitCircle.y);
 
         NavMeshHit hit;
         bool foundPosition = NavMesh.SamplePosition(transform.position + delta, out hit, nextPositionDistance, NavMesh.AllAreas);
         Assert.IsTrue(foundPosition);
-        
+
         return hit.position;
     }
 }

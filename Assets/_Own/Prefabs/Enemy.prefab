@@ -59,12 +59,9 @@ GameObject:
   - component: {fileID: 114228402616606448}
   - component: {fileID: 114079209304563808}
   - component: {fileID: 114723270555857622}
-  - component: {fileID: 114340400958744734}
   - component: {fileID: 114000117299039316}
   - component: {fileID: 114998865380716300}
   - component: {fileID: 114824004397904264}
-  - component: {fileID: 114598208538951072}
-  - component: {fileID: 114947864568980968}
   - component: {fileID: 114655431840501490}
   m_Layer: 11
   m_Name: Enemy
@@ -339,6 +336,7 @@ MonoBehaviour:
   duration: 20
   nextPositionDistance: 10
   minDistanceToObstacle: 5
+  wanderTimeTreshold: 1
 --- !u!114 &114079209304563808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -357,6 +355,9 @@ MonoBehaviour:
   maxViewDistance: 20
   disturbanceHearingRadius: 10
   maxSearchRadius: 7
+  secondsToChase: 2
+  secondsToInvestigate: 1
+  secondsToRememberPlayer: 2
   stoppingDistanceBeforeLastPlayerPosition: 1.2
   indicatorPrefab: {fileID: 1536027338821604, guid: 2990bb28c724247a48f2bff6ab46fb05,
     type: 2}
@@ -404,32 +405,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Health+OnHealthChangedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!114 &114340400958744734
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1305885103597862}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8980adee30224c78b2573d5e6b220ea5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 3
---- !u!114 &114598208538951072
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1305885103597862}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 284c1553b66ad31459e124fea675dc74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secondsUntillChase: 2
-  secondsUntillMoveToTarget: 1
-  maxSecondsDistracted: 4
 --- !u!114 &114655431840501490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -441,6 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dcba6ece7df2c24599736afb5ca6afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayToGoIdle: 0.5
   stoppingDistanceBeforeSpawnPosition: 2
 --- !u!114 &114723270555857622
 MonoBehaviour:
@@ -470,18 +446,10 @@ MonoBehaviour:
   minDelay: 0.25
   maxDelay: 1
   stoppingDistance: 1.84
---- !u!114 &114947864568980968
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1305885103597862}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d853fa4d33f9586409571ddfabaceee5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secondsToChasePlayer: 2
+  rotationDuration: 4
+  lookAroundRotationAmount: 180
+  minimumInvestigationTimeTreshold: 1
+  investigationDuration: 10
 --- !u!114 &114998865380716300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -493,6 +461,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3b7276c95b44f7829f1a5ebaedb0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minimumChaseTimeTreshold: 2
+  faceTargetSpeed: 3
 --- !u!195 &195546136665236794
 NavMeshAgent:
   m_ObjectHideFlags: 1
