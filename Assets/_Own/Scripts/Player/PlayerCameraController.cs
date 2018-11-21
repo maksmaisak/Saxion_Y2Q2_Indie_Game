@@ -14,12 +14,15 @@ public class PlayerCameraController : MonoBehaviour
 
     [SerializeField] float currentFov;
 
+    private Renderer[] renderers;
+        
     void Start()
     {
         Assert.IsNotNull(primaryVirtualCamera);
         Assert.IsNotNull(sniperZoomVirtualCamera);
 
         currentFov = primaryVirtualCamera.m_Lens.FieldOfView;
+        renderers = GetComponentsInChildren<Renderer>();
     }
 
     void Update()
@@ -34,6 +37,7 @@ public class PlayerCameraController : MonoBehaviour
         if (previousFov >= primaryMinFov && currentFov < primaryMinFov)
         {
             isSniperZoom = true;
+            PointSniperCameraAtMouse();
         }
         else if (previousFov <= sniperMaxFov && currentFov > sniperMaxFov)
         {
@@ -43,20 +47,45 @@ public class PlayerCameraController : MonoBehaviour
         if (isSniperZoom)
         {
             currentFov = Mathf.Clamp(currentFov, sniperMinFov, sniperMaxFov);
-            sniperZoomVirtualCamera.m_Lens.FieldOfView = Mathf.Clamp(currentFov, sniperMinFov, sniperMaxFov);
+            sniperZoomVirtualCamera.m_Lens.FieldOfView = currentFov;
         }
         else
         {
             currentFov = Mathf.Clamp(currentFov, primaryMinFov, primaryMaxFov);
-            primaryVirtualCamera.m_Lens.FieldOfView = Mathf.Clamp(currentFov, primaryMinFov, primaryMaxFov);
+            primaryVirtualCamera.m_Lens.FieldOfView = currentFov;
         }
+
+        if (!isSniperZoom) PointSniperCameraAtMouse();
         
-        primaryVirtualCamera.Priority = isSniperZoom ? 0 : 10;
-        sniperZoomVirtualCamera.Priority = isSniperZoom ? 10 : 0;
+        primaryVirtualCamera.enabled = !isSniperZoom;
+        sniperZoomVirtualCamera.enabled = isSniperZoom;
+        //primaryVirtualCamera.Priority = isSniperZoom ? 0 : 10;
+        //sniperZoomVirtualCamera.Priority = isSniperZoom ? 10 : 0;
         
-        foreach (var renderer in GetComponentsInChildren<Renderer>())
+        foreach (Renderer r in renderers)
         {
-            renderer.enabled = !isSniperZoom;
+            r.enabled = !isSniperZoom;
         }
+    }
+
+    private void PointSniperCameraAtMouse()
+    {
+        if (!sniperZoomVirtualCamera.LookAt) return;
+        
+        var rotation = Quaternion.LookRotation(sniperZoomVirtualCamera.LookAt.position - sniperZoomVirtualCamera.transform.position);
+        var pov = sniperZoomVirtualCamera.GetCinemachineComponent<CinemachinePOV>();
+
+        var eulerAngles = rotation.eulerAngles;
+        Debug.Log(eulerAngles);
+        pov.m_VerticalAxis.Value = WrapEulerAngle(eulerAngles.x, pov.m_VerticalAxis.m_MinValue, pov.m_VerticalAxis.m_MaxValue);
+        pov.m_HorizontalAxis.Value = WrapEulerAngle(eulerAngles.y, pov.m_HorizontalAxis.m_MinValue, pov.m_HorizontalAxis.m_MaxValue);
+    }
+
+    private static float WrapEulerAngle(float angle, float min, float max)
+    {
+        float delta = max - min;
+        while (angle < min) angle += delta;
+        while (angle > max) angle -= delta;
+        return angle;
     }
 }
