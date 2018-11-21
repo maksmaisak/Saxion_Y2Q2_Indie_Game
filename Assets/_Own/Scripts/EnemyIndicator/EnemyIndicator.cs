@@ -9,12 +9,18 @@ using UnityEngine.UI;
 public class EnemyIndicator : MonoBehaviour
 {
     [SerializeField] Color colorIdle = Color.white;
+    [SerializeField] Image imageIdle;
+    
     [SerializeField] Color colorSuspicious = Color.yellow;
+    [SerializeField] Image imageSuspicious;
+
     [SerializeField] Color colorAggressive = Color.red;
-    [SerializeField] Image image;
+    [SerializeField] Image imageAggressive;
+
+    [SerializeField][Range(0f, 2f)] float currentValue = 0f;
+
     [Header("Positioning")]
     [SerializeField] Transform trackedTransform;
-    [SerializeField] Transform playerTransform;
     [SerializeField] Vector2 interpolationPadding = new Vector2(0.1f, 0.1f);
     
     private Canvas canvas;
@@ -22,7 +28,9 @@ public class EnemyIndicator : MonoBehaviour
     
     void Start()
     {
-        Assert.IsNotNull(image);
+        Assert.IsNotNull(imageIdle);
+        Assert.IsNotNull(imageSuspicious);
+        Assert.IsNotNull(imageAggressive);
         
         canvas = GetComponentInParent<Canvas>();
         Assert.IsNotNull(canvas);
@@ -39,6 +47,52 @@ public class EnemyIndicator : MonoBehaviour
         rectTransform.anchoredPosition = Vector2.zero;
     }
 
+    void OnValidate()
+    {
+        if (imageIdle) imageIdle.color = colorIdle;
+        if (imageSuspicious) imageSuspicious.color = colorSuspicious;
+        if (imageAggressive) imageAggressive.color = colorAggressive;
+        
+        SetState(currentValue);
+    }
+
+    /// stateInterpolation values:
+    /// 0: idle
+    /// 1: suspicious
+    /// 2: aggressive
+    /// Values in between interpolate between adjacent states
+    public void SetState(float stateInterpolation)
+    {
+        currentValue = stateInterpolation;
+        
+        stateInterpolation = Mathf.Clamp(stateInterpolation, 0f, 2f);
+        if (stateInterpolation <= 1f)
+        {
+            imageIdle.fillOrigin = (int)Image.OriginVertical.Top;
+            imageIdle.fillAmount = 1f - stateInterpolation;
+            imageSuspicious.fillOrigin = (int)Image.OriginVertical.Bottom;
+            imageSuspicious.fillAmount = stateInterpolation;
+            
+            imageAggressive.fillAmount = 0f;
+        }
+        else
+        {
+            stateInterpolation -= 1f;
+            
+            imageSuspicious.fillOrigin = (int)Image.OriginVertical.Top;
+            imageSuspicious.fillAmount = 1f - stateInterpolation;
+            imageAggressive.fillOrigin = (int)Image.OriginVertical.Bottom;
+            imageAggressive.fillAmount = stateInterpolation;
+            
+            imageIdle.fillAmount = 0f;
+        }
+    }
+
+    public void SetTrackedTransform(Transform newTrackedTransform)
+    {
+        trackedTransform = newTrackedTransform;
+    }
+    
     private Vector3 GetRectPosition()
     {
         Camera camera = Camera.main;
@@ -51,7 +105,7 @@ public class EnemyIndicator : MonoBehaviour
         // Off screen
         if (viewportPosition.z < 0f || !viewportRect.Contains(viewportPosition))
         {
-            return GetPositionForOutOfScreenObject(cameraTransform, innerViewportRect, playerTransform);
+            return GetPositionForOutOfScreenObject(cameraTransform, innerViewportRect);
         }
         
         // Within the interpolation zone
@@ -63,7 +117,7 @@ public class EnemyIndicator : MonoBehaviour
             if (overlap.y < 0f) overlap.y = 0f;
             
             float t = Mathf.Clamp01(overlap.x / interpolationPadding.x + overlap.y / interpolationPadding.y);
-            Vector3 fromOffscreenPosition = GetPositionForOutOfScreenObject(cameraTransform, innerViewportRect, playerTransform);
+            Vector3 fromOffscreenPosition = GetPositionForOutOfScreenObject(cameraTransform, innerViewportRect);
             return Vector2.Lerp(viewportPosition, fromOffscreenPosition, t);
         }
 
@@ -71,44 +125,10 @@ public class EnemyIndicator : MonoBehaviour
         return viewportPosition;
     }
 
-    private Vector3 GetPositionForOutOfScreenObject(Transform cameraTransform, Rect containingRect, Transform targetTransform = null)
+    private Vector3 GetPositionForOutOfScreenObject(Transform cameraTransform, Rect containingRect)
     {
-        Vector3 relativePos = trackedTransform.position - (targetTransform ? targetTransform : cameraTransform).position;
+        Vector3 relativePos = trackedTransform.position - cameraTransform.position;
         Vector2 projectedPos = new Vector2(Vector3.Dot(relativePos, cameraTransform.right), Vector3.Dot(relativePos, cameraTransform.up));
         return Rect.NormalizedToPoint(containingRect, new Vector2(0.5f, 0.5f) + projectedPos.normalized * 0.5f);
-    }
-
-    /// stateInterpolation values:
-    /// 0: idle
-    /// 1: suspicious
-    /// 2: aggressive
-    /// Values in between interpolate between adjacent states
-    /// TEMP Uses simple color interpolation for now. Will have a filling indicator in the future.
-    public void SetState(float stateInterpolation)
-    {
-        stateInterpolation = Mathf.Clamp(stateInterpolation, 0f, 2f);
-        if (stateInterpolation <= 1f)
-        {
-            image.color = Color.Lerp(colorIdle, colorSuspicious, stateInterpolation);
-        }
-        else
-        {
-            image.color = Color.Lerp(colorSuspicious, colorAggressive, stateInterpolation - 1f);
-        }
-    }
-
-    public void SetStateIdle()
-    {
-        image.color = colorIdle;
-    }
-
-    public void SetStateSuspicious()
-    {
-        image.color = colorSuspicious;
-    }
-
-    public void SetStateAggressive()
-    {
-        image.color = colorAggressive;
     }
 }
