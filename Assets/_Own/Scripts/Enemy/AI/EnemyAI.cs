@@ -32,6 +32,9 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
     [Header("AI Movement")]
     [SerializeField] float stoppingDistanceBeforeLastPlayerPosition = 2f;
 
+    [SerializeField] GameObject indicatorPrefab;
+    [SerializeField] Transform trackerTransform;
+
     /********* PUBLIC *********/
     public Health health { get; private set; }
 
@@ -50,11 +53,13 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
 
     public float seenTimeDiff { get; private set; }
     public float lastSeenTime { get; private set; }
+    public EnemyIndicator indicator { get; private set; }
     /********* PRIVATE *********/
     private AIState previousAIState;
 
     private float seenTimeMultiplier = 1.0f;
     private float lastSeenTimeDiff;
+    private float trackingProgress;
 
     private bool isTimeMultiplierRunning = false;
     private bool wasPlayerPreviouslySeen = false;
@@ -64,6 +69,14 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
         targetTransform = FindObjectOfType<PlayerShootingController>()?.transform;
         Assert.IsNotNull(targetTransform);
 
+        Assert.IsNotNull(indicatorPrefab);
+        indicator = ObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
+        
+        Assert.IsNotNull(indicator);
+        Assert.IsNotNull(trackerTransform);
+        
+        indicator.SetTrackedTransform(trackerTransform);
+        
         fsm = new FSM<EnemyAI>(this);
         health = GetComponent<Health>();
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -86,6 +99,7 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
     public void Update()
     {
         LookForPlayer();
+        UpdateTrackingProgress();
     }
 
     public void LookForPlayer()
@@ -93,35 +107,41 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
         isPlayerVisible = Visibility.CanSeeObject(transform, targetTransform, fov);
 
         if (isPlayerVisible)
-        {
-            if (!wasPlayerPreviouslySeen)
-                wasPlayerPreviouslySeen = true;
-            
-            if (!isTimeMultiplierRunning)
-                StartCoroutine(UpdateSeenTimeMultiplier());
-
-            seenTimeDiff += Time.deltaTime * seenTimeMultiplier;
-            lastKnownPlayerPosition = targetTransform.position;
-
-            if (Time.time - lastSeenTime < 0.5f)
-                seenTimeDiff = lastSeenTimeDiff;
-
-            if ((currentAIState == AIState.Idle || currentAIState == AIState.GoingBack))
-                fsm.ChangeState<EnemyStateDistracted>();
-
-            if (currentAIState == AIState.Wander)
-                fsm.ChangeState<EnemyStateChasePlayer>();
-        }
+            CheckStates();
         else
         {
             if (wasPlayerPreviouslySeen)
             {
                 lastSeenTime             = Time.time;
                 lastSeenTimeDiff         = seenTimeDiff;
+                trackingProgress         = seenTimeDiff;
                 seenTimeDiff             = 0;
                 wasPlayerPreviouslySeen  = false;
             }
         }
+    }
+
+    private void CheckStates()
+    {
+        if (!wasPlayerPreviouslySeen)
+            wasPlayerPreviouslySeen = true;
+
+        //if (!isTimeMultiplierRunning)
+        //  StartCoroutine(UpdateSeenTimeMultiplier());
+
+        seenTimeDiff += Time.deltaTime * seenTimeMultiplier;
+        lastKnownPlayerPosition = targetTransform.position;
+
+        if (Time.time - lastSeenTime < 0.5f)
+            seenTimeDiff = lastSeenTimeDiff;
+
+        trackingProgress = seenTimeDiff;
+
+        if ((currentAIState == AIState.Idle || currentAIState == AIState.GoingBack))
+            fsm.ChangeState<EnemyStateDistracted>();
+
+        if (currentAIState == AIState.Wander)
+            fsm.ChangeState<EnemyStateChasePlayer>();
     }
 
     public void On(Disturbance shot)
@@ -138,6 +158,16 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
             fsm.ChangeState<EnemyStateInvestigateNoise>();
     }
 
+    private void UpdateTrackingProgress()
+    {
+        trackingProgress -= Time.deltaTime;
+        
+        if (trackingProgress < 0)
+            trackingProgress = 0;
+        
+        indicator.SetState(trackingProgress);
+    }
+    
     private IEnumerator UpdateSeenTimeMultiplier()
     {
         isTimeMultiplierRunning = true;
