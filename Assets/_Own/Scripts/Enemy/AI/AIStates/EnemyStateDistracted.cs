@@ -18,8 +18,6 @@ public class EnemyStateDistracted : FSMState<EnemyAI>
         secondsDistracted       = 0;
         agent.SetAIState(AIState.Distracted);
 
-        agent.navMeshAgent.isStopped = true;
-
         StartCoroutine(Work());
     }
 
@@ -36,7 +34,7 @@ public class EnemyStateDistracted : FSMState<EnemyAI>
                 if (!isMovingToTarget)
                 {
                     isMovingToTarget = true;
-                    transform.DORotate(agent.lastKnownPlayerPosition - transform.position, 0.5f, RotateMode.Fast).SetEase(Ease.Linear);
+                    transform.DORotateQuaternion(Quaternion.LookRotation(agent.lastKnownPlayerPosition - transform.position), 0.1f).SetEase(Ease.Linear);
                     StartCoroutine(InvestigatePlayer());
                 }
             }

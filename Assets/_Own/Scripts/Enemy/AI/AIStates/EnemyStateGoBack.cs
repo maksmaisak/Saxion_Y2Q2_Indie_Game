@@ -10,6 +10,8 @@ public class EnemyStateGoBack : FSMState<EnemyAI>
     {
         agent.SetAIState(AIState.GoingBack);
         agent.navMeshAgent.SetDestination(agent.spawnPosition);
+
+        StartCoroutine(Work());
     }
 
     private IEnumerator Work()

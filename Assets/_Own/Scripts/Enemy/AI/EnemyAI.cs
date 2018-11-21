@@ -109,7 +109,7 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
             if ((currentAIState == AIState.Idle || currentAIState == AIState.GoingBack))
                 fsm.ChangeState<EnemyStateDistracted>();
 
-            if (currentAIState == AIState.Wander && previousAIState == AIState.ChasePlayer && seenTimeDiff >= 1.5f)
+            if (currentAIState == AIState.Wander)
                 fsm.ChangeState<EnemyStateChasePlayer>();
         }
         else
