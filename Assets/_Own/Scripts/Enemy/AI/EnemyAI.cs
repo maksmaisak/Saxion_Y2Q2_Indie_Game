@@ -87,9 +87,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
             layerMask = blockingLayerMask
         };
 
-        health.OnDeath += sender => new Disturbance(transform.position)
-            .SetDeliveryType(MessageDeliveryType.Immediate)
-            .PostEvent();
+        health.OnDeath += sender => new Disturbance(transform.position).PostEvent();
 
         previousAIState = AIState.None;
         currentAIState = AIState.None;
