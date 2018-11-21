@@ -57,12 +57,15 @@ GameObject:
   - component: {fileID: 4063796871211330}
   - component: {fileID: 195546136665236794}
   - component: {fileID: 114228402616606448}
-  - component: {fileID: 114999423508783734}
+  - component: {fileID: 114079209304563808}
   - component: {fileID: 114723270555857622}
-  - component: {fileID: 114328300123783952}
   - component: {fileID: 114340400958744734}
   - component: {fileID: 114000117299039316}
   - component: {fileID: 114998865380716300}
+  - component: {fileID: 114824004397904264}
+  - component: {fileID: 114598208538951072}
+  - component: {fileID: 114947864568980968}
+  - component: {fileID: 114655431840501490}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -307,13 +310,31 @@ MonoBehaviour:
   duration: 60
   nextPositionDistance: 10
   minDistanceToObstacle: 5
+--- !u!114 &114079209304563808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305885103597862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01b60ea1d889c824bb37c204b473d847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockingLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  maxViewAngle: 80.82
+  maxViewDistance: 20
+  disturbanceHearingRadius: 10
+  stoppingDistanceBeforeLastPlayerPosition: 2
 --- !u!114 &114180836984626622
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1292257786795544}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56f1f74f529443ac9b407069eb5e69fd, type: 3}
   m_Name: 
@@ -322,9 +343,9 @@ MonoBehaviour:
   _fov:
     maxAngle: 120
     maxDistance: 30
-    blockingLayerMask:
+    layerMask:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 4294967291
 --- !u!114 &114228402616606448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -350,20 +371,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Health+OnHealthChangedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!114 &114328300123783952
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1305885103597862}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a2a757945104317ba8daa4309709265, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDelay: 0.05
-  maxDelay: 0.5
-  stoppingDistance: 4
 --- !u!114 &114340400958744734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -376,21 +383,72 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 4
+--- !u!114 &114598208538951072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305885103597862}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 284c1553b66ad31459e124fea675dc74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondsUntillChase: 2
+  secondsUntillMoveToTarget: 0.5
+  maxSecondsDistracted: 4
+--- !u!114 &114655431840501490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305885103597862}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dcba6ece7df2c24599736afb5ca6afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stoppingDistanceBeforeSpawnPosition: 5
 --- !u!114 &114723270555857622
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db710f29eab4d869ba1fee5252d096b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disturbanceHearingRadius: 20
   rotationSpeed: 20
   rotationSpeedChange: 50
   rotationSpeedCap: 70
+--- !u!114 &114824004397904264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305885103597862}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a2a757945104317ba8daa4309709265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDelay: 0.1
+  maxDelay: 1
+  stoppingDistance: 5
+--- !u!114 &114947864568980968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305885103597862}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d853fa4d33f9586409571ddfabaceee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondsToChasePlayer: 2
 --- !u!114 &114998865380716300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -402,26 +460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3b7276c95b44f7829f1a5ebaedb0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stoppingDistanceBeforeLastPlayerPosition: 2
---- !u!114 &114999423508783734
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1305885103597862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f94513ecae8c24d168e427c1fa80ecee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fovDisplay: {fileID: 114180836984626622}
-  playerTransform: {fileID: 0}
-  currentFov:
-    maxAngle: 120
-    maxDistance: 30
-    blockingLayerMask:
-      serializedVersion: 2
-      m_Bits: 1
 --- !u!195 &195546136665236794
 NavMeshAgent:
   m_ObjectHideFlags: 1

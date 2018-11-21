@@ -5,7 +5,7 @@ public struct FovInfo
 {
     public float maxAngle;
     public float maxDistance;
-    public LayerMask blockingLayerMask;
+    public LayerMask layerMask;
 }
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
@@ -13,7 +13,7 @@ public struct FovInfo
 public class FovDisplay : MonoBehaviour
 {
     [SerializeField] uint numBaseRays = 3;
-    [SerializeField] FovInfo _fov = new FovInfo {maxAngle = 30f, maxDistance = 30f, blockingLayerMask = Physics.DefaultRaycastLayers};
+    [SerializeField] FovInfo _fov = new FovInfo {maxAngle = 30f, maxDistance = 30f, layerMask = Physics.DefaultRaycastLayers};
     
     private Mesh mesh;
     private Vector3[] vertices;
@@ -76,7 +76,7 @@ public class FovDisplay : MonoBehaviour
         {
             var ray = new Ray(origin, rotation * forward);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, fov.maxDistance, fov.blockingLayerMask))
+            if (Physics.Raycast(ray, out hit, fov.maxDistance, fov.layerMask))
             {
                 vertices[i + 1] = transform.InverseTransformPoint(hit.point);
             }
