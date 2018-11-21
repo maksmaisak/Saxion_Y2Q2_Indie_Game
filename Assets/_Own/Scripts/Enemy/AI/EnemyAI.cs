@@ -57,7 +57,8 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
     private float lastSeenTimeDiff;
 
     private bool isTimeMultiplierRunning = false;
-
+    private bool wasPlayerPreviouslySeen = false;
+    
     void Start()
     {
         targetTransform = FindObjectOfType<PlayerShootingController>()?.transform;
@@ -93,6 +94,9 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
 
         if (isPlayerVisible)
         {
+            if (!wasPlayerPreviouslySeen)
+                wasPlayerPreviouslySeen = true;
+            
             if (!isTimeMultiplierRunning)
                 StartCoroutine(UpdateSeenTimeMultiplier());
 
@@ -110,9 +114,13 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
         }
         else
         {
-            lastSeenTime        = Time.time;
-            lastSeenTimeDiff    = seenTimeDiff;
-            seenTimeDiff        = 0;
+            if (wasPlayerPreviouslySeen)
+            {
+                lastSeenTime             = Time.time;
+                lastSeenTimeDiff         = seenTimeDiff;
+                seenTimeDiff             = 0;
+                wasPlayerPreviouslySeen  = false;
+            }
         }
     }
 
