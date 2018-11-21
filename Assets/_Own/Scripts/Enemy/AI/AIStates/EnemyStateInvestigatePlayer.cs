@@ -22,7 +22,7 @@ public class EnemyStateInvestigatePlayer : FSMState<EnemyAI>
             // With really low speed
             agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
 
-            if (agent.seenTimeDiff >= secondsToChasePlayer)
+            if (agent.isPlayerVisible)
                 agent.fsm.ChangeState<EnemyStateChasePlayer>();
 
             if (!agent.isPlayerVisible && agent.CloseToLastKnownPlayerLocation())

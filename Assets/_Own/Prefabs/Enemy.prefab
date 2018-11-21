@@ -91,6 +91,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1675844295048318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4159333755516054}
+  m_Layer: 11
+  m_Name: Tracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4063796871211330
 Transform:
   m_ObjectHideFlags: 1
@@ -104,9 +119,10 @@ Transform:
   - {fileID: 4142280785892910}
   - {fileID: 4980897472296614}
   - {fileID: 4141977879926770}
+  - {fileID: 4159333755516054}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -59.685, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -85.642006, z: 0}
 --- !u!4 &4141977879926770
 Transform:
   m_ObjectHideFlags: 1
@@ -132,6 +148,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4063796871211330}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4159333755516054
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1675844295048318}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.637, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4063796871211330}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4980897472296614
 Transform:
@@ -307,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde3388017694687b741d16e089d8946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 60
+  duration: 20
   nextPositionDistance: 10
   minDistanceToObstacle: 5
 --- !u!114 &114079209304563808
@@ -324,10 +353,14 @@ MonoBehaviour:
   blockingLayerMask:
     serializedVersion: 2
     m_Bits: 1
-  maxViewAngle: 80.82
+  maxViewAngle: 80
   maxViewDistance: 20
   disturbanceHearingRadius: 10
-  stoppingDistanceBeforeLastPlayerPosition: 2
+  maxSearchRadius: 7
+  stoppingDistanceBeforeLastPlayerPosition: 1.2
+  indicatorPrefab: {fileID: 1536027338821604, guid: 2990bb28c724247a48f2bff6ab46fb05,
+    type: 2}
+  trackerTransform: {fileID: 4159333755516054}
 --- !u!114 &114180836984626622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -382,7 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8980adee30224c78b2573d5e6b220ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 4
+  duration: 3
 --- !u!114 &114598208538951072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -395,7 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsUntillChase: 2
-  secondsUntillMoveToTarget: 0.5
+  secondsUntillMoveToTarget: 1
   maxSecondsDistracted: 4
 --- !u!114 &114655431840501490
 MonoBehaviour:
@@ -408,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dcba6ece7df2c24599736afb5ca6afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stoppingDistanceBeforeSpawnPosition: 5
+  stoppingDistanceBeforeSpawnPosition: 2
 --- !u!114 &114723270555857622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -434,9 +467,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a2a757945104317ba8daa4309709265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDelay: 0.1
+  minDelay: 0.25
   maxDelay: 1
-  stoppingDistance: 5
+  stoppingDistance: 1.84
 --- !u!114 &114947864568980968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -469,11 +502,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.8
-  m_Speed: 7
+  m_Speed: 2.93
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 2
+  m_AngularSpeed: 334.8
+  m_StoppingDistance: 1.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
