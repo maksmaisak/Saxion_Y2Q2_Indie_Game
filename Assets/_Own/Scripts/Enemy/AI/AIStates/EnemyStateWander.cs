@@ -10,7 +10,8 @@ public class EnemyStateWander : FSMState<EnemyAI>
     
     void OnEnable()
     {
-        this.Delay(duration, () => agent.fsm.ChangeState<EnemyStateIdle>());
+        agent.SetAIState(AIState.Wander);
+        this.Delay(duration, () => agent.fsm.ChangeState<EnemyStateGoBack>());
     }
 
     void Update()

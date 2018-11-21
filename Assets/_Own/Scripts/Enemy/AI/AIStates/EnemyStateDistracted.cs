@@ -1,21 +1,25 @@
 ﻿using System.Collections;
 using Cinemachine.Utility;
 using UnityEngine;
+using DG.Tweening;
 
 public class EnemyStateDistracted : FSMState<EnemyAI>
 {
     [SerializeField] private float secondsUntillChase = 2.0f;
     [SerializeField] private float secondsUntillMoveToTarget = 0.5f;
+    [SerializeField] private float maxSecondsDistracted = 4.0f;
 
     private bool isMovingToTarget;
     private bool hasDestinationSet;
-    
-    private float seenTimeDiff;
-    private float seenTimeMultiplier = 1.0f;
+    private float secondsDistracted;
 
     private void OnEnable()
     {
-        StartCoroutine(UpdateSeenTimeMultiplier());
+        secondsDistracted       = 0;
+        agent.SetAIState(AIState.Distracted);
+
+        agent.navMeshAgent.isStopped = true;
+
         StartCoroutine(Work());
     }
 
@@ -25,49 +29,31 @@ public class EnemyStateDistracted : FSMState<EnemyAI>
     {
         while (enabled)
         {
-            if (agent.isPlayerVisible)
-                seenTimeDiff += Time.deltaTime * seenTimeMultiplier;
+            secondsDistracted += Time.deltaTime;
 
-            if (seenTimeDiff >= secondsUntillMoveToTarget)
+            if (agent.seenTimeDiff >= secondsUntillMoveToTarget)
             {
                 if (!isMovingToTarget)
                 {
-                    /*TODO: Show yellow arrow above head, play distract animation*/
-
                     isMovingToTarget = true;
-                    transform.LookAt(agent.lastKnownPlayerPosition);
-                    agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
+                    transform.DORotate(agent.lastKnownPlayerPosition - transform.position, 0.5f, RotateMode.Fast).SetEase(Ease.Linear);
+                    StartCoroutine(InvestigatePlayer());
                 }
             }
-            
-            if (seenTimeDiff >= secondsUntillChase)
+
+            if (agent.seenTimeDiff >= secondsUntillChase)
                 agent.fsm.ChangeState<EnemyStateChasePlayer>();
+
+            if (secondsDistracted >= maxSecondsDistracted)
+                agent.fsm.ChangeState<EnemyStateIdle>();
 
             yield return null;
         }
     }
 
-    IEnumerator UpdateSeenTimeMultiplier()
+    IEnumerator InvestigatePlayer()
     {
-        yield return new WaitForSeconds(0.5f);
-
-        while (enabled)
-        {
-            Vector3 toOther = agent.targetTransform.position - transform.position;
-            toOther = toOther.ProjectOntoPlane(Vector3.up);
-
-            bool canIncreaseMultiplier =
-                Vector3.Angle(toOther, transform.forward) < agent.fov.maxAngle * 0.3f;
-
-            if (canIncreaseMultiplier)
-            {
-                float distance = toOther.magnitude;
-                float bonusMultiplier = 0.02f;
-                seenTimeMultiplier += Mathf.Min(0.2f, (bonusMultiplier * distance / 100.0f));
-            }
-            else seenTimeMultiplier = 1.0f;
-
-            yield return null;
-        }
+        yield return new WaitForSeconds(0.8f);
+        agent.fsm.ChangeState<EnemyStateInvestigatePlayer>();
     }
 }

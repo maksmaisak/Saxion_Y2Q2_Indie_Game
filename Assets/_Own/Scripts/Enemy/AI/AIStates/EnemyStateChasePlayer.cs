@@ -1,20 +1,26 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyStateChasePlayer : FSMState<EnemyAI>
 {
-    [SerializeField] float stoppingDistanceBeforeLastPlayerPosition = 2f;
-       
-    void Update()
+    private void OnEnable()
     {
-        agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
-
-        if (!agent.isPlayerVisible && CloseToLastKnownPlayerLocation())
-            agent.fsm.ChangeState<EnemyStateLookAround>();
+        agent.SetAIState(AIState.ChasePlayer);
+        StartCoroutine(Work());
     }
 
-    bool CloseToLastKnownPlayerLocation()
+    private void OnDisable() => StopAllCoroutines();
+
+    private IEnumerator Work()
     {
-        return (transform.position - agent.lastKnownPlayerPosition).sqrMagnitude <
-               stoppingDistanceBeforeLastPlayerPosition * stoppingDistanceBeforeLastPlayerPosition;
+        while (enabled)
+        {
+            agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
+
+            if (!agent.isPlayerVisible && agent.CloseToLastKnownPlayerLocation())
+                agent.fsm.ChangeState<EnemyStateWander>();
+
+            yield return null;
+        }
     }
 }
