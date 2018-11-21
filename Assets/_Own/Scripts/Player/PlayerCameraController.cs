@@ -38,12 +38,12 @@ public class PlayerCameraController : MonoBehaviour
 
         currentFov += zoomAmount;
 
-        if (!isSniping && currentFov < primaryMinFov) // Primary to sniper
+        if (!isSniping && currentFov < primaryMinFov) // From primary to sniper
         {
             isSniping = true;
             PointSniperCameraAtMouse();
         }
-        else if (isSniping && currentFov > sniperMaxFov) // Sniper to primary
+        else if (isSniping && currentFov > sniperMaxFov) // From sniper to primary
         {
             isSniping = false;
             PointPrimaryCameraAtMouse();
@@ -95,11 +95,9 @@ public class PlayerCameraController : MonoBehaviour
 
         float yAxisAngle = WrapEulerAngle(eulerAngles.x, -90f, 90f);
         float yAxisValue = Remap(minAngle, maxAngle, cam.m_YAxis.m_MinValue, cam.m_YAxis.m_MaxValue, yAxisAngle);
-        //Debug.Log(yAxisValue);
         cam.m_YAxis.Value = Mathf.Clamp01(yAxisValue);
         
         cam.m_XAxis.Value = WrapEulerAngle(eulerAngles.y, cam.m_XAxis.m_MinValue, cam.m_XAxis.m_MaxValue);
-        //Debug.Log(cam.m_XAxis.Value);
     }
 
     private static float WrapEulerAngle(float angle, float min, float max)
