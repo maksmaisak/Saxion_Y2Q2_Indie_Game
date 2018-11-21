@@ -6,7 +6,7 @@ public class ObjectBuilder
 {
 	public static GameObject CreateAndAddObjectToCanvas(GameObject prefab)
 	{
-		var canvas = GameObject.FindObjectOfType<Canvas>();
+		var canvas = LevelCanvas.instance.transform;
 		var gameObject = GameObject.Instantiate(prefab, canvas.transform);
 
 		return gameObject;
