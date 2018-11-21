@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Disturbance : BroadcastEvent<Disturbance>
 {
-    public readonly GameObject gameObject;
+    public readonly Vector3 position;
  
-    public Disturbance(GameObject gameObject)
+    public Disturbance(Vector3 position)
     {
-        this.gameObject = gameObject;
+        this.position = position;
     }
 }

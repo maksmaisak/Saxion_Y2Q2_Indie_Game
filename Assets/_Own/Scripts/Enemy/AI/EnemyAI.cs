@@ -21,7 +21,7 @@ public enum AIState
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent), typeof(Health))]
-public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
+public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
 {
     [Header("AI Search Settings")]
     [SerializeField] LayerMask blockingLayerMask = Physics.DefaultRaycastLayers;
@@ -87,7 +87,9 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
             layerMask = blockingLayerMask
         };
 
-        health.OnDeath += sender => new Disturbance(gameObject).PostEvent();
+        health.OnDeath += sender => new Disturbance(transform.position)
+            .SetDeliveryType(MessageDeliveryType.Immediate)
+            .PostEvent();
 
         previousAIState = AIState.None;
         currentAIState = AIState.None;
@@ -146,16 +148,20 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
 
     public void On(Disturbance shot)
     {
-        if (shot.gameObject == gameObject)
+        if (health.isDead)
             return;
 
-        if ((shot.gameObject.transform.position - transform.position).sqrMagnitude > disturbanceHearingRadius * disturbanceHearingRadius)
+        float distanceToTheShot = (shot.position - transform.position).sqrMagnitude;
+
+        if (distanceToTheShot > disturbanceHearingRadius * disturbanceHearingRadius)
             return;
 
-        lastHeardDisturbancePositions = shot.gameObject.transform.position;
+        lastHeardDisturbancePositions = shot.position;
 
-        if (currentAIState == AIState.Idle || currentAIState == AIState.GoingBack || currentAIState == AIState.Wander || currentAIState == AIState.LookAround)
-            fsm.ChangeState<EnemyStateInvestigateNoise>();
+        if(!(distanceToTheShot < 2.0f * 2.0f))
+            if (currentAIState == AIState.Idle || currentAIState == AIState.GoingBack ||
+                currentAIState == AIState.Wander || currentAIState == AIState.LookAround)
+                fsm.ChangeState<EnemyStateInvestigateNoise>();
     }
 
     private void UpdateTrackingProgress()
@@ -212,5 +218,13 @@ public class EnemyAI : MonoBehaviour, IEventReceiver<Disturbance>
     {
         previousAIState = currentAIState;
         currentAIState = newState;
+    }
+
+    protected override void OnDestroy()
+    {
+         base.OnDestroy();
+        
+        Destroy(indicator.gameObject);
+        indicator = null;
     }
 }
