@@ -53,6 +53,7 @@ public class Enemy : MonoBehaviour
 
 	private void UpdateFovDisplay()
 	{
+		if (!fovDisplay) return;
 		fovDisplay.fov = currentFov;
 	}
 
