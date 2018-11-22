@@ -17,7 +17,11 @@ public class EnemyStateGoBack : FSMState<EnemyAI>
         StartCoroutine(Work());
     }
 
-    private void OnDisable() => StopAllCoroutines();
+    private void OnDisable()
+    {
+        agent.canInvestigateDisturbance = false;
+        StopAllCoroutines();
+    }
 
     private IEnumerator Work()
     {

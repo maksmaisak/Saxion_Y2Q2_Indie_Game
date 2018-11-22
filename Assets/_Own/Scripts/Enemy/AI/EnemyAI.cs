@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using  Cinemachine.Utility;
-using Unity.Collections;
 using UnityEngine.Assertions;
+
+public enum InvestigateReason
+{
+    AllyDeath = 1,
+    PlayerSeen,
+    None,
+}
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent), typeof(Health))]
-public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
+public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
 {
     [Header("AI Search Settings")]
     [SerializeField] LayerMask blockingLayerMask = Physics.DefaultRaycastLayers;
@@ -48,6 +53,9 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
     public bool isPlayerVisible { get; private set; }
     public bool canDelayInvestigation { get; private set; }
     public bool canInvestigateDisturbance { get; set; }
+    
+    public int aiGUID { get; private set; }
+    public InvestigateReason currentInvestigateReason { get; private set; }
 
     public EnemyIndicator indicator { get; private set; }
     /********* PRIVATE *********/
@@ -62,6 +70,9 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
 
     private void Start()
     {
+        aiGUID = AIManager.instance.GetNextAssignableEntryId();
+        AIManager.instance.RegisterAgent(this);
+        
         targetTransform = FindObjectOfType<PlayerShootingController>()?.transform;
         Assert.IsNotNull(targetTransform);
 
@@ -83,12 +94,12 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
             layerMask   = blockingLayerMask
         };
 
-        health.OnDeath += sender => new Disturbance(transform.position)
-            .SetDeliveryType(MessageDeliveryType.Immediate)
-            .PostEvent();
+        health.OnDeath += OnDeath;
 
         fsm.ChangeState<EnemyStateIdle>();
         spawnPosition = transform.position;
+
+        currentInvestigateReason = InvestigateReason.None;
     }
 
     private void Update()
@@ -196,7 +207,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
         seenTimeMultiplier      = 1.0f;
     }
 
-    public void On(Disturbance shot)
+    public void On(OnInvestigateDeath shot)
     {
         if (health.isDead)
             return;
@@ -213,6 +224,8 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
             canDelayInvestigation = true;
             isStateChangeRequired = false;
 
+            currentInvestigateReason = InvestigateReason.AllyDeath;
+            
             fsm.ChangeState<EnemyStateInvestigate>();
         }
     }
@@ -239,7 +252,10 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
             canDelayInvestigation   = false;
 
             if (canInvestigateDisturbance)
+            {
+                currentInvestigateReason = InvestigateReason.PlayerSeen;
                 lastInvestigatePosition = targetTransform.position;
+            }
 
             fsm.ChangeState<EnemyStateInvestigate>();
         }
@@ -247,11 +263,20 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
 
     protected override void OnDestroy()
     {
-         base.OnDestroy();
-
+        base.OnDestroy();
+        
         if (indicator != null)
             Destroy(indicator.gameObject);
 
         indicator = null;
+    }
+
+    private void OnDeath(Health sender)
+    {
+        AIManager.instance.UnregisterAgent(this);
+        
+        new OnInvestigateDeath(transform.position)
+            .SetDeliveryType(MessageDeliveryType.Immediate)
+            .PostEvent();
     }
 }
