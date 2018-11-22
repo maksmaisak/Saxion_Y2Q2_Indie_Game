@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using Cinemachine;
 using Cinemachine.Utility;
+using UnityEngine.Animations;
 using UnityEngine.Assertions;
 
 public class PlayerCameraController : MonoBehaviour
@@ -21,6 +22,7 @@ public class PlayerCameraController : MonoBehaviour
 
     private bool isSniping = false;
     private CinemachineVirtualCamera hardLookAtMouseSniperCamera;
+    private CinemachineVirtualCamera hardLookAtMousePrimaryCamera;
     private Renderer[] renderers;
         
     void Start()
@@ -37,6 +39,15 @@ public class PlayerCameraController : MonoBehaviour
         hardLookAtMouseSniperCamera.Priority = -1;
         hardLookAtMouseSniperCamera.m_StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.Always;
         hardLookAtMouseSniperCamera.AddCinemachineComponent<CinemachineHardLookAt>();
+       
+        go = new GameObject("HardLookAtMouse");
+        go.transform.SetParent(primaryVirtualCamera.transform, worldPositionStays: false);
+        hardLookAtMousePrimaryCamera = go.AddComponent<CinemachineVirtualCamera>();
+        hardLookAtMousePrimaryCamera.Priority = -1;
+        hardLookAtMousePrimaryCamera.m_StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.Always;
+        hardLookAtMousePrimaryCamera.LookAt = mouse;
+        hardLookAtMousePrimaryCamera.AddCinemachineComponent<CinemachineHardLookAt>();
+        //go.AddComponent<RotationConstraint>().AddSource(new ConstraintSource());
 
         currentFov = primaryVirtualCamera.m_Lens.FieldOfView;
         isSniping = currentFov < primaryMinFov;
@@ -125,21 +136,28 @@ public class PlayerCameraController : MonoBehaviour
     {
         Assert.IsNotNull(sniperZoomVirtualCamera.LookAt);
         
-        var rotation = Quaternion.LookRotation(sniperZoomVirtualCamera.LookAt.position - primaryVirtualCamera.transform.position);
-        Vector3 eulerAngles = rotation.eulerAngles;
         CinemachineFreeLook cam = primaryVirtualCamera;
-
         // OPTIMIZATION Cache this.
         float maxAngle = Mathf.Atan(cam.m_Orbits.Max(o => o.m_Height / o.m_Radius)) * Mathf.Rad2Deg;
         float minAngle = Mathf.Atan(cam.m_Orbits.Min(o => o.m_Height / o.m_Radius)) * Mathf.Rad2Deg;
-
-        float yAxisAngle = WrapEulerAngle(eulerAngles.x, -90f, 90f);
-        float yAxisValue = Remap(minAngle, maxAngle, cam.m_YAxis.m_MinValue, cam.m_YAxis.m_MaxValue, yAxisAngle);
-        //Debug.Log(yAxisValue);
-        cam.m_YAxis.Value = Mathf.Clamp01(yAxisValue);
         
-        cam.m_XAxis.Value = WrapEulerAngle(eulerAngles.y, cam.m_XAxis.m_MinValue, cam.m_XAxis.m_MaxValue);
-        //Debug.Log(cam.m_XAxis.Value);
+        for (int i = 0; i < 100; ++i)
+        {
+            //var rotation = Quaternion.LookRotation(mouse.position - primaryVirtualCamera.State.FinalPosition);
+            //Vector3 eulerAngles = rotation.eulerAngles;
+            Vector3 eulerAngles = hardLookAtMousePrimaryCamera.transform.eulerAngles;
+
+            float yAxisAngle = WrapEulerAngle(eulerAngles.x, -90f, 90f);
+            float yAxisValue = Remap(minAngle, maxAngle, cam.m_YAxis.m_MinValue, cam.m_YAxis.m_MaxValue, yAxisAngle);
+            //Debug.Log(yAxisValue);
+            cam.m_YAxis.Value = Mathf.Clamp01(yAxisValue);
+
+            cam.m_XAxis.Value = WrapEulerAngle(eulerAngles.y, cam.m_XAxis.m_MinValue, cam.m_XAxis.m_MaxValue);
+            
+            cam.InternalUpdateCameraState(Vector3.up, Time.deltaTime);
+            hardLookAtMousePrimaryCamera.InternalUpdateCameraState(Vector3.up, Time.deltaTime);
+            //Debug.Log(cam.m_XAxis.Value);
+        }
     }
 
     private static float WrapEulerAngle(float angle, float min, float max)
