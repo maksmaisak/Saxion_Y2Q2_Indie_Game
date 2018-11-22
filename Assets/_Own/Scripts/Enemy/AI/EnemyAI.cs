@@ -128,8 +128,8 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
         if (!wasPlayerPreviouslySeen)
             wasPlayerPreviouslySeen = true;
 
-        /*if (!isTimeMultiplierRunning)
-            StartCoroutine(UpdateSeenTimeMultiplier());*/
+        if (!isTimeMultiplierRunning)
+            StartCoroutine(UpdateSeenTimeMultiplier());
 
         lastKnownPlayerPosition = targetTransform.position;
 
