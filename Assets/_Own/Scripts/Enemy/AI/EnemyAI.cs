@@ -148,10 +148,18 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
 
     private void UpdateTrackingProgress()
     {
-        trackingTimeDiff = Mathf.Lerp(trackingTimeDiff, seenTimeDiff, Time.deltaTime * 2.0f);
-
+        float t;
+        if (seenTimeDiff <= secondsToInvestigate)
+        {
+            t = Mathf.InverseLerp(0f, secondsToInvestigate, seenTimeDiff);
+        } 
+        else
+        {
+            t = 1f + Mathf.InverseLerp(secondsToInvestigate, secondsToChase, seenTimeDiff);
+        }
+        
         // Update EnemyIndicator color
-        indicator.SetState(trackingTimeDiff);
+        indicator.SetState(t);
     }
 
     private bool IsStateChangeRequired(float oldSeenTimeDiff)
