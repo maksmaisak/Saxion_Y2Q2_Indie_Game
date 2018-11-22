@@ -128,8 +128,8 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
         if (!wasPlayerPreviouslySeen)
             wasPlayerPreviouslySeen = true;
 
-        /*if (!isTimeMultiplierRunning)
-            StartCoroutine(UpdateSeenTimeMultiplier());*/
+        if (!isTimeMultiplierRunning)
+            StartCoroutine(UpdateSeenTimeMultiplier());
 
         lastKnownPlayerPosition = targetTransform.position;
 
@@ -149,14 +149,11 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
     private void UpdateTrackingProgress()
     {
         float t;
+        
         if (seenTimeDiff <= secondsToInvestigate)
-        {
             t = Mathf.InverseLerp(0f, secondsToInvestigate, seenTimeDiff);
-        } 
         else
-        {
             t = 1f + Mathf.InverseLerp(secondsToInvestigate, secondsToChase, seenTimeDiff);
-        }
         
         // Update EnemyIndicator color
         indicator.SetState(t);
@@ -181,7 +178,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
 
             // Check if the player is within 30% of its total cone
             bool canIncreaseMultiplier =
-                Vector3.Angle(toOther, transform.forward) < fov.maxAngle * 0.3f;
+                Vector3.Angle(toOther, transform.forward) < fov.maxAngle * 0.5f * 0.3f;
 
             if (canIncreaseMultiplier)
             {
