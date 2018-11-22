@@ -42,13 +42,13 @@ public class EnemyStateInvestigate : FSMState<EnemyAI>
 
             agent.navMeshAgent.SetDestination(agent.lastInvestigatePosition.Value);
 
-            investigationDuration -= Time.deltaTime;
+            investigationTimeDiff -= Time.deltaTime;
 
             if (agent.isPlayerVisible)
                 investigationTimeDiff = investigationDuration;
 
             if (currentTween != null)
-                if (investigationDuration <= 0f)
+                if (investigationTimeDiff <= 0f)
                     agent.fsm.ChangeState<EnemyStateGoBack>();
 
             if (currentTween == null && !agent.navMeshAgent.pathPending && agent.navMeshAgent.remainingDistance < Mathf.Max(stoppingDistance, agent.navMeshAgent.stoppingDistance))
