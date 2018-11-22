@@ -133,31 +133,21 @@ public class PlayerCameraController : MonoBehaviour
     }
 
     private void PointPrimaryCameraAtMouse()
-    {
-        Assert.IsNotNull(sniperZoomVirtualCamera.LookAt);
-        
+    {        
         CinemachineFreeLook cam = primaryVirtualCamera;
         // OPTIMIZATION Cache this.
         float maxAngle = Mathf.Atan(cam.m_Orbits.Max(o => o.m_Height / o.m_Radius)) * Mathf.Rad2Deg;
         float minAngle = Mathf.Atan(cam.m_Orbits.Min(o => o.m_Height / o.m_Radius)) * Mathf.Rad2Deg;
-        
-        for (int i = 0; i < 100; ++i)
-        {
-            //var rotation = Quaternion.LookRotation(mouse.position - primaryVirtualCamera.State.FinalPosition);
-            //Vector3 eulerAngles = rotation.eulerAngles;
-            Vector3 eulerAngles = hardLookAtMousePrimaryCamera.transform.eulerAngles;
 
-            float yAxisAngle = WrapEulerAngle(eulerAngles.x, -90f, 90f);
-            float yAxisValue = Remap(minAngle, maxAngle, cam.m_YAxis.m_MinValue, cam.m_YAxis.m_MaxValue, yAxisAngle);
-            //Debug.Log(yAxisValue);
-            cam.m_YAxis.Value = Mathf.Clamp01(yAxisValue);
+        Vector3 eulerAngles = hardLookAtMousePrimaryCamera.transform.eulerAngles;
 
-            cam.m_XAxis.Value = WrapEulerAngle(eulerAngles.y, cam.m_XAxis.m_MinValue, cam.m_XAxis.m_MaxValue);
-            
-            cam.InternalUpdateCameraState(Vector3.up, Time.deltaTime);
-            hardLookAtMousePrimaryCamera.InternalUpdateCameraState(Vector3.up, Time.deltaTime);
-            //Debug.Log(cam.m_XAxis.Value);
-        }
+        float yAxisAngle = WrapEulerAngle(eulerAngles.x, -90f, 90f);
+        float yAxisValue = Remap(minAngle, maxAngle, cam.m_YAxis.m_MinValue, cam.m_YAxis.m_MaxValue, yAxisAngle);
+        //Debug.Log(yAxisValue);
+        cam.m_YAxis.Value = Mathf.Clamp01(yAxisValue);
+
+        cam.m_XAxis.Value = WrapEulerAngle(eulerAngles.y, cam.m_XAxis.m_MinValue, cam.m_XAxis.m_MaxValue);
+        //Debug.Log(cam.m_XAxis.Value);
     }
 
     private static float WrapEulerAngle(float angle, float min, float max)
