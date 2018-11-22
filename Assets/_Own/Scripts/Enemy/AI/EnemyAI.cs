@@ -178,7 +178,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Disturbance>
 
             // Check if the player is within 30% of its total cone
             bool canIncreaseMultiplier =
-                Vector3.Angle(toOther, transform.forward) < fov.maxAngle * 0.3f;
+                Vector3.Angle(toOther, transform.forward) < fov.maxAngle * 0.5f * 0.3f;
 
             if (canIncreaseMultiplier)
             {
