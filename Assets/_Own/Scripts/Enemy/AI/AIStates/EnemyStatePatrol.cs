@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceiver
@@ -86,8 +87,8 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
     {
      #if UNITY_EDITOR
         // Prevent saving if this is a prefab
-        if (UnityEditor.PrefabUtility.GetPrefabType(this) ==
-            UnityEditor.PrefabType.Prefab)
+        PrefabType prefabType = PrefabUtility.GetPrefabType(this);
+        if (prefabType == PrefabType.Prefab || prefabType == PrefabType.ModelPrefab )
         {
             waypoints = null;
         }
