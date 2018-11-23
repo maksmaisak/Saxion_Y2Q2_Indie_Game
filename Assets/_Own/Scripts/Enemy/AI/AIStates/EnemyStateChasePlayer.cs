@@ -24,10 +24,10 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         {
             agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
 
-            if (agent.isPlayerVisible)
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                                                     Quaternion.LookRotation(agent.targetTransform.position - transform.position),
-                                                     Time.deltaTime * faceTargetSpeed);
+            if (!agent.isPlayerVisible)
+                transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                    Quaternion.LookRotation(agent.targetTransform.position - transform.position),
+                    Time.deltaTime * faceTargetSpeed);
 
             if (!agent.isPlayerVisible && agent.CloseToLastKnownPlayerLocation())
                 if (agent.GetTimeSinceLastPlayerSeen() > minimumChaseTimeTreshold)
