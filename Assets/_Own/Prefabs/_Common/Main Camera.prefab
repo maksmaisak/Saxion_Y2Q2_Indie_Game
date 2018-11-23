@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 20408989672921256}
   - component: {fileID: 81782365838457002}
   - component: {fileID: 114802640464066864}
-  - component: {fileID: 114836701291573218}
   - component: {fileID: 114807549894005532}
   m_Layer: 0
   m_Name: Main Camera
@@ -37,7 +36,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1749134396523346}
-  m_LocalRotation: {x: 0.03627735, y: 0.000000017328873, z: 6.290615e-10, w: -0.9993418}
+  m_LocalRotation: {x: 0.03627735, y: -0.00000001732887, z: -6.2905764e-10, w: -0.9993418}
   m_LocalPosition: {x: -3.9999995, y: 1.5000606, z: -0.043017864}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -186,42 +185,3 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114836701291573218
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1749134396523346}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6547d18b2bc62c94aa5ec1e87434da4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boost: 3.5
-  positionLerpTime: 0.2
-  mouseSensitivityCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.5
-      inSlope: 0
-      outSlope: 5
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 2.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  rotationLerpTime: 0.01
-  invertY: 0
