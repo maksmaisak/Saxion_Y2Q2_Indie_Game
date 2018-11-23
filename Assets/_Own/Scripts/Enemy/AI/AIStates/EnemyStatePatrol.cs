@@ -26,7 +26,8 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
         
         if (waypoints.Count == 0)
         {
-            Debug.LogErrorFormat("Did not found waypoints for agent with name {0} !", agent.name);
+            Debug.LogWarningFormat("Did not found waypoints for agent with name {0} !", agent.name);
+            agent.fsm.ChangeState<EnemyStateIdle>();
             return;
         }
 
