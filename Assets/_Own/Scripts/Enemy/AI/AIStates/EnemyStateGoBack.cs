@@ -31,7 +31,10 @@ public class EnemyStateGoBack : FSMState<EnemyAI>
         while(enabled)
         {
             if (!agent.isPlayerVisible && CloseToSpawnPosition())
-                agent.fsm.ChangeState<EnemyStateGoBack>();
+                if (agent.canAgentPatrol) {
+                    agent.fsm.ChangeState<EnemyStatePatrol>();
+                }
+                else agent.fsm.ChangeState<EnemyStateIdle>();
 
             yield return null;
         }

@@ -60,11 +60,6 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
             {
                 isCurrentWaypointReached = false;
                 currentWaypoint = GetNextWaypoint();
-                
-                if (waypointIndex > 0 && (waypointIndex % 2) == 0) {
-                    agent.fsm.ChangeState<EnemyStateIdle>();
-                }
-
                 agent.navMeshAgent.SetDestination(currentWaypoint);
             }
             
