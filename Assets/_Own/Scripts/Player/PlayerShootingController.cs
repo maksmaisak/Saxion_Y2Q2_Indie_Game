@@ -9,8 +9,7 @@ using Random = UnityEngine.Random;
 [Serializable]
 class SnapShootingImprecision
 {
-    public float worldspaceRadius = 1f;
-    public float maxAngle = 10f;
+    public float angle = 5f;
 }
 
 public class PlayerShootingController : MonoBehaviour
@@ -79,14 +78,9 @@ public class PlayerShootingController : MonoBehaviour
             snapShootingImprecisionCrouching : 
             snapShootingImprecisionStanding;
         
-        float radius = snapShootingImprecision.worldspaceRadius;
+        float angleRadians = snapShootingImprecision.angle * Mathf.Deg2Rad;
         float distanceToTarget = toTarget.magnitude;
-
-        float maxAngleRadians = snapShootingImprecision.maxAngle * Mathf.Deg2Rad;
-        if (Mathf.Asin(radius / distanceToTarget) > maxAngleRadians)
-        {
-            radius = Mathf.Sin(maxAngleRadians) * distanceToTarget;
-        }
+        float radius = Mathf.Sin(angleRadians) * distanceToTarget;
 
         // TODO generate from a unit circle orthogonal circle instead.
         // Because this has cases where the point from the sphere goes to zero.
