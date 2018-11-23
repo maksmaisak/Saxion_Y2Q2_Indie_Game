@@ -26,6 +26,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
     [SerializeField] float secondsToChase = 2.0f;
     [SerializeField] float secondsToInvestigate = 1.0f;
     [SerializeField] float secondsToRememberPlayer = 2.0f;
+    [SerializeField] bool canPatrol = false;
     [Space]
     [Header("AI Movement")]
     public float chaseSpeed = 2.3f;
@@ -35,6 +36,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
     public float goBackSpeed = 1f;
     [SerializeField] float stoppingDistanceBeforeLastPlayerPosition = 2f;
 
+    [Header("AI Assignable")]
     [SerializeField] GameObject indicatorPrefab;
     [SerializeField] Transform trackerTransform;
 
@@ -58,6 +60,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
     public bool isPlayerVisible { get; private set; }
     public bool canDelayInvestigation { get; private set; }
     public bool canInvestigateDisturbance { get; set; }
+    public bool canAgentPatrol { get; private set; }
     
     public int aiGUID { get; private set; }
     public InvestigateReason currentInvestigateReason { get; private set; }
@@ -101,8 +104,13 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
 
         health.OnDeath += OnDeath;
 
-        fsm.ChangeState<EnemyStateIdle>();
-        spawnPosition = transform.position;
+        spawnPosition  = transform.position;
+        canAgentPatrol = canPatrol;
+
+        if (canPatrol)
+            fsm.ChangeState<EnemyStatePatrol>();
+        else
+            fsm.ChangeState<EnemyStateIdle>();
 
         currentInvestigateReason = InvestigateReason.None;
     }
