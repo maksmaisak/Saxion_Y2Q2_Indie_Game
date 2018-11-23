@@ -19,15 +19,23 @@ public class EnemyStateInvestigate : FSMState<EnemyAI>
 
     void OnEnable()
     {
+        AIManager.instance.AssignInvestigator(agent);
+        
         investigationTimeDiff       = investigationDuration;
+        agent.navMeshAgent.speed    = agent.investigateSpeed;
         agent.minimumTimeTreshold   = minimumInvestigationTimeTreshold;
+        
         StartCoroutine(Work());
     }
 
     void OnDisable()
     {
+        if(Application.isPlaying)
+            AIManager.instance.UnassignInvestigator(agent);
+        
         currentTween?.Kill();
         currentTween = null;
+        
         StopAllCoroutines();
     }
 
@@ -47,12 +55,20 @@ public class EnemyStateInvestigate : FSMState<EnemyAI>
             if (agent.isPlayerVisible)
                 investigationTimeDiff = investigationDuration;
 
-            if (currentTween != null)
+            if ((agent.lastInvestigatePosition.Value - agent.transform.position).sqrMagnitude <=
+                stoppingDistance * stoppingDistance)
+            {
+                if (currentTween == null)
+                    StartCoroutine(StartRotation());
+                
                 if (investigationTimeDiff <= 0f)
-                    agent.fsm.ChangeState<EnemyStateGoBack>();
+                    if (AIManager.instance.CanWander(agent)){
+                        agent.fsm.ChangeState<EnemyStateWander>();
+                    }
+                    else
+                        agent.fsm.ChangeState<EnemyStateGoBack>();
+            }
 
-            if (currentTween == null && !agent.navMeshAgent.pathPending && agent.navMeshAgent.remainingDistance < Mathf.Max(stoppingDistance, agent.navMeshAgent.stoppingDistance))
-                StartCoroutine(StartRotation());
 
             yield return null;
         }

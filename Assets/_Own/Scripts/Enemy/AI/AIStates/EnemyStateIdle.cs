@@ -5,7 +5,11 @@ public class EnemyStateIdle : FSMState<EnemyAI>
     [SerializeField] float rotationSpeed = 100f;
     [SerializeField] float rotationSpeedChange = 100f;
     [SerializeField] float rotationSpeedCap = 100f;
-
+    [SerializeField] float minDelayToPatrole = 2.0f;
+    [SerializeField] float maxDelayToPatrole = 10.0f;
+    
+    private float delayToPatrole = 2.0f;
+    
     private void OnEnable()
     {
         agent.canInvestigateDisturbance = true;
@@ -13,6 +17,10 @@ public class EnemyStateIdle : FSMState<EnemyAI>
 
         if (Random.value < 0.5f)
             rotationSpeed = -rotationSpeed;
+
+        delayToPatrole = Random.Range(minDelayToPatrole, maxDelayToPatrole);
+
+        this.Delay(delayToPatrole, agent.fsm.ChangeState<EnemyStatePatrol>);
     }
 
     void Update()
