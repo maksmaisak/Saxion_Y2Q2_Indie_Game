@@ -58,6 +58,8 @@ public class AIManager : Singleton<AIManager>
 
    public bool CanWander(EnemyAI agent)
    {
+      return true;
+      
       InvestigateReason reason = agent.currentInvestigateReason;
 
       if (reason == InvestigateReason.PlayerSeen)

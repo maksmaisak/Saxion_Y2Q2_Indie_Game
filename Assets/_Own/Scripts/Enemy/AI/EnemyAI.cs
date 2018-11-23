@@ -28,6 +28,11 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
     [SerializeField] float secondsToRememberPlayer = 2.0f;
     [Space]
     [Header("AI Movement")]
+    public float chaseSpeed = 2.3f;
+    public float patrolSpeed = 0.6f;
+    public float wanderSpeed = 1.4f;
+    public float investigateSpeed = 1.2f;
+    public float goBackSpeed = 1f;
     [SerializeField] float stoppingDistanceBeforeLastPlayerPosition = 2f;
 
     [SerializeField] GameObject indicatorPrefab;
@@ -195,8 +200,9 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
             {
                 float distance              = Mathf.Min(toOther.magnitude, fov.maxDistance);
                 float bonusMultiplier       = 0.08f;
-                float maxBonusMultiplier    = 0.8f;
+                float maxBonusMultiplier    = 0.4f;
                 seenTimeMultiplier          += Mathf.Min(maxBonusMultiplier, maxBonusMultiplier - (bonusMultiplier * distance / 100.0f));
+                Mathf.Clamp(seenTimeMultiplier, 1f, 2.0f);
             }
             else seenTimeMultiplier = 1.0f;
 
@@ -221,10 +227,9 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
 
         if (canInvestigateDisturbance)
         {
-            canDelayInvestigation = true;
-            isStateChangeRequired = false;
-
-            currentInvestigateReason = InvestigateReason.AllyDeath;
+            canDelayInvestigation     = true;
+            isStateChangeRequired     = false;
+            currentInvestigateReason  = InvestigateReason.AllyDeath;
             
             fsm.ChangeState<EnemyStateInvestigate>();
         }
@@ -276,7 +281,6 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
         AIManager.instance.UnregisterAgent(this);
         
         new OnInvestigateDeath(transform.position)
-            .SetDeliveryType(MessageDeliveryType.Immediate)
             .PostEvent();
     }
 }

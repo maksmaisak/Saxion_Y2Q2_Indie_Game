@@ -49,7 +49,7 @@ public class FSM<AgentT> where AgentT : Component
             // If not, create it, passing in the target
             newState = agent.gameObject.AddComponent<StateT>();
             newState.SetAgent(agent);
-            stateCache[typeof(StateT)] = newState;
+            stateCache.Add(typeof(StateT), newState);
         }
 
         ChangeState(newState);

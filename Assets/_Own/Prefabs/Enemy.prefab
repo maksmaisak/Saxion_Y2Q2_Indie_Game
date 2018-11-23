@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 114998865380716300}
   - component: {fileID: 114824004397904264}
   - component: {fileID: 114655431840501490}
+  - component: {fileID: 114467999107253788}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -93,7 +94,7 @@ Transform:
   m_GameObject: {fileID: 1305885103597862}
   m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
   m_LocalPosition: {x: 3.17, y: 0, z: 7.73}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0000007, y: 1, z: 1.0000007}
   m_Children:
   - {fileID: 4142280785892910}
   - {fileID: 4141977879926770}
@@ -284,6 +285,11 @@ MonoBehaviour:
   secondsToChase: 2
   secondsToInvestigate: 1
   secondsToRememberPlayer: 2
+  chaseSpeed: 3
+  patrolSpeed: 0.75
+  wanderSpeed: 1.89
+  investigateSpeed: 1.41
+  goBackSpeed: 1
   stoppingDistanceBeforeLastPlayerPosition: 1.2
   indicatorPrefab: {fileID: 1536027338821604, guid: 2990bb28c724247a48f2bff6ab46fb05,
     type: 2}
@@ -313,6 +319,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Health+OnHealthChangedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+--- !u!114 &114467999107253788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305885103597862}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e961d5045b4afaa8216092a68acf1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypointStoppingDistance: 1
+  waypoints: []
 --- !u!114 &114655431840501490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -340,6 +359,8 @@ MonoBehaviour:
   rotationSpeed: 20
   rotationSpeedChange: 50
   rotationSpeedCap: 70
+  minDelayToPatrole: 5
+  maxDelayToPatrole: 15
 --- !u!114 &114824004397904264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -357,7 +378,7 @@ MonoBehaviour:
   rotationDuration: 3
   lookAroundRotationAmount: 240
   minimumInvestigationTimeTreshold: 1
-  investigationDuration: 8
+  investigationDuration: 14
 --- !u!114 &114998865380716300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -370,6 +391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimumChaseTimeTreshold: 2
+  secondsToEvadeMode: 3
   faceTargetSpeed: 3
 --- !u!195 &195546136665236794
 NavMeshAgent:
