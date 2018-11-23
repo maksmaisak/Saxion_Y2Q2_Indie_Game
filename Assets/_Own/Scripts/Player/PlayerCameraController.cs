@@ -34,21 +34,8 @@ public class PlayerCameraController : MonoBehaviour
         if (!mouse) mouse = FindObjectOfType<AimingTarget>().transform;
         Assert.IsNotNull(mouse);
 
-        var go = Instantiate(sniperZoomVirtualCamera.gameObject, sniperZoomVirtualCamera.transform.parent);
-        go.name = "CM HardLookAtMouseSniperCamera";
-        hardLookAtMouseSniperCamera = go.GetComponent<CinemachineVirtualCamera>();
-        hardLookAtMouseSniperCamera.Priority = -1;
-        hardLookAtMouseSniperCamera.m_StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.Always;
-        hardLookAtMouseSniperCamera.AddCinemachineComponent<CinemachineHardLookAt>();
-        hardLookAtMouseSniperCamera.DestroyCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-       
-        go = new GameObject("HardLookAtMouse");
-        go.transform.SetParent(primaryVirtualCamera.transform, worldPositionStays: false);
-        hardLookAtMousePrimaryCamera = go.AddComponent<CinemachineVirtualCamera>();
-        hardLookAtMousePrimaryCamera.Priority = -1;
-        hardLookAtMousePrimaryCamera.m_StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.Always;
-        hardLookAtMousePrimaryCamera.LookAt = mouse;
-        hardLookAtMousePrimaryCamera.AddCinemachineComponent<CinemachineHardLookAt>();
+        hardLookAtMouseSniperCamera = MakeHardLookAtMouseSniperCamera();
+        hardLookAtMousePrimaryCamera = MakeHardLookAtMousePrimaryCamera();
 
         currentFov = primaryVirtualCamera.m_Lens.FieldOfView;
         isSniping = currentFov < primaryMinFov;
@@ -128,6 +115,34 @@ public class PlayerCameraController : MonoBehaviour
         cam.m_YAxis.Value = Mathf.Clamp01(yAxisValue);
 
         cam.m_XAxis.Value = WrapEulerAngle(eulerAngles.y, cam.m_XAxis.m_MinValue, cam.m_XAxis.m_MaxValue);
+    }
+
+    private CinemachineVirtualCamera MakeHardLookAtMouseSniperCamera()
+    {
+        GameObject go = Instantiate(sniperZoomVirtualCamera.gameObject, sniperZoomVirtualCamera.transform.parent);
+        go.name = "CM HardLookAtMouseSniperCamera";
+        var cam = go.GetComponent<CinemachineVirtualCamera>();
+        
+        cam.Priority = -1;
+        cam.m_StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.Always;
+        cam.AddCinemachineComponent<CinemachineHardLookAt>();
+        cam.DestroyCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        return cam;
+    }
+
+    private CinemachineVirtualCamera MakeHardLookAtMousePrimaryCamera()
+    {
+        var go = new GameObject("HardLookAtMouse");
+        go.transform.SetParent(primaryVirtualCamera.transform, worldPositionStays: false);
+        var cam = go.AddComponent<CinemachineVirtualCamera>();
+        
+        cam.Priority = -1;
+        cam.m_StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.Always;
+        cam.LookAt = mouse;
+        cam.AddCinemachineComponent<CinemachineHardLookAt>();
+
+        return cam;
     }
 
     private static float WrapEulerAngle(float angle, float min, float max)
