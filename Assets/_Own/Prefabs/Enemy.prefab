@@ -361,8 +361,6 @@ MonoBehaviour:
   rotationSpeed: 20
   rotationSpeedChange: 50
   rotationSpeedCap: 70
-  minDelayToPatrole: 5
-  maxDelayToPatrole: 15
 --- !u!114 &114824004397904264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -394,7 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimumChaseTimeTreshold: 2
   secondsToEvadeMode: 3
-  faceTargetSpeed: 3
+  faceTargetSpeed: 79.57
 --- !u!195 &195546136665236794
 NavMeshAgent:
   m_ObjectHideFlags: 1
