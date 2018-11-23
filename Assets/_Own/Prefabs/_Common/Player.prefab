@@ -1800,7 +1800,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000077682295834}
-  m_LocalRotation: {x: -0.037258785, y: 7.092679e-17, z: 1.9022871e-15, w: 0.9993057}
+  m_LocalRotation: {x: -0.03725879, y: -6.370456e-13, z: -1.7063257e-11, w: 0.9993057}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2521,7 +2521,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659476796608624}
-  m_LocalRotation: {x: -0.037258785, y: -7.092679e-17, z: -1.9022871e-15, w: 0.9993057}
+  m_LocalRotation: {x: -0.03725879, y: 6.3726764e-13, z: 1.7063715e-11, w: 0.9993057}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2697,7 +2697,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1904720713988524}
-  m_LocalRotation: {x: -0.037258785, y: -7.092679e-17, z: -1.9022871e-15, w: 0.9993057}
+  m_LocalRotation: {x: -0.03725879, y: 6.3726764e-13, z: 1.7063715e-11, w: 0.9993057}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3047,6 +3047,7 @@ MonoBehaviour:
   activeInThirdPersonOnly: {fileID: 0}
   activeInSniperZoomOnly: {fileID: 0}
   mouse: {fileID: 0}
+  playerAnimator: {fileID: 95781225232138254}
   zoomSpeed: 5
   primaryMaxFov: 41
   primaryMinFov: 40
@@ -3054,6 +3055,12 @@ MonoBehaviour:
   sniperMinFov: 10
   invertScroll: 0
   currentFov: 0
+  sniperCameraShakeStanding:
+    amplitudeGain: 2
+    frequencyGain: 2
+  sniperCameraShakeCrouching:
+    amplitudeGain: 2
+    frequencyGain: 1
 --- !u!114 &114135962079051424
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3609,7 +3616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: a3dacaec0287d7444b4bd276816e1666, type: 2}
-  m_AmplitudeGain: 2
+  m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &114905866718893594
