@@ -2,9 +2,6 @@ using System;
 using System.Linq;
 using UnityEngine;
 using Cinemachine;
-using Cinemachine.Utility;
-using UnityEditor.Animations;
-using UnityEngine.Animations;
 using UnityEngine.Assertions;
 
 [Serializable]
@@ -44,7 +41,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] private CameraNoiseConfig sniperCameraShakeStanding  = CameraNoiseConfig.Default;
     [SerializeField] private CameraNoiseConfig sniperCameraShakeCrouching = CameraNoiseConfig.Default;
 
-    private bool isSniping = false;
+    public bool isSniping { get; private set; }
     private CinemachineVirtualCamera hardLookAtMouseSniperCamera;
     private CinemachineVirtualCamera hardLookAtMousePrimaryCamera;
     private Renderer[] renderers;
