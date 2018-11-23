@@ -40,6 +40,7 @@ public class PlayerCameraController : MonoBehaviour
         hardLookAtMouseSniperCamera.Priority = -1;
         hardLookAtMouseSniperCamera.m_StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.Always;
         hardLookAtMouseSniperCamera.AddCinemachineComponent<CinemachineHardLookAt>();
+        hardLookAtMouseSniperCamera.DestroyCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
        
         go = new GameObject("HardLookAtMouse");
         go.transform.SetParent(primaryVirtualCamera.transform, worldPositionStays: false);
@@ -121,6 +122,7 @@ public class PlayerCameraController : MonoBehaviour
 
         Vector3 eulerAngles = hardLookAtMousePrimaryCamera.transform.eulerAngles;
 
+        // TODO Maybe do binary search with cam.GetLocalPositionForCameraFromInput(t) to find the right t for a given angle.
         float yAxisAngle = WrapEulerAngle(eulerAngles.x, -90f, 90f);
         float yAxisValue = Remap(minAngle, maxAngle, cam.m_YAxis.m_MinValue, cam.m_YAxis.m_MaxValue, yAxisAngle);
         cam.m_YAxis.Value = Mathf.Clamp01(yAxisValue);
