@@ -7,16 +7,10 @@ using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 [Serializable]
-struct SnapImprecision
+class SnapShootingImprecision
 {
-    public static readonly SnapImprecision Default = new SnapImprecision
-    {
-        worldspaceRadius = 2f,
-        maxAngle = 20f
-    };
-    
-    public float worldspaceRadius;
-    public float maxAngle;
+    public float worldspaceRadius = 1f;
+    public float maxAngle = 10f;
 }
 
 public class PlayerShootingController : MonoBehaviour
@@ -24,9 +18,11 @@ public class PlayerShootingController : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnLocation;
     [SerializeField] Transform aimingTarget;
+    [SerializeField] Animator playerAnimator;
     [SerializeField] float reloadInterval = 1f;
     [SerializeField] float bulletSpeed = 20f;
-    [SerializeField] SnapImprecision snapShootingImprecision = SnapImprecision.Default;
+    [SerializeField] SnapShootingImprecision snapShootingImprecisionStanding;
+    [SerializeField] SnapShootingImprecision snapShootingImprecisionCrouching;
 
     private float timeWhenCanShoot;
     private PlayerCameraController cameraController;
@@ -40,6 +36,7 @@ public class PlayerShootingController : MonoBehaviour
         Assert.IsNotNull(aimingTarget);
 
         if (!cameraController) cameraController = GetComponent<PlayerCameraController>();
+        if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
     }
     
     void OnApplicationPause(bool pauseStatus)
@@ -76,6 +73,12 @@ public class PlayerShootingController : MonoBehaviour
 
     private Vector3 ApplyImprecision(Vector3 toTarget)
     {
+        SnapShootingImprecision snapShootingImprecision;
+
+        snapShootingImprecision = GetIsCrouching() ? 
+            snapShootingImprecisionCrouching : 
+            snapShootingImprecisionStanding;
+        
         float radius = snapShootingImprecision.worldspaceRadius;
         float distanceToTarget = toTarget.magnitude;
 
@@ -87,9 +90,13 @@ public class PlayerShootingController : MonoBehaviour
 
         // TODO generate from a unit circle orthogonal circle instead.
         // Because this has cases where the point from the sphere goes to zero.
-        Vector3 offset = Random.insideUnitSphere.ProjectOntoPlane(toTarget.normalized).normalized *
-                       Random.Range(0f, radius);
+        Vector3 offset = Random.insideUnitSphere.ProjectOntoPlane(toTarget.normalized).normalized * Random.Range(0f, radius);
         return toTarget + offset;
+    }
+
+    private bool GetIsCrouching()
+    {
+        return playerAnimator && playerAnimator.GetBool("Crouch");
     }
 
     private bool CanShoot() => Time.time >= timeWhenCanShoot;

@@ -1800,7 +1800,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000077682295834}
-  m_LocalRotation: {x: -0.03725879, y: -6.370456e-13, z: -1.7063257e-11, w: 0.9993057}
+  m_LocalRotation: {x: -0.037258785, y: 0.0000000037220673, z: 1.2173655e-10, w: 0.9993057}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2521,7 +2521,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659476796608624}
-  m_LocalRotation: {x: -0.03725879, y: 6.3726764e-13, z: 1.7063715e-11, w: 0.9993057}
+  m_LocalRotation: {x: -0.037258785, y: -0.000000003722067, z: -1.217361e-10, w: 0.9993057}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2697,7 +2697,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1904720713988524}
-  m_LocalRotation: {x: -0.03725879, y: 6.3726764e-13, z: 1.7063715e-11, w: 0.9993057}
+  m_LocalRotation: {x: -0.037258785, y: -0.000000003722067, z: -1.217361e-10, w: 0.9993057}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3018,8 +3018,15 @@ MonoBehaviour:
     type: 2}
   bulletSpawnLocation: {fileID: 4850912722830366}
   aimingTarget: {fileID: 4144413684682880}
+  playerAnimator: {fileID: 95781225232138254}
   reloadInterval: 1
   bulletSpeed: 75
+  snapShootingImprecisionStanding:
+    worldspaceRadius: 1
+    maxAngle: 10
+  snapShootingImprecisionCrouching:
+    worldspaceRadius: 1
+    maxAngle: 10
 --- !u!114 &114118740900516812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3263,6 +3270,9 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.3
+  m_LowHeadroomDetectionMask:
+    serializedVersion: 2
+    m_Bits: 2049
 --- !u!114 &114311535335691164
 MonoBehaviour:
   m_ObjectHideFlags: 1
