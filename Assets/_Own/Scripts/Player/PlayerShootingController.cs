@@ -48,7 +48,7 @@ public class PlayerShootingController : MonoBehaviour
     {
         if (!aimingTarget) return;
         
-        if (CanShoot() && Input.GetMouseButton(0))
+        if (CanShoot() && Input.GetMouseButtonDown(0))
         {
             Shoot();
         }
