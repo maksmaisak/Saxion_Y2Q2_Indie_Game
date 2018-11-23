@@ -55,17 +55,20 @@ public class EnemyStateInvestigate : FSMState<EnemyAI>
             if (agent.isPlayerVisible)
                 investigationTimeDiff = investigationDuration;
 
-            if (investigationTimeDiff <= 0f)
-                if (AIManager.instance.CanWander(agent))
-                {
-                    agent.fsm.ChangeState<EnemyStateWander>();
-                }
-                else
-                    agent.fsm.ChangeState<EnemyStateGoBack>();
+            if ((agent.lastInvestigatePosition.Value - agent.transform.position).sqrMagnitude <=
+                stoppingDistance * stoppingDistance)
+            {
+                if (currentTween == null)
+                    StartCoroutine(StartRotation());
+                
+                if (investigationTimeDiff <= 0f)
+                    if (AIManager.instance.CanWander(agent)){
+                        agent.fsm.ChangeState<EnemyStateWander>();
+                    }
+                    else
+                        agent.fsm.ChangeState<EnemyStateGoBack>();
+            }
 
-            if (currentTween == null && !agent.navMeshAgent.pathPending && agent.navMeshAgent.remainingDistance <
-                Mathf.Max(stoppingDistance, agent.navMeshAgent.stoppingDistance))
-                StartCoroutine(StartRotation());
 
             yield return null;
         }
