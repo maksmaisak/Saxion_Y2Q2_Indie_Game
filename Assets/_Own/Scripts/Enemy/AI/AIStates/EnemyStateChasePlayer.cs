@@ -7,7 +7,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
 {
     [SerializeField] float minimumChaseTimeTreshold = 2.0f;
     [SerializeField] float secondsToEvadeMode = 3.0f;
-    [SerializeField] float faceTargetSpeed = 2.0f;
+    [SerializeField] float faceTargetSpeed = 10.0f;
 
     private void OnEnable()
     {
@@ -24,14 +24,22 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         {
             agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
 
-            if (!agent.isPlayerVisible)
-                transform.rotation = Quaternion.RotateTowards(transform.rotation,
-                    Quaternion.LookRotation(agent.targetTransform.position - transform.position),
-                    Time.deltaTime * faceTargetSpeed);
+            if (agent.navMeshAgent.remainingDistance  < agent.navMeshAgent.stoppingDistance)
+            {
+                if (!agent.isPlayerVisible)
+                    if (agent.GetTimeSinceLastPlayerSeen() > secondsToEvadeMode)
+                        agent.fsm.ChangeState<EnemyStateWander>();
 
-            if (!agent.isPlayerVisible && agent.CloseToLastKnownPlayerLocation())
-                if (agent.GetTimeSinceLastPlayerSeen() > minimumChaseTimeTreshold)
-                    agent.fsm.ChangeState<EnemyStateWander>();
+                if (agent.isPlayerVisible)
+                {
+                    Vector3 targetPosition   = agent.targetTransform.position;
+                    targetPosition.y         = transform.position.y;
+                    
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                        Quaternion.LookRotation(targetPosition - transform.position), 
+                        Time.deltaTime * faceTargetSpeed);
+                }
+            }
 
             yield return null;
         }

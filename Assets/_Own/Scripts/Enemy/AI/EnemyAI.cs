@@ -243,7 +243,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
         }
     }
 
-    public bool CloseToLastKnownPlayerLocation()
+    public bool IsCloseToLastKnownPlayerLocation()
     {
         return (transform.position - lastKnownPlayerPosition).sqrMagnitude <
                stoppingDistanceBeforeLastPlayerPosition * stoppingDistanceBeforeLastPlayerPosition;
