@@ -9,6 +9,7 @@ public class Highlightable : MonoBehaviour
 {	
 	[Tooltip("The highlight can't appear if the object is further away than this from the camera.")]
 	[SerializeField] float maxDistance;
+	[SerializeField] private LayerMask blockViewLayerMask = Physics.DefaultRaycastLayers;
 	[Tooltip("The highlight only shows up if the object is within this rectangle on the screen, defined in normalized viewport coordinates.")]
 	[SerializeField] Rect requiredViewportRect;
 	[SerializeField] float sizeMultiplier = 1f;
@@ -38,14 +39,23 @@ public class Highlightable : MonoBehaviour
 	}
 
 	void LateUpdate()
-	{	
+	{
+		Vector3 position = transform.position;
 		Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
 		if (viewportPosition.z < 0f || !requiredViewportRect.Contains(viewportPosition))
 		{
 			hudElement.gameObject.SetActive(false);
 			return;
 		}
-		
+
+		Vector3 cameraPosition = cameraTransform.position;
+		Ray ray = new Ray(cameraTransform.position, position - cameraPosition);
+		if (Physics.Raycast(ray, Vector3.Distance(cameraPosition, position), blockViewLayerMask))
+		{
+			hudElement.gameObject.SetActive(false);
+			return;
+		}
+				
 		var renderer = GetComponentInChildren<Renderer>();
 
 		Vector3 min = renderer.bounds.min;
@@ -80,16 +90,5 @@ public class Highlightable : MonoBehaviour
 		float distance = Vector3.Distance(transform.position, cameraTransform.position);
 		float viewportspaceRadius = diameter / (distance * camera.fieldOfView * Mathf.Deg2Rad);
 		*/
-	}
-
-	public class ViewportComparer : IComparer<Vector2>
-	{
-		public int Compare(Vector2 a, Vector2 b)
-		{
-			int compareX = a.x.CompareTo(b.x);
-			if (compareX != 0) return compareX;
-
-			return a.y.CompareTo(b.y);
-		}
 	}
 }
