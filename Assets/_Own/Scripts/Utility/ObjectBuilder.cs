@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ObjectBuilder
 {
-	public static GameObject CreateAndAddObjectToCanvas(GameObject prefab)
+	public static T CreateAndAddObjectToCanvas<T>(T prefab) where T : UnityEngine.Object
 	{
-		var canvas = LevelCanvas.instance.transform;
-		var gameObject = GameObject.Instantiate(prefab, canvas.transform);
+		var canvas = LevelCanvas.instance;
+		var gameObject = Object.Instantiate(prefab, canvas.transform);
 
 		return gameObject;
 	}
