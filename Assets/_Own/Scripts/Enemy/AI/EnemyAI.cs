@@ -13,7 +13,7 @@ public enum InvestigateReason
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent), typeof(Health))]
-public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
+public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 {
     [Header("AI Search Settings")]
     [SerializeField] LayerMask blockingLayerMask = Physics.DefaultRaycastLayers;
@@ -221,7 +221,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
         seenTimeMultiplier      = 1.0f;
     }
 
-    public void On(OnInvestigateDeath shot)
+    public void On(Distraction shot)
     {
         if (health.isDead)
             return;
@@ -288,7 +288,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<OnInvestigateDeath>
     {
         AIManager.instance.UnregisterAgent(this);
         
-        new OnInvestigateDeath(transform.position)
+        new Distraction(transform.position)
             .PostEvent();
     }
 }
