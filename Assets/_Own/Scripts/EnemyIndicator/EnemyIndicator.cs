@@ -3,6 +3,7 @@ using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -21,10 +22,26 @@ public class EnemyIndicator : MonoBehaviour
 
     [Header("Positioning")]
     [SerializeField] Transform trackedTransform;
+    [Tooltip("This is used to determine the size of the target object on screen")]
+    [SerializeField] Renderer trackedRenderer;
     [SerializeField] Vector2 interpolationPadding = new Vector2(0.1f, 0.1f);
+
+    [Header("Fadeout based on distance from the camera")] 
+    [SerializeField] float fadeFullDistance = 20f;
+    [SerializeField] float fadeNoneDistance = 50f;
+    [Tooltip("Determines how opacity varies as distance goes from fadeFullDistance to fadeNoneDistance.")]
+    [SerializeField] AnimationCurve fadeoutCurveDistance = AnimationCurve.Linear(0f, 1f, 1f, 0f);
     
+    [Header("Fadeout based on target area in the viewport")] 
+    [SerializeField] float fadeFullViewportArea = 0.2f;
+    [SerializeField] float fadeNoneViewportArea = 0f;
+    [Tooltip("Determines how opacity varies as the object's viewport area goes from fadeFullViewportArea to fadeNoneViewportArea.")]
+    [SerializeField] AnimationCurve fadeoutCurveViewportArea = AnimationCurve.Linear(0f, 1f, 1f, 0f);
+
     private Canvas canvas;
     private RectTransform rectTransform;
+    private new Camera camera;
+    private Transform cameraTransform;
     
     void Start()
     {
@@ -37,14 +54,18 @@ public class EnemyIndicator : MonoBehaviour
 
         rectTransform = GetComponent<RectTransform>();
         Assert.IsNotNull(rectTransform);
+        
+        camera = Camera.main;
+        Assert.IsNotNull(camera);
+        cameraTransform = camera.transform;
     }
     
     void LateUpdate()
     {
         if (!trackedTransform) return;
 
-        rectTransform.anchorMin = rectTransform.anchorMax = GetRectPosition();
-        rectTransform.anchoredPosition = Vector2.zero;
+        UpdatePosition();
+        UpdateAlpha();
     }
 
     void OnValidate()
@@ -54,6 +75,24 @@ public class EnemyIndicator : MonoBehaviour
         if (imageAggressive) imageAggressive.color = colorAggressive;
         
         SetState(currentValue);
+    }
+
+    private void UpdatePosition()
+    {
+        rectTransform.anchorMin = rectTransform.anchorMax = GetRectPosition();
+        rectTransform.anchoredPosition = Vector2.zero;
+    }
+    
+    private void UpdateAlpha()
+    {
+        float alpha = GetAlpha();
+        
+        foreach (Image image in new[]{imageIdle, imageSuspicious, imageAggressive})
+        {
+            Color color = image.color;
+            color.a = alpha;
+            image.color = color;
+        }
     }
 
     /// stateInterpolation values:
@@ -92,11 +131,15 @@ public class EnemyIndicator : MonoBehaviour
     {
         trackedTransform = newTrackedTransform;
     }
+
+    /// Sets the renderer used to determine the size of the tracked object on screen.
+    public void SetTrackedRenderer(Renderer newTrackedRenderer)
+    {
+        trackedRenderer = newTrackedRenderer;
+    }
     
     private Vector3 GetRectPosition()
     {
-        Camera camera = Camera.main;
-        Transform cameraTransform = camera.transform;
         Vector3 viewportPosition = camera.WorldToViewportPoint(trackedTransform.position);
 
         var viewportRect = Rect.MinMaxRect(0f, 0f, 1f, 1f);
@@ -105,7 +148,7 @@ public class EnemyIndicator : MonoBehaviour
         // Off screen
         if (viewportPosition.z < 0f || !viewportRect.Contains(viewportPosition))
         {
-            return GetPositionForOutOfScreenObject(cameraTransform, innerViewportRect);
+            return GetPositionForOutOfScreenObject(innerViewportRect);
         }
         
         // Within the interpolation zone
@@ -117,18 +160,68 @@ public class EnemyIndicator : MonoBehaviour
             if (overlap.y < 0f) overlap.y = 0f;
             
             float t = Mathf.Clamp01(overlap.x / interpolationPadding.x + overlap.y / interpolationPadding.y);
-            Vector3 fromOffscreenPosition = GetPositionForOutOfScreenObject(cameraTransform, innerViewportRect);
+            Vector3 fromOffscreenPosition = GetPositionForOutOfScreenObject(innerViewportRect);
             return Vector2.Lerp(viewportPosition, fromOffscreenPosition, t);
         }
 
         // On screen
         return viewportPosition;
     }
-
-    private Vector3 GetPositionForOutOfScreenObject(Transform cameraTransform, Rect containingRect)
+        
+    private Vector3 GetPositionForOutOfScreenObject(Rect containingRect)
     {
         Vector3 relativePos = trackedTransform.position - cameraTransform.position;
         Vector2 projectedPos = new Vector2(Vector3.Dot(relativePos, cameraTransform.right), Vector3.Dot(relativePos, cameraTransform.up));
         return Rect.NormalizedToPoint(containingRect, new Vector2(0.5f, 0.5f) + projectedPos.normalized * 0.5f);
+    }
+
+    private float GetAlpha()
+    {
+        float distance = (trackedTransform.position - cameraTransform.position).magnitude;
+        float distanceBasedAlpha = GetDistanceBasedAlpha(distance);
+        
+        if (distance < fadeFullDistance) 
+            return distanceBasedAlpha;
+
+        return Mathf.Max(distanceBasedAlpha, GetViewportSizeBasedAlpha());
+    }
+
+    private float GetDistanceBasedAlpha(float distance)
+    {        
+        float t;
+        if (Mathf.Approximately(fadeNoneDistance, fadeFullDistance))
+            t = distance > fadeNoneDistance ? 1f : 0f;
+        else
+            t = Mathf.InverseLerp(fadeFullDistance, fadeNoneDistance, distance);
+
+        return fadeoutCurveDistance.Evaluate(t);
+    }
+    
+    private float GetViewportSizeBasedAlpha()
+    {
+        if (!trackedRenderer)
+        {
+            Debug.LogWarning("No tracked renderer assigned. Can't determine object size on screen. Use SetTrackedRenderer to assign it.");
+            return 0f;
+        }
+        
+        // Is it off screen?
+        Vector3 viewportPosition = camera.WorldToViewportPoint(trackedTransform.position);
+        var viewportRect = Rect.MinMaxRect(0f, 0f, 1f, 1f);
+        if (viewportPosition.z < 0f || !viewportRect.Contains(viewportPosition))
+        {
+            return 0f;
+        }
+
+        Rect viewportBounds = trackedRenderer.GetViewportBounds();
+        float viewportArea = viewportBounds.width * viewportBounds.height;
+        
+        float t;
+        if (Mathf.Approximately(fadeNoneViewportArea, fadeFullViewportArea))
+            t = viewportArea > fadeNoneViewportArea ? 1f : 0f;
+        else
+            t = Mathf.InverseLerp(fadeFullViewportArea, fadeNoneViewportArea, viewportArea);
+
+        return fadeoutCurveViewportArea.Evaluate(t);
     }
 }

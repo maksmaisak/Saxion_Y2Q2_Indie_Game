@@ -94,6 +94,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
         Assert.IsNotNull(trackerTransform);
 
         indicator.SetTrackedTransform(trackerTransform);
+        indicator.SetTrackedRenderer(GetComponentInChildren<Renderer>());
 
         fsm             = new FSM<EnemyAI>(this);
         health          = GetComponent<Health>();
