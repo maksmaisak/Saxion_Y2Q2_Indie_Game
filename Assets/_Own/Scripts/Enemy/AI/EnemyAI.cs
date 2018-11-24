@@ -80,9 +80,9 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     {
         aiGUID = AIManager.instance.GetNextAssignableEntryId();
         AIManager.instance.RegisterAgent(this);
-        
-        targetTransform = FindObjectOfType<PlayerShootingController>()?.transform;
-        Assert.IsNotNull(targetTransform);
+
+        Assert.IsTrue(PlayerVisibilityCenter.exists);
+        targetTransform = PlayerVisibilityCenter.instance.transform;
 
         Assert.IsNotNull(indicatorPrefab);
         indicator = ObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
