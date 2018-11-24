@@ -22,9 +22,15 @@ public class EnemyIndicator : MonoBehaviour
     [Header("Positioning")]
     [SerializeField] Transform trackedTransform;
     [SerializeField] Vector2 interpolationPadding = new Vector2(0.1f, 0.1f);
-    
+
+    [Header("Fadeout")] 
+    [SerializeField] float fadeFullDistance = 20f;
+    [SerializeField] float fadeNoneDistance = 50f;
+
     private Canvas canvas;
     private RectTransform rectTransform;
+    private new Camera camera;
+    private Transform cameraTransform;
     
     void Start()
     {
@@ -37,14 +43,18 @@ public class EnemyIndicator : MonoBehaviour
 
         rectTransform = GetComponent<RectTransform>();
         Assert.IsNotNull(rectTransform);
+        
+        camera = Camera.main;
+        Assert.IsNotNull(camera);
+        cameraTransform = camera.transform;
     }
     
     void LateUpdate()
     {
         if (!trackedTransform) return;
 
-        rectTransform.anchorMin = rectTransform.anchorMax = GetRectPosition();
-        rectTransform.anchoredPosition = Vector2.zero;
+        UpdatePosition();
+        UpdateAlpha();
     }
 
     void OnValidate()
@@ -54,6 +64,30 @@ public class EnemyIndicator : MonoBehaviour
         if (imageAggressive) imageAggressive.color = colorAggressive;
         
         SetState(currentValue);
+    }
+
+    private void UpdatePosition()
+    {
+        rectTransform.anchorMin = rectTransform.anchorMax = GetRectPosition();
+        rectTransform.anchoredPosition = Vector2.zero;
+    }
+    
+    private void UpdateAlpha()
+    {
+        float distance = (trackedTransform.position - cameraTransform.position).magnitude;
+        
+        float alpha;
+        if (Mathf.Approximately(fadeNoneDistance, fadeFullDistance))
+            alpha = distance < fadeFullDistance ? 1f : 0f;
+        else
+            alpha = Mathf.InverseLerp(fadeNoneDistance, fadeFullDistance, distance);
+        
+        foreach (Image image in new[]{imageIdle, imageSuspicious, imageAggressive})
+        {
+            Color color = image.color;
+            color.a = alpha;
+            image.color = color;
+        }
     }
 
     /// stateInterpolation values:
@@ -95,8 +129,6 @@ public class EnemyIndicator : MonoBehaviour
     
     private Vector3 GetRectPosition()
     {
-        Camera camera = Camera.main;
-        Transform cameraTransform = camera.transform;
         Vector3 viewportPosition = camera.WorldToViewportPoint(trackedTransform.position);
 
         var viewportRect = Rect.MinMaxRect(0f, 0f, 1f, 1f);
