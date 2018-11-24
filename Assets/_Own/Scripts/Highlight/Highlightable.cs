@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -19,16 +20,18 @@ public class Highlightable : MonoBehaviour
 
 	private new Camera camera;
 	private Transform cameraTransform;
+	private new Renderer renderer;
 		
 	void Start()
 	{
 		camera = Camera.main;
 		Assert.IsNotNull(camera);
-		
 		cameraTransform = camera.transform;
 		
+		renderer = GetComponentInChildren<Renderer>();
+		Assert.IsNotNull(renderer);
+		
 		Assert.IsNotNull(hudElementPrefab);
-
 		hudElement = ObjectBuilder.CreateAndAddObjectToCanvas(hudElementPrefab);
 	}
 
@@ -59,28 +62,14 @@ public class Highlightable : MonoBehaviour
 				return;
 			}
 		}
-				
-		var renderer = GetComponentInChildren<Renderer>();
 
-		Vector3 min = renderer.bounds.min;
-		Vector3 max = renderer.bounds.max;
-		Vector2[] viewportBorders = new []{
-			new Vector3(min.x, min.y, min.z),
-			new Vector3(min.x, min.y, max.z),
-			new Vector3(min.x, max.y, min.z),
-			new Vector3(min.x, max.y, max.z),
-			new Vector3(max.x, min.y, min.z),
-			new Vector3(max.x, min.y, max.z),
-			new Vector3(max.x, max.y, min.z),
-			new Vector3(max.x, max.y, max.z)
-		}.Select(b => (Vector2)camera.WorldToViewportPoint(b)).ToArray();
-		
-		Vector2 minViewportPosition = new Vector2(viewportBorders.Min(b => b.x), viewportBorders.Min(b => b.y));
-		Vector2 maxViewportPosition = new Vector2(viewportBorders.Max(b => b.x), viewportBorders.Max(b => b.y));
+		Rect viewportBounds = renderer.GetViewportBounds(camera);
+		Vector2 minViewportPosition = viewportBounds.min;
+		Vector2 maxViewportPosition = viewportBounds.max;
+		Vector2 centerViewportPosition = viewportBounds.center;
 
-		Vector2 viewportPosition2D = viewportPosition;
-		minViewportPosition = viewportPosition2D + (minViewportPosition - viewportPosition2D) * sizeMultiplier;
-		maxViewportPosition = viewportPosition2D + (maxViewportPosition - viewportPosition2D) * sizeMultiplier;
+		minViewportPosition = centerViewportPosition + (minViewportPosition - centerViewportPosition) * sizeMultiplier;
+		maxViewportPosition = centerViewportPosition + (maxViewportPosition - centerViewportPosition) * sizeMultiplier;
 
 		var rectTransform = hudElement.GetComponent<RectTransform>();
 		rectTransform.anchorMin = minViewportPosition;
