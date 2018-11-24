@@ -34,6 +34,8 @@ public class PlayerShootingController : MonoBehaviour
         }
         Assert.IsNotNull(aimingTarget);
 
+        if (!bulletSpawnLocation) bulletSpawnLocation = transform;
+
         if (!cameraController) cameraController = GetComponent<PlayerCameraController>();
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
     }
@@ -57,7 +59,7 @@ public class PlayerShootingController : MonoBehaviour
     {
         Vector3 targetPosition = aimingTarget.transform.position;
         
-        var spawnLocation = bulletSpawnLocation ? bulletSpawnLocation : transform;
+        var spawnLocation = cameraController.isSniping ? Camera.main.transform : bulletSpawnLocation;
         Vector3 position = spawnLocation.position;
         Vector3 toTarget = targetPosition - position;
 
