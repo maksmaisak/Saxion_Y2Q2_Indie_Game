@@ -9,7 +9,7 @@ public class Highlightable : MonoBehaviour
 {	
 	[Tooltip("The highlight can't appear if the object is further away than this from the camera.")]
 	[SerializeField] float maxDistance;
-	[SerializeField] private LayerMask blockViewLayerMask = Physics.DefaultRaycastLayers;
+	[SerializeField] private LayerMask raycastLayerMask = Physics.DefaultRaycastLayers;
 	[Tooltip("The highlight only shows up if the object is within this rectangle on the screen, defined in normalized viewport coordinates.")]
 	[SerializeField] Rect requiredViewportRect;
 	[SerializeField] float sizeMultiplier = 1f;
@@ -49,11 +49,16 @@ public class Highlightable : MonoBehaviour
 		}
 
 		Vector3 cameraPosition = cameraTransform.position;
-		Ray ray = new Ray(cameraTransform.position, position - cameraPosition);
-		if (Physics.Raycast(ray, Vector3.Distance(cameraPosition, position), blockViewLayerMask))
+		Ray ray = new Ray(cameraPosition, position - cameraPosition);
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit, maxDistance, raycastLayerMask) && hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform))
 		{
-			hudElement.gameObject.SetActive(false);
-			return;
+			if (hit.distance < Vector3.Distance(cameraPosition, position))
+			{
+				Debug.Log(hit.collider.gameObject);
+				hudElement.gameObject.SetActive(false);
+				return;
+			}
 		}
 				
 		var renderer = GetComponentInChildren<Renderer>();
