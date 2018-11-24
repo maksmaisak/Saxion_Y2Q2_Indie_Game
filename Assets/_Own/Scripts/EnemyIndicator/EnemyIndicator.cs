@@ -26,6 +26,8 @@ public class EnemyIndicator : MonoBehaviour
     [Header("Fadeout")] 
     [SerializeField] float fadeFullDistance = 20f;
     [SerializeField] float fadeNoneDistance = 50f;
+    [Tooltip("Determines how opacity varies as distance goes from fadeFullDistance to fadeNoneDistance.")]
+    [SerializeField] AnimationCurve fadeoutCurve = AnimationCurve.Linear(0f, 1f, 1f, 0f);
 
     private Canvas canvas;
     private RectTransform rectTransform;
@@ -76,11 +78,13 @@ public class EnemyIndicator : MonoBehaviour
     {
         float distance = (trackedTransform.position - cameraTransform.position).magnitude;
         
-        float alpha;
+        float t;
         if (Mathf.Approximately(fadeNoneDistance, fadeFullDistance))
-            alpha = distance < fadeFullDistance ? 1f : 0f;
+            t = distance > fadeNoneDistance ? 1f : 0f;
         else
-            alpha = Mathf.InverseLerp(fadeNoneDistance, fadeFullDistance, distance);
+            t = Mathf.InverseLerp(fadeFullDistance, fadeNoneDistance, distance);
+
+        float alpha = fadeoutCurve.Evaluate(t);
         
         foreach (Image image in new[]{imageIdle, imageSuspicious, imageAggressive})
         {
