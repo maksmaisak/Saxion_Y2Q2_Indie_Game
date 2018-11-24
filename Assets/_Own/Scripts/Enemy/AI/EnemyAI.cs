@@ -15,7 +15,8 @@ public enum InvestigateReason
 [RequireComponent(typeof(NavMeshAgent), typeof(Health))]
 public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 {
-    [Header("AI Search Settings")]
+    [Header("AI Search Settings")] 
+    [SerializeField] Transform visionOrigin;
     [SerializeField] LayerMask blockingLayerMask = Physics.DefaultRaycastLayers;
     [SerializeField] float maxViewAngle = 60.0f;
     [SerializeField] float maxViewDistance = 20.0f;
@@ -80,9 +81,11 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     {
         aiGUID = AIManager.instance.GetNextAssignableEntryId();
         AIManager.instance.RegisterAgent(this);
-        
-        targetTransform = FindObjectOfType<PlayerShootingController>()?.transform;
-        Assert.IsNotNull(targetTransform);
+
+        if (!visionOrigin) visionOrigin = transform;
+
+        Assert.IsTrue(PlayerVisibilityCenter.exists);
+        targetTransform = PlayerVisibilityCenter.instance.transform;
 
         Assert.IsNotNull(indicatorPrefab);
         indicator = ObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
@@ -117,7 +120,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
     private void Update()
     {
-        isPlayerVisible = Visibility.CanSeeObject(transform, targetTransform, fov, maxSearchRadius);
+        isPlayerVisible = Visibility.CanSeeObject(visionOrigin, targetTransform, fov, maxSearchRadius);
 
         UpdateSeenTimeDiff();
         UpdateStatesAndConditions();

@@ -18,6 +18,19 @@ public abstract class Singleton<T> : MyBehaviour where T : Singleton<T>
         }
     }
 
+    public static bool exists
+    {
+        get
+        {
+            if (instanceCached == null)
+            {
+                instanceCached = FindInstance();
+            }
+
+            return instanceCached;
+        }
+    }
+
     private static T FindInstance()
     {
         return FindObjectOfType<T>();

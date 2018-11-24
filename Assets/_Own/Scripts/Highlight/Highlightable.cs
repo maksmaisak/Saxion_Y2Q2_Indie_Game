@@ -55,7 +55,6 @@ public class Highlightable : MonoBehaviour
 		{
 			if (hit.distance < Vector3.Distance(cameraPosition, position))
 			{
-				Debug.Log(hit.collider.gameObject);
 				hudElement.gameObject.SetActive(false);
 				return;
 			}
