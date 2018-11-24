@@ -42,7 +42,7 @@ public class EnemyIndicator : MonoBehaviour
     private RectTransform rectTransform;
     private new Camera camera;
     private Transform cameraTransform;
-    
+        
     void Start()
     {
         Assert.IsNotNull(imageIdle);
@@ -154,12 +154,7 @@ public class EnemyIndicator : MonoBehaviour
         // Within the interpolation zone
         if (!innerViewportRect.Contains(viewportPosition))
         {
-            var fromCenter = (Vector2)viewportPosition - new Vector2(0.5f, 0.5f);
-            var overlap = new Vector2(Mathf.Abs(fromCenter.x), Mathf.Abs(fromCenter.y)) - (new Vector2(0.5f, 0.5f) - interpolationPadding);
-            if (overlap.x < 0f) overlap.x = 0f;
-            if (overlap.y < 0f) overlap.y = 0f;
-            
-            float t = Mathf.Clamp01(overlap.x / interpolationPadding.x + overlap.y / interpolationPadding.y);
+            float t = GetInterpolationZoneT(viewportPosition);
             Vector3 fromOffscreenPosition = GetPositionForOutOfScreenObject(innerViewportRect);
             return Vector2.Lerp(viewportPosition, fromOffscreenPosition, t);
         }
@@ -221,7 +216,27 @@ public class EnemyIndicator : MonoBehaviour
             t = viewportArea > fadeNoneViewportArea ? 1f : 0f;
         else
             t = Mathf.InverseLerp(fadeFullViewportArea, fadeNoneViewportArea, viewportArea);
+        
+        float alpha = fadeoutCurveViewportArea.Evaluate(t);
+        
+        // Fade it out if it's close to the edges of the screen. 
+        var interpolationZoneRect = viewportRect.Inflated(-interpolationPadding);
+        if (!interpolationZoneRect.Contains(viewportPosition))
+        {
+            alpha *= 1f - GetInterpolationZoneT(viewportPosition);
+        }
+        
+        return alpha;
+    }
 
-        return fadeoutCurveViewportArea.Evaluate(t);
+    /// 0 is on the inner border, 1 is on the outer border. Assumes the input position is between them.
+    private float GetInterpolationZoneT(Vector2 viewportPosition)
+    {
+        var fromCenter = viewportPosition - new Vector2(0.5f, 0.5f);
+        var overlap = new Vector2(Mathf.Abs(fromCenter.x), Mathf.Abs(fromCenter.y)) - (new Vector2(0.5f, 0.5f) - interpolationPadding);
+        if (overlap.x < 0f) overlap.x = 0f;
+        if (overlap.y < 0f) overlap.y = 0f;
+            
+        return Mathf.Clamp01(overlap.x / interpolationPadding.x + overlap.y / interpolationPadding.y);
     }
 }
