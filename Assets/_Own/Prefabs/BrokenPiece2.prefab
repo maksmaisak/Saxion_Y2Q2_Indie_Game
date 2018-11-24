@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 33077487366166186}
   - component: {fileID: 23727664989676750}
   - component: {fileID: 114333942994254676}
-  - component: {fileID: 64253747508175828}
+  - component: {fileID: 65586731808419032}
   m_Layer: 0
   m_Name: BrokenPiece2
   m_TagString: Untagged
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705297845391952}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 36.23, y: -0.09, z: -17}
+  m_LocalPosition: {x: 108.11159, y: -0, z: -14.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,8 +86,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705297845391952}
   m_Mesh: {fileID: 0}
---- !u!64 &64253747508175828
-MeshCollider:
+--- !u!65 &65586731808419032
+BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -95,11 +95,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  serializedVersion: 2
+  m_Size: {x: 5.23452, y: 0.7458422, z: 6.2074127}
+  m_Center: {x: 2.3116837, y: 0.3729211, z: -1.6387653}
 --- !u!114 &114333942994254676
 MonoBehaviour:
   m_ObjectHideFlags: 1
