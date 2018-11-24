@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Assertions;
 
 public static class RendererExtensions
 {
@@ -25,5 +26,12 @@ public static class RendererExtensions
             minViewportPosition.x, minViewportPosition.y, 
             maxViewportPosition.x, maxViewportPosition.y
         );
+    }
+
+    public static Rect GetViewportBounds(this Renderer renderer)
+    {
+        var camera = Camera.main;
+        Assert.IsNotNull(camera);
+        return renderer.GetViewportBounds(camera);
     }
 }

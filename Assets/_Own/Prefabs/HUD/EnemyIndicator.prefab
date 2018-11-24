@@ -125,10 +125,11 @@ MonoBehaviour:
   imageAggressive: {fileID: 114888419188914738}
   currentValue: 0
   trackedTransform: {fileID: 0}
+  trackedRenderer: {fileID: 0}
   interpolationPadding: {x: 0.1, y: 0.05}
   fadeFullDistance: 10
   fadeNoneDistance: 50
-  fadeoutCurve:
+  fadeoutCurveDistance:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -148,6 +149,32 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.06675741
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeFullViewportArea: 0.1
+  fadeNoneViewportArea: 0
+  fadeoutCurveViewportArea:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.9937439
+      inSlope: -0.20134942
+      outSlope: -0.20134942
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.24829468
+    - serializedVersion: 3
+      time: 1
+      value: -0.0062561035
+      inSlope: -2.0915365
+      outSlope: -2.0915365
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06275582
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
