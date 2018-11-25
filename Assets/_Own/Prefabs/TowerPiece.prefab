@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 33147592044565144}
   - component: {fileID: 23798785737350192}
   - component: {fileID: 114596005338717158}
-  - component: {fileID: 65258271648445994}
+  - component: {fileID: 64051247537252662}
   m_Layer: 0
   m_Name: TowerPiece
   m_TagString: Untagged
@@ -37,8 +37,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1333416689660362}
-  m_LocalRotation: {x: 0.21155414, y: 0.6612265, z: -0.089937046, w: 0.7140978}
-  m_LocalPosition: {x: 115.5, y: -4.24, z: 25.07454}
+  m_LocalRotation: {x: 0.24184474, y: 0.66446304, z: -0.06162844, w: 0.70441604}
+  m_LocalPosition: {x: 41.61, y: -4.2685, z: -5.44}
   m_LocalScale: {x: 1, y: 1, z: 0.66123015}
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,8 +86,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1333416689660362}
   m_Mesh: {fileID: 0}
---- !u!65 &65258271648445994
-BoxCollider:
+--- !u!64 &64051247537252662
+MeshCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -95,9 +95,11 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 46.017776, y: 1.7725836, z: 19.633778}
-  m_Center: {x: 23.298649, y: 0.8862918, z: -9.370407}
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!114 &114262862372186512
 MonoBehaviour:
   m_ObjectHideFlags: 1
