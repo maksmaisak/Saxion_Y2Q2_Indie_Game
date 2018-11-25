@@ -21,7 +21,7 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
     
     private void OnEnable()
     {      
-        agent.minimumTimeTreshold = 0f;
+        agent.minimumTimeThreshold = 0f;
         agent.navMeshAgent.speed  = agent.patrolSpeed;
         
         if (waypoints.Count == 0)

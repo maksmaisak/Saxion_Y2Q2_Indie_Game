@@ -56,7 +56,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
     public float seenTimeDiff { get; private set; }
     public float lastSeenTime { get; private set; }
-    public float minimumTimeTreshold { get; set; }
+    public float minimumTimeThreshold { get; set; }
 
     public bool isPlayerVisible { get; private set; }
     public bool canDelayInvestigation { get; private set; }
@@ -169,7 +169,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     {
         float oldSeenTimeDiff   = seenTimeDiff;
         seenTimeDiff            += isPlayerVisible ? Time.deltaTime * seenTimeMultiplier : -Time.deltaTime;
-        seenTimeDiff            = Mathf.Max(minimumTimeTreshold, seenTimeDiff);
+        seenTimeDiff            = Mathf.Max(minimumTimeThreshold, seenTimeDiff);
         isStateChangeRequired   = IsStateChangeRequired(oldSeenTimeDiff);
         seenTimeDiff            = Mathf.Clamp(seenTimeDiff, 0f, secondsToChase);
     }

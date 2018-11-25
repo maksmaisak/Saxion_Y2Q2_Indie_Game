@@ -23,11 +23,11 @@ GameObject:
   - component: {fileID: 114228402616606448}
   - component: {fileID: 114079209304563808}
   - component: {fileID: 114723270555857622}
-  - component: {fileID: 114000117299039316}
-  - component: {fileID: 114998865380716300}
-  - component: {fileID: 114824004397904264}
-  - component: {fileID: 114655431840501490}
   - component: {fileID: 114467999107253788}
+  - component: {fileID: 114000117299039316}
+  - component: {fileID: 114824004397904264}
+  - component: {fileID: 114998865380716300}
+  - component: {fileID: 114655431840501490}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -325,6 +325,10 @@ MonoBehaviour:
   minimumChaseTimeTreshold: 2
   secondsToEvadeMode: 3
   faceTargetSpeed: 80
+  maxAttackStartDistance: 2
+  maxAttackDamageDistance: 2
+  attackTime: 1
+  attackDamage: 100
 --- !u!136 &136142863382577424
 CapsuleCollider:
   m_ObjectHideFlags: 1
