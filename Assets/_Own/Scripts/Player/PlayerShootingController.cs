@@ -28,16 +28,14 @@ public class PlayerShootingController : MonoBehaviour
     
     void Start()
     {
-        if (!aimingTarget)
-        {
-            aimingTarget = FindObjectOfType<AimingTarget>().transform;
-        }
+        if (!aimingTarget) aimingTarget = FindObjectOfType<AimingTarget>().transform;
         Assert.IsNotNull(aimingTarget);
-
+                
         if (!bulletSpawnLocation) bulletSpawnLocation = transform;
-
         if (!cameraController) cameraController = GetComponent<PlayerCameraController>();
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
+
+        GetComponent<Health>().OnDeath += sender => enabled = false;
     }
     
     void OnApplicationPause(bool pauseStatus)
@@ -59,7 +57,7 @@ public class PlayerShootingController : MonoBehaviour
     {
         Vector3 targetPosition = aimingTarget.transform.position;
         
-        var spawnLocation = cameraController.isSniping ? Camera.main.transform : bulletSpawnLocation;
+        var spawnLocation = (cameraController && cameraController.isSniping) ? Camera.main.transform : bulletSpawnLocation;
         Vector3 position = spawnLocation.position;
         Vector3 toTarget = targetPosition - position;
 

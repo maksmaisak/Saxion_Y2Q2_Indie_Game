@@ -67,7 +67,6 @@ public class Highlightable : MonoBehaviour
 		Vector2 minViewportPosition = viewportBounds.min;
 		Vector2 maxViewportPosition = viewportBounds.max;
 		Vector2 centerViewportPosition = viewportBounds.center;
-
 		minViewportPosition = centerViewportPosition + (minViewportPosition - centerViewportPosition) * sizeMultiplier;
 		maxViewportPosition = centerViewportPosition + (maxViewportPosition - centerViewportPosition) * sizeMultiplier;
 
@@ -77,11 +76,5 @@ public class Highlightable : MonoBehaviour
 		rectTransform.anchoredPosition = Vector2.zero;
 		
 		hudElement.gameObject.SetActive(true);
-
-		/*
-		float diameter = renderer.bounds.size.magnitude;
-		float distance = Vector3.Distance(transform.position, cameraTransform.position);
-		float viewportspaceRadius = diameter / (distance * camera.fieldOfView * Mathf.Deg2Rad);
-		*/
 	}
 }
