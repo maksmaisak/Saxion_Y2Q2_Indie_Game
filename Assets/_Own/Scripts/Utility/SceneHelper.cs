@@ -3,6 +3,8 @@ using System.Collections;
 using System;
 using UnityEngine.SceneManagement;
 
+public class ActiveSceneChanged : BroadcastEvent<ActiveSceneChanged> {}
+
 public class SceneHelper : SimpleSingleton<SceneHelper>
 {
     public event Action OnActiveSceneChange;
@@ -22,10 +24,12 @@ public class SceneHelper : SimpleSingleton<SceneHelper>
             return;
         }
 
-        if (currentSceneBuildIndex != nextScene.buildIndex)
-        {
-            currentSceneBuildIndex = nextScene.buildIndex;
-            OnActiveSceneChange?.Invoke();
-        }
+        if (currentSceneBuildIndex == nextScene.buildIndex) return;
+        
+        currentSceneBuildIndex = nextScene.buildIndex;
+        OnActiveSceneChange?.Invoke();
+        new ActiveSceneChanged()
+            .SetDeliveryType(MessageDeliveryType.Immediate)
+            .PostEvent();
     }
 }

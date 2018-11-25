@@ -1,26 +1,32 @@
 using UnityEngine;
 using System.Collections;
-using DG.Tweening;
-using Unity.Collections;
+using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 public class EnemyStateChasePlayer : FSMState<EnemyAI>
 {
-    [SerializeField] float minimumChaseTimeTreshold = 2.0f;
+    [SerializeField] float minimumChaseTimeThreshold = 2.0f;
     [SerializeField] float secondsToEvadeMode = 3.0f;
     [SerializeField] float faceTargetSpeed = 10.0f;
+    [Header("Attack")]
+    [SerializeField] float maxAttackStartDistance = 2f;
+    [SerializeField] float maxAttackDamageDistance = 2f;
+    [SerializeField] float attackTime = 1f;
+    [SerializeField] int attackDamage = 100;
 
-    private void OnEnable()
+    void OnEnable()
     {
         agent.navMeshAgent.speed  = agent.chaseSpeed;
-        agent.minimumTimeTreshold = minimumChaseTimeTreshold;
-        StartCoroutine(Work());
+        agent.minimumTimeThreshold = minimumChaseTimeThreshold;
+        StartCoroutine(MoveCoroutine());
+        StartCoroutine(AttackCoroutine());
     }
 
-    private void OnDisable() => StopAllCoroutines();
+    void OnDisable() => StopAllCoroutines();
 
-    private IEnumerator Work()
+    private IEnumerator MoveCoroutine()
     {
-        while (enabled)
+        while (true)
         {
             agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
 
@@ -35,13 +41,52 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
                     Vector3 targetPosition   = agent.targetTransform.position;
                     targetPosition.y         = transform.position.y;
                     
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                    transform.rotation = Quaternion.RotateTowards(
+                        transform.rotation,
                         Quaternion.LookRotation(targetPosition - transform.position), 
-                        Time.deltaTime * faceTargetSpeed);
+                        Time.deltaTime * faceTargetSpeed
+                    );
                 }
             }
 
             yield return null;
         }
+    }
+
+    private IEnumerator AttackCoroutine()
+    {
+        while (true)
+        {            
+            if (IsCloserToTargetThan(maxAttackStartDistance))
+            {
+                yield return new WaitForSeconds(attackTime);
+                if (IsCloserToTargetThan(maxAttackDamageDistance))
+                {
+                    DealDamage();
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    private bool IsCloserToTargetThan(float maxDistance)
+    {
+        Vector3 toTarget = agent.targetTransform.position - transform.position;
+        return toTarget.sqrMagnitude < maxDistance * maxDistance;
+    }
+
+    private void DealDamage()
+    {
+        var health = agent.targetTransform.GetComponentInChildren<Health>();
+        if (!health) health = agent.targetTransform.GetComponentInParent<Health>();
+
+        if (!health)
+        {
+            Debug.LogWarning("Couldn't find Health in hierarchy of tracked object " + agent.targetTransform.gameObject);
+            return;
+        }
+
+        health.DealDamage(attackDamage);
     }
 }

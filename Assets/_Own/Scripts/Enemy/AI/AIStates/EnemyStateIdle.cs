@@ -11,7 +11,7 @@ public class EnemyStateIdle : FSMState<EnemyAI>
     private void OnEnable()
     {
         agent.canInvestigateDisturbance = true;
-        agent.minimumTimeTreshold = 0.0f;
+        agent.minimumTimeThreshold = 0.0f;
 
         if (Random.value < 0.5f)
             rotationSpeed = -rotationSpeed;

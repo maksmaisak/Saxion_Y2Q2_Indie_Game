@@ -63,10 +63,14 @@ public class PlayerCameraController : MonoBehaviour
         renderers = GetComponentsInChildren<Renderer>();
 
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
+
+        GetComponent<Health>().OnDeath += OnDeath;
     }
 
     void Update()
     {
+        UpdateZoom();
+        
         UpdateCameras();
         
         foreach (Renderer r in renderers) r.enabled = !isSniping;
@@ -74,32 +78,28 @@ public class PlayerCameraController : MonoBehaviour
         if (activeInThirdPersonOnly) activeInThirdPersonOnly.SetActive(!isSniping);
         if (activeInSniperZoomOnly) activeInSniperZoomOnly.SetActive(isSniping);
 
-        if (playerAnimator)
-        {
-            bool isCrouching = playerAnimator.GetBool("Crouch");
-            var noise = sniperZoomVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-            if (isCrouching)
-            {
-                noise.m_AmplitudeGain = sniperCameraShakeCrouching.amplitudeGain;
-                noise.m_FrequencyGain = sniperCameraShakeCrouching.frequencyGain;
-            }
-            else
-            {
-                noise.m_AmplitudeGain = sniperCameraShakeStanding.amplitudeGain;
-                noise.m_FrequencyGain = sniperCameraShakeStanding.frequencyGain;
-            }
-        }
+        UpdateSniperCameraShake();
     }
 
-    private void UpdateCameras()
+    private void OnDeath(Health health)
+    {
+        currentFov = primaryMaxFov;
+        UpdateCameras();
+        
+        enabled = false;
+    }
+    
+    private void UpdateZoom()
     {
         float scrollAmount = Input.GetAxis("Mouse ScrollWheel");
         float zoomAmount = -scrollAmount * zoomSpeed;
         if (invertScroll) zoomAmount = -zoomAmount;
 
         currentFov += zoomAmount;
+    }
 
+    private void UpdateCameras()
+    {
         if (!isSniping && currentFov < primaryMinFov) // From primary to sniper
         {
             isSniping = true;
@@ -131,6 +131,23 @@ public class PlayerCameraController : MonoBehaviour
         else PointSniperCameraAtMouse();
     }
 
+    private void UpdateSniperCameraShake()
+    {
+        bool isCrouching = playerAnimator && playerAnimator.GetBool("Crouch");
+        var noise = sniperZoomVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        if (isCrouching)
+        {
+            noise.m_AmplitudeGain = sniperCameraShakeCrouching.amplitudeGain;
+            noise.m_FrequencyGain = sniperCameraShakeCrouching.frequencyGain;
+        }
+        else
+        {
+            noise.m_AmplitudeGain = sniperCameraShakeStanding.amplitudeGain;
+            noise.m_FrequencyGain = sniperCameraShakeStanding.frequencyGain;
+        }
+    }
+    
     private void PointSniperCameraAtMouse()
     {
         Assert.IsNotNull(sniperZoomVirtualCamera.LookAt);
