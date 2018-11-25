@@ -5,13 +5,6 @@ using System.Collections.Generic;
 using Cinemachine.Utility;
 using UnityEngine.Assertions;
 
-public enum InvestigateReason
-{
-    AllyDeath = 1,
-    PlayerSeen,
-    None,
-}
-
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent), typeof(Health))]
 public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
@@ -26,8 +19,8 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     [Space]
     [Header("AI Settings")]
     [SerializeField] float assistanceRadius = 7.0f;
-    [SerializeField] float secondsToChase = 2.0f;
-    [SerializeField] float secondsToInvestigate = 1.0f;
+    [SerializeField] float chaseAwarenessLevel = 2.0f;
+    [SerializeField] float investigateAwarenessLevel = 1.0f;
     [SerializeField] float secondsToRememberPlayer = 2.0f;
     [SerializeField] bool canPatrol = false;
     [Space]
@@ -67,7 +60,6 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     public bool canAgentPatrol { get; private set; }
     
     public int aiGUID { get; private set; }
-    public InvestigateReason currentInvestigateReason { get; private set; }
 
     public EnemyIndicator indicator { get; private set; }
     /********* PRIVATE *********/
@@ -121,8 +113,6 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
             fsm.ChangeState<EnemyStatePatrol>();
         else
             fsm.ChangeState<EnemyStateIdle>();
-
-        currentInvestigateReason = InvestigateReason.None;
     }
 
     private void Update()
@@ -177,17 +167,17 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
         awarenessLevel              += isPlayerVisible ? Time.deltaTime * seenTimeMultiplier : -Time.deltaTime;
         awarenessLevel               = Mathf.Max(minimumTimeThreshold, awarenessLevel);
         isStateChangeRequired        = IsStateChangeRequired(oldAwarenessLevelDiff);
-        awarenessLevel               = Mathf.Clamp(awarenessLevel, 0f, secondsToChase);
+        awarenessLevel               = Mathf.Clamp(awarenessLevel, 0f, chaseAwarenessLevel);
     }
 
     private void UpdateTrackingProgress()
     {
         float t;
 
-        if (awarenessLevel <= secondsToInvestigate)
-            t = Mathf.InverseLerp(0f, secondsToInvestigate, awarenessLevel);
+        if (awarenessLevel <= investigateAwarenessLevel)
+            t = Mathf.InverseLerp(0f, investigateAwarenessLevel, awarenessLevel);
         else
-            t = 1f + Mathf.InverseLerp(secondsToInvestigate, secondsToChase, awarenessLevel);
+            t = 1f + Mathf.InverseLerp(investigateAwarenessLevel, chaseAwarenessLevel, awarenessLevel);
 
         // Update EnemyIndicator color
         indicator.SetState(t);
@@ -219,7 +209,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
     public void StartAttackPlayer()
     {
-        awarenessLevel            = secondsToChase + 0.2f; // Set this manually to prevent changeing states multiple times
+        awarenessLevel            = chaseAwarenessLevel + 0.2f; // Set this manually to prevent changeing states multiple times
         lastKnownPlayerPosition   = targetTransform.position;
 
         fsm.ChangeState<EnemyStateChasePlayer>();
@@ -227,8 +217,8 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
     private bool IsStateChangeRequired(float oldSeenTimeDiff)
     {
-        return (oldSeenTimeDiff < 1.0f && awarenessLevel >= secondsToInvestigate) ||
-            (oldSeenTimeDiff < secondsToChase && awarenessLevel >= secondsToChase);
+        return (oldSeenTimeDiff < 1.0f && awarenessLevel >= investigateAwarenessLevel) ||
+            (oldSeenTimeDiff < chaseAwarenessLevel && awarenessLevel >= chaseAwarenessLevel);
     }
 
     private IEnumerator UpdateSeenTimeMultiplier()
@@ -263,24 +253,23 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
         seenTimeMultiplier      = 1.0f;
     }
 
-    public void On(Distraction shot)
+    public void On(Distraction distraction)
     {
         if (health.isDead)
             return;
 
-        float distanceToTheShot = (shot.position - transform.position).sqrMagnitude;
+        float distanceToTheShot = (distraction.position - transform.position).sqrMagnitude;
 
         if (distanceToTheShot > disturbanceHearingRadius * disturbanceHearingRadius)
             return;
 
-        lastInvestigatePosition = shot.position;
+        lastInvestigatePosition = distraction.position;
 
         if (canInvestigateDisturbance)
         {
             canDelayInvestigation     = true;
             isStateChangeRequired     = false;
-            currentInvestigateReason  = InvestigateReason.AllyDeath;
-            
+
             fsm.ChangeState<EnemyStateInvestigate>();
         }
     }
@@ -300,20 +289,17 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     {
         isStateChangeRequired = false;
 
-        if (awarenessLevel >= secondsToChase)
+        if (awarenessLevel >= chaseAwarenessLevel)
         {
             CallAssistance();
             fsm.ChangeState<EnemyStateChasePlayer>();
         }
-        else if (awarenessLevel >= secondsToInvestigate)
+        else if (awarenessLevel >= investigateAwarenessLevel)
         {
             canDelayInvestigation = false;
 
             if (canInvestigateDisturbance)
-            {
-                currentInvestigateReason = InvestigateReason.PlayerSeen;
                 lastInvestigatePosition = targetTransform.position;
-            }
 
             fsm.ChangeState<EnemyStateInvestigate>();
         }
@@ -333,7 +319,6 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     {
         AIManager.instance.UnregisterAgent(this);
         
-        new Distraction(transform.position)
-            .PostEvent();
+        new Distraction(transform.position).PostEvent();
     }
 }

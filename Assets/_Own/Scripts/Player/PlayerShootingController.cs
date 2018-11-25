@@ -56,7 +56,7 @@ public class PlayerShootingController : MonoBehaviour
     private void Shoot()
     {
         Vector3 targetPosition = aimingTarget.transform.position;
-        
+
         var spawnLocation = (cameraController && cameraController.isSniping) ? Camera.main.transform : bulletSpawnLocation;
         Vector3 position = spawnLocation.position;
         Vector3 toTarget = targetPosition - position;
@@ -66,7 +66,9 @@ public class PlayerShootingController : MonoBehaviour
         Vector3 bulletForward = toTarget.normalized;
         var bullet = Instantiate(bulletPrefab, position, Quaternion.LookRotation(bulletForward));
         bullet.GetComponent<Rigidbody>().velocity = bulletForward * bulletSpeed;
-        
+
+        new Distraction(transform.position, DistractionType.Gunshot).PostEvent();
+
         timeWhenCanShoot = Time.time + reloadInterval;
     }
 
@@ -74,10 +76,10 @@ public class PlayerShootingController : MonoBehaviour
     {
         SnapShootingImprecision snapShootingImprecision;
 
-        snapShootingImprecision = GetIsCrouching() ? 
-            snapShootingImprecisionCrouching : 
+        snapShootingImprecision = GetIsCrouching() ?
+            snapShootingImprecisionCrouching :
             snapShootingImprecisionStanding;
-        
+
         float angleRadians = snapShootingImprecision.angle * Mathf.Deg2Rad;
         float distanceToTarget = toTarget.magnitude;
         float radius = Mathf.Sin(angleRadians) * distanceToTarget;
