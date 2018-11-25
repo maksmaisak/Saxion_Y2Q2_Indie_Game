@@ -16,13 +16,20 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
 
     void OnEnable()
     {
-        agent.navMeshAgent.speed  = agent.chaseSpeed;
+        agent.navMeshAgent.speed   = agent.chaseSpeed;
         agent.minimumTimeThreshold = minimumChaseTimeThreshold;
+
+        agent.SetNoCallAssistance(true);
+
         StartCoroutine(MoveCoroutine());
         StartCoroutine(AttackCoroutine());
     }
 
-    void OnDisable() => StopAllCoroutines();
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        agent.SetNoCallAssistance(false);
+    }
 
     private IEnumerator MoveCoroutine()
     {
@@ -40,7 +47,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
                 {
                     Vector3 targetPosition   = agent.targetTransform.position;
                     targetPosition.y         = transform.position.y;
-                    
+
                     transform.rotation = Quaternion.RotateTowards(
                         transform.rotation,
                         Quaternion.LookRotation(targetPosition - transform.position), 
@@ -56,14 +63,13 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     private IEnumerator AttackCoroutine()
     {
         while (true)
-        {            
+        {
             if (IsCloserToTargetThan(maxAttackStartDistance))
             {
                 yield return new WaitForSeconds(attackTime);
+
                 if (IsCloserToTargetThan(maxAttackDamageDistance))
-                {
                     DealDamage();
-                }
             }
 
             yield return null;

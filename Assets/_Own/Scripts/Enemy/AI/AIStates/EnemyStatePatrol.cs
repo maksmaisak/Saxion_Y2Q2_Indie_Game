@@ -20,10 +20,10 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
     private Vector3 currentWaypoint = Vector3.zero;
     
     private void OnEnable()
-    {      
+    {
         agent.minimumTimeThreshold = 0f;
         agent.navMeshAgent.speed  = agent.patrolSpeed;
-        
+
         if (waypoints.Count == 0)
         {
             Debug.LogWarningFormat("Did not found waypoints for agent with name {0} !", agent.name);
@@ -33,12 +33,12 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
 
         isCurrentWaypointReached         = false;
         agent.canInvestigateDisturbance  = true;
-        
+ 
         if (currentWaypoint.Equals(Vector3.zero))
             currentWaypoint = waypoints[waypointIndex];
-        
+
         agent.navMeshAgent.SetDestination(currentWaypoint);
-        
+
         StartCoroutine(FollowWaypoints());
     }
 
@@ -77,17 +77,14 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
 
         return waypoints[waypointIndex];
     }
-    
-    
+
     void ISerializationCallbackReceiver.OnBeforeSerialize()
     {
      #if UNITY_EDITOR
         // Prevent saving if this is a prefab
         PrefabType prefabType = PrefabUtility.GetPrefabType(this);
         if (prefabType == PrefabType.Prefab || prefabType == PrefabType.ModelPrefab )
-        {
             waypoints = null;
-        }
     #endif
     }
     
