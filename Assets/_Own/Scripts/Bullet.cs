@@ -1,15 +1,25 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityStandardAssets.Utility;
 
 public class Bullet : MonoBehaviour
 {
     [SerializeField] int damage = 1;
-    
+    [SerializeField] string ignoreTag = string.Empty;
+    [Space] 
+    [SerializeField] UnityEvent OnHit;
+            
     private void OnCollisionEnter(Collision other)
     {
-        var health = other.gameObject.GetComponentInChildren<Health>();
-        if (!health) health = other.gameObject.GetComponentInParent<Health>();
-        health?.DealDamage(damage);
-        
+        if (ignoreTag == string.Empty || !other.gameObject.CompareTag(ignoreTag))
+        {
+            var health = other.gameObject.GetComponentInChildren<Health>();
+            if (!health) health = other.gameObject.GetComponentInParent<Health>();
+            if (health) health.DealDamage(damage);
+        }
+
+        OnHit.Invoke();
         Destroy(gameObject);
     }
 }

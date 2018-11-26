@@ -8,11 +8,17 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] float minimumChaseTimeThreshold = 2.0f;
     [SerializeField] float secondsToEvadeMode = 3.0f;
     [SerializeField] float faceTargetSpeed = 10.0f;
-    [Header("Attack")]
-    [SerializeField] float maxAttackStartDistance = 2f;
-    [SerializeField] float maxAttackDamageDistance = 2f;
-    [SerializeField] float attackTime = 1f;
-    [SerializeField] int attackDamage = 100;
+    [Header("Melee attack")]
+    [SerializeField] float maxMeleeStartDistance = 2f;
+    [SerializeField] float maxMeleeDamageDistance = 2f;
+    [SerializeField] float meleeTime = 1f;
+    [SerializeField] int meleeDamage = 100;
+    [Header("Ranged attack")] 
+    [SerializeField] float shootingCooldown = 1f;
+    [SerializeField] float minShootingDistance = 10f;
+
+    private bool isAttackingInMelee;
+    private bool isShooting;
 
     void OnEnable()
     {
@@ -23,6 +29,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
 
         StartCoroutine(MoveCoroutine());
         StartCoroutine(AttackCoroutine());
+        StartCoroutine(ShootCoroutine());
     }
 
     void OnDisable()
@@ -54,7 +61,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
                         Time.deltaTime * faceTargetSpeed
                     );
                 }
-            }
+            }          
 
             yield return null;
         }
@@ -64,18 +71,39 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     {
         while (true)
         {
-            if (IsCloserToTargetThan(maxAttackStartDistance))
+            if (!isShooting && IsCloserToTargetThan(maxMeleeStartDistance))
             {
-                yield return new WaitForSeconds(attackTime);
+                isAttackingInMelee = true;
+                yield return new WaitForSeconds(meleeTime);
 
-                if (IsCloserToTargetThan(maxAttackDamageDistance))
+                if (IsCloserToTargetThan(maxMeleeDamageDistance))
                     DealDamage();
+                
+                isAttackingInMelee = false;
             }
 
             yield return null;
         }
     }
 
+    private IEnumerator ShootCoroutine()
+    {
+        while (true)
+        {
+            if (!isAttackingInMelee && !IsCloserToTargetThan(minShootingDistance) && agent.shootingController.CanShootAt(agent.targetTransform.gameObject))
+            {
+                isShooting = true;
+                if (agent.shootingController.ShootAt(agent.targetTransform.gameObject))
+                {
+                    yield return new WaitForSeconds(shootingCooldown);
+                }
+                isShooting = false;
+            }
+
+            yield return null;
+        }
+    }
+    
     private bool IsCloserToTargetThan(float maxDistance)
     {
         Vector3 toTarget = agent.targetTransform.position - transform.position;
@@ -93,6 +121,6 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
             return;
         }
 
-        health.DealDamage(attackDamage);
+        health.DealDamage(meleeDamage);
     }
 }

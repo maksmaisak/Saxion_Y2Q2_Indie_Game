@@ -11,6 +11,21 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1305885103597862}
   m_IsPrefabAsset: 1
+--- !u!1 &1125460777525746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4893932021050428}
+  m_Layer: 11
+  m_Name: ProjectileOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1305885103597862
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,16 +104,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
-  m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
-  m_LocalPosition: {x: 84.55, y: 0, z: 57.627254}
+  m_LocalRotation: {x: -0, y: -0.6797078, z: -0, w: 0.7334831}
+  m_LocalPosition: {x: 9.08, y: 0, z: 13.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4479920549087334}
   - {fileID: 4159333755516054}
   - {fileID: 4694593943350588}
+  - {fileID: 4479920549087334}
+  - {fileID: 4893932021050428}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -85.642006, z: 0}
 --- !u!4 &4159333755516054
 Transform:
   m_ObjectHideFlags: 1
@@ -110,7 +126,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4063796871211330}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4479920549087334
 Transform:
@@ -123,7 +139,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4063796871211330}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4694593943350588
 Transform:
@@ -136,7 +152,20 @@ Transform:
   m_LocalScale: {x: 0.3998356, y: 0.39983577, z: 0.3998356}
   m_Children: []
   m_Father: {fileID: 4063796871211330}
-  m_RootOrder: 2
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4893932021050428
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1125460777525746}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.967, z: 0.379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4063796871211330}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23625920182231650
 MeshRenderer:
@@ -215,8 +244,11 @@ MonoBehaviour:
   maxViewDistance: 40
   disturbanceHearingRadius: 25
   maxSearchRadius: 7
-  secondsToChase: 2
-  secondsToInvestigate: 1
+  assistanceRadius: 7
+  maxFootstepsHearingRadius: 9
+  footstepsHearingRadiusWhileCovered: 4
+  chaseAwarenessLevel: 2
+  investigateAwarenessLevel: 1
   secondsToRememberPlayer: 0.5
   canPatrol: 1
   chaseSpeed: 4
@@ -228,6 +260,16 @@ MonoBehaviour:
   indicatorPrefab: {fileID: 1536027338821604, guid: 2990bb28c724247a48f2bff6ab46fb05,
     type: 2}
   trackerTransform: {fileID: 4159333755516054}
+  _shootingController:
+    bulletPrefab: {fileID: 1951964812841994, guid: d0d284259aa9345b28a7a422afc27b0d,
+      type: 2}
+    muzzleSpeed: 50
+    spawnPointOffset: 1
+    obstacleDetectionLayerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    sphereCastRadius: 0.1
+    projectileOrigin: {fileID: 4893932021050428}
 --- !u!114 &114228402616606448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -325,10 +367,12 @@ MonoBehaviour:
   minimumChaseTimeThreshold: 2
   secondsToEvadeMode: 3
   faceTargetSpeed: 80
-  maxAttackStartDistance: 2
-  maxAttackDamageDistance: 2
-  attackTime: 1
-  attackDamage: 100
+  maxMeleeStartDistance: 2
+  maxMeleeDamageDistance: 2
+  meleeTime: 1
+  meleeDamage: 100
+  shootingCooldown: 5
+  minShootingDistance: 10
 --- !u!136 &136142863382577424
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -37,12 +37,14 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     [Header("AI Assignable")]
     [SerializeField] GameObject indicatorPrefab;
     [SerializeField] Transform trackerTransform;
-
+    
     /********* PUBLIC *********/
     public Health health { get; private set; }
 
     public FSM<EnemyAI> fsm { get; private set; }
     public NavMeshAgent navMeshAgent { get; private set; }
+    [SerializeField] ShootingController _shootingController;
+    public ShootingController shootingController => _shootingController;
 
     public Vector3 spawnPosition { get; private set; }
     public Vector3? lastInvestigatePosition { get; set; }
@@ -92,10 +94,9 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
         Assert.IsNotNull(indicatorPrefab);
         indicator = ObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
-
         Assert.IsNotNull(indicator);
+        
         Assert.IsNotNull(trackerTransform);
-
         indicator.SetTrackedTransform(trackerTransform);
         indicator.SetTrackedRenderer(GetComponentInChildren<Renderer>());
 
@@ -119,6 +120,8 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
         spawnPosition  = transform.position;
         canAgentPatrol = canPatrol;
+        
+        shootingController.Initialize(gameObject);
 
         if (canPatrol)
             fsm.ChangeState<EnemyStatePatrol>();
@@ -219,10 +222,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
     public bool CanAssist()
     {
-        if (!canInvestigateDisturbance)
-            return false;
-
-        return true;
+        return canInvestigateDisturbance;
     }
     
     public void StartAttackPlayer()
