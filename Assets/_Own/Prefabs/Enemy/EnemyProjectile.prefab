@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 4013217867181502}
   - component: {fileID: 198101807745213010}
   - component: {fileID: 199372971971053248}
+  - component: {fileID: 114442894270860770}
   m_Layer: 0
   m_Name: Smoke
   m_TagString: Untagged
@@ -98,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1951964812841994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 1.71}
+  m_LocalPosition: {x: 0, y: 6, z: 10.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4785546203963474}
@@ -148,7 +149,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6d52eb477759e4edc8652e6819f337f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -190,6 +191,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &114442894270860770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1995381707721260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1041abc17431741acb3e8918f1078e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114746085961955554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -479,8 +491,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.5
-      minScalar: 0.8
+      scalar: 0.75
+      minScalar: 0.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1442,17 +1454,17 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.20382687, b: 0, a: 1}
-        key1: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 0.13333334}
-        key2: {r: 1, g: 1, b: 1, a: 0}
+        key0: {r: 0.6561564, g: 1, b: 0, a: 1}
+        key1: {r: 0.6561564, g: 1, b: 0, a: 0.25882354}
+        key2: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 349
-        ctime1: 10888
-        ctime2: 65535
+        ctime1: 10987
+        ctime2: 11951
         ctime3: 0
         ctime4: 0
         ctime5: 0
