@@ -1,80 +1,55 @@
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AIManager : Singleton<AIManager>
 {
-   private int nextAIEntry = 0;
-   
-   private readonly Dictionary<int, EnemyAI> agents                = new Dictionary<int, EnemyAI>();   
-   private readonly Dictionary<int, EnemyAI> wanderingAgents       = new Dictionary<int, EnemyAI>();
+    private int nextAIEntry = 0;
 
-   private readonly Dictionary<InvestigateReason, List<EnemyAI>> reasonInvestigatorAgents =
-      new Dictionary<InvestigateReason, List<EnemyAI>>();
+    private readonly List<EnemyAI> agents = new List<EnemyAI>();
+    private readonly Dictionary<int, EnemyAI> wanderingAgents = new Dictionary<int, EnemyAI>();
 
-   public void RegisterAgent(EnemyAI newAgent) => agents.Add(newAgent.aiGUID, newAgent);
-   public void UnregisterAgent(EnemyAI newAgent) => agents.Remove(newAgent.aiGUID);
+    public void RegisterAgent(EnemyAI newAgent) => agents.Add(newAgent);
+    public void UnregisterAgent(EnemyAI newAgent) => agents.Remove(newAgent);
 
-   public void AssignInvestigator(EnemyAI investigator)
-   {
-      List<EnemyAI> agents;
-      // If there are no agents assigned to this investigation
-      // assign them now.
-      if (!reasonInvestigatorAgents.TryGetValue(investigator.currentInvestigateReason, out agents))
-      {
-         agents = new List<EnemyAI> {investigator};
-         this.reasonInvestigatorAgents.Add(investigator.currentInvestigateReason, agents);
-      }
-      else agents.Add(investigator);
-   }
+    public EnemyAI GetEnemyAIWithId(int aiGUID) => agents.FirstOrDefault(x => x.aiGUID == aiGUID);
 
-   public void UnassignInvestigator(EnemyAI investigator)
-   {
-      List<EnemyAI> agents;
-      if (!reasonInvestigatorAgents.TryGetValue(investigator.currentInvestigateReason, out agents))
-         return;
+    public int GetNextAssignableEntryId()
+    {
+        nextAIEntry++;
+        return nextAIEntry;
+    }
 
-      reasonInvestigatorAgents.Remove(investigator.currentInvestigateReason);
-   }
+    public List<EnemyAI> GetAllAssistAgentsInRange(EnemyAI initiator, float radius, bool checkLineOfSight = false)
+    {
+        List<EnemyAI> assistList = new List<EnemyAI>();
 
-   public void RegisterWanderer(EnemyAI wanderer) => wanderingAgents.Add(wanderer.aiGUID, wanderer);
-   public void UnregisterWanderer(EnemyAI wanderer) => wanderingAgents.Remove(wanderer.aiGUID);
+        foreach (EnemyAI agent in agents)
+        {
+            if (!agent || agent == initiator)
+                continue;
 
-   public int GetNextAssignableEntryId()
-   {
-      nextAIEntry++;
-      return nextAIEntry;
-   }
+            if (!agent.CanAssist())
+                continue;
 
-   public EnemyAI GetEnemyAIWithId(int id)
-   {
-      EnemyAI enemyAI;
+            Vector3 delta = (agent.transform.position - initiator.transform.position);
 
-      if (!agents.TryGetValue(id, out enemyAI))
-         return null;
-      
-      return enemyAI;
-   }
+            if (delta.sqrMagnitude > radius * radius)
+                continue;
 
-   public bool CanWander(EnemyAI agent)
-   {
-      return true;
-      
-      InvestigateReason reason = agent.currentInvestigateReason;
+            if (checkLineOfSight)
+            {
+                Ray ray = new Ray(initiator.visionOriginTransform.position, delta.normalized);
 
-      if (reason == InvestigateReason.PlayerSeen)
-         return true;
-      
-      foreach (var kvp in wanderingAgents)
-      {
-         // Should not happen
-         if (kvp.Value == agent)
-            return false;
-         
-         if (kvp.Value.currentInvestigateReason == reason)
-            return false;
-      }
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, delta.magnitude + 1.0f))
+                    if (hit.distance * hit.distance > delta.sqrMagnitude)
+                        continue;
+            }
 
-      return true;
-   }
+            assistList.Add(agent);
+        }
+
+        return assistList;
+    }
 }
