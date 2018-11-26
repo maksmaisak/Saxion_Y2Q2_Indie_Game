@@ -181,7 +181,8 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     {
         float oldAwarenessLevelDiff  = awarenessLevel;
         awarenessLevel              += hearingFootstepsDiff;
-        awarenessLevel              += isPlayerVisible ? Time.deltaTime * awarenessLevelMultiplier : -Time.deltaTime;
+        awarenessLevel              += isPlayerVisible ? Time.deltaTime * awarenessLevelMultiplier : 
+                                       hearingFootstepsDiff > 0 ? 0 : -Time.deltaTime;
         awarenessLevel               = Mathf.Max(minimumAwarenessLevelThreshold, awarenessLevel);
         isStateChangeRequired        = IsStateChangeRequired(oldAwarenessLevelDiff);
         awarenessLevel               = Mathf.Clamp(awarenessLevel, 0f, chaseAwarenessLevel);
