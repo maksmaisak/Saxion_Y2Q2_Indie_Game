@@ -76,7 +76,7 @@ public class EnemyIndicator : MonoBehaviour
     {
         if (!trackedTransform) return;
 
-        UpdatePosition();
+        UpdatePositionAndRotation();
         UpdateAlpha();
     }
 
@@ -89,7 +89,7 @@ public class EnemyIndicator : MonoBehaviour
         SetState(currentValue);
     }
 
-    private void UpdatePosition()
+    private void UpdatePositionAndRotation()
     {
         RectPositionAndRotation config = GetRectPositionAndRotation();
         rectTransform.rotation = config.rotation;
