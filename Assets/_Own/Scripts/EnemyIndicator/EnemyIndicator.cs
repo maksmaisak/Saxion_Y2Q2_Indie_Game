@@ -42,6 +42,18 @@ public class EnemyIndicator : MonoBehaviour
     private RectTransform rectTransform;
     private new Camera camera;
     private Transform cameraTransform;
+
+    struct RectPositionAndRotation
+    {
+        public Vector2 position;
+        public Quaternion rotation;
+
+        public RectPositionAndRotation(Vector2 position, Quaternion rotation)
+        {
+            this.position = position;
+            this.rotation = rotation;
+        }
+    }
         
     void Start()
     {
@@ -64,7 +76,7 @@ public class EnemyIndicator : MonoBehaviour
     {
         if (!trackedTransform) return;
 
-        UpdatePosition();
+        UpdatePositionAndRotation();
         UpdateAlpha();
     }
 
@@ -77,9 +89,11 @@ public class EnemyIndicator : MonoBehaviour
         SetState(currentValue);
     }
 
-    private void UpdatePosition()
+    private void UpdatePositionAndRotation()
     {
-        rectTransform.anchorMin = rectTransform.anchorMax = GetRectPosition();
+        RectPositionAndRotation config = GetRectPositionAndRotation();
+        rectTransform.rotation = config.rotation;
+        rectTransform.anchorMin = rectTransform.anchorMax = config.position;
         rectTransform.anchoredPosition = Vector2.zero;
     }
     
@@ -137,8 +151,8 @@ public class EnemyIndicator : MonoBehaviour
     {
         trackedRenderer = newTrackedRenderer;
     }
-    
-    private Vector3 GetRectPosition()
+
+    private RectPositionAndRotation GetRectPositionAndRotation()
     {
         Vector3 viewportPosition = camera.WorldToViewportPoint(trackedTransform.position);
 
@@ -148,26 +162,33 @@ public class EnemyIndicator : MonoBehaviour
         // Off screen
         if (viewportPosition.z < 0f || !viewportRect.Contains(viewportPosition))
         {
-            return GetPositionForOutOfScreenObject(innerViewportRect);
+            return GetPositionAndRotationForOutOfScreenObject(innerViewportRect);
         }
         
         // Within the interpolation zone
         if (!innerViewportRect.Contains(viewportPosition))
         {
             float t = GetInterpolationZoneT(viewportPosition);
-            Vector3 fromOffscreenPosition = GetPositionForOutOfScreenObject(innerViewportRect);
-            return Vector2.Lerp(viewportPosition, fromOffscreenPosition, t);
+            RectPositionAndRotation fromOffScreen = GetPositionAndRotationForOutOfScreenObject(innerViewportRect);
+            return new RectPositionAndRotation(
+                Vector2.Lerp(viewportPosition, fromOffScreen.position, t),
+                Quaternion.Slerp(Quaternion.identity, fromOffScreen.rotation, t)
+            );
         }
 
         // On screen
-        return viewportPosition;
+        return new RectPositionAndRotation(viewportPosition, Quaternion.identity);
     }
         
-    private Vector3 GetPositionForOutOfScreenObject(Rect containingRect)
+    private RectPositionAndRotation GetPositionAndRotationForOutOfScreenObject(Rect containingRect)
     {
         Vector3 relativePos = trackedTransform.position - cameraTransform.position;
         Vector2 projectedPos = new Vector2(Vector3.Dot(relativePos, cameraTransform.right), Vector3.Dot(relativePos, cameraTransform.up));
-        return Rect.NormalizedToPoint(containingRect, new Vector2(0.5f, 0.5f) + projectedPos.normalized * 0.5f);
+        Vector2 direction = projectedPos.normalized;
+        
+        Vector2 viewportPosition = Rect.NormalizedToPoint(containingRect, new Vector2(0.5f, 0.5f) + direction * 0.5f);
+        var rotation = Quaternion.Euler(Vector3.forward * (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f));
+        return new RectPositionAndRotation(viewportPosition, rotation);
     }
 
     private float GetAlpha()
