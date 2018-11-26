@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 33273926255780506}
   - component: {fileID: 23625920182231650}
   - component: {fileID: 136142863382577424}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: jimmy2.0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,9 +89,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.17, y: 0, z: 7.73}
-  m_LocalScale: {x: 1.0000007, y: 1, z: 1.0000007}
+  m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
+  m_LocalPosition: {x: 84.55, y: 0, z: 57.627254}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4479920549087334}
   - {fileID: 4159333755516054}
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3b7276c95b44f7829f1a5ebaedb0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumChaseTimeTreshold: 2
+  minimumChaseTimeThreshold: 2
   secondsToEvadeMode: 3
   faceTargetSpeed: 80
   maxAttackStartDistance: 2
