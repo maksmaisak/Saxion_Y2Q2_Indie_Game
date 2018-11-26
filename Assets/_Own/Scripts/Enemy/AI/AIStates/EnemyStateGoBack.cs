@@ -12,7 +12,7 @@ public class EnemyStateGoBack : FSMState<EnemyAI>
         agent.navMeshAgent.SetDestination(agent.spawnPosition);
 
         agent.navMeshAgent.speed        = agent.goBackSpeed;
-        agent.minimumTimeThreshold      = 0.0f;
+        agent.minimumAwarenessLevelThreshold      = 0.0f;
         agent.canInvestigateDisturbance = true;
 
         StartCoroutine(Work());

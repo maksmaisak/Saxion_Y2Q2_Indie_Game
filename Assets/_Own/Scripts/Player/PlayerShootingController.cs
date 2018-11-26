@@ -76,7 +76,7 @@ public class PlayerShootingController : MonoBehaviour
     {
         SnapShootingImprecision snapShootingImprecision;
 
-        snapShootingImprecision = GetIsCrouching() ?
+        snapShootingImprecision = IsCrouching() ?
             snapShootingImprecisionCrouching :
             snapShootingImprecisionStanding;
 
@@ -90,7 +90,7 @@ public class PlayerShootingController : MonoBehaviour
         return toTarget + offset;
     }
 
-    private bool GetIsCrouching()
+    public bool IsCrouching()
     {
         return playerAnimator && playerAnimator.GetBool("Crouch");
     }

@@ -17,7 +17,7 @@ public class EnemyStateWander : FSMState<EnemyAI>
     void OnEnable()
     {
         agent.navMeshAgent.speed  = agent.wanderSpeed;
-        agent.minimumTimeThreshold = wanderTimeTreshold;
+        agent.minimumAwarenessLevelThreshold = wanderTimeTreshold;
 
         this.Delay(duration, () => agent.fsm.ChangeState<EnemyStateGoBack>());
     }
