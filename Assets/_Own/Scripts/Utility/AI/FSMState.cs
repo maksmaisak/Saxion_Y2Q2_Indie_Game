@@ -25,7 +25,7 @@ public class FSMState<TAgent> : MyBehaviour
 
     protected void Print(string message)
     {
-        Debug.Log($"{this} of {agent}: {message} ");
+        Debug.Log($"{this}: {message} ");
     }
 }
 
