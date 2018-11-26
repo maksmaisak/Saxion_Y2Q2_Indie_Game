@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class PlayerDeath : MonoBehaviour
 {
 	[SerializeField] float levelRestartDelay = 5f;
-	
 	void Start()
 	{
 		var health = GetComponent<Health>();
