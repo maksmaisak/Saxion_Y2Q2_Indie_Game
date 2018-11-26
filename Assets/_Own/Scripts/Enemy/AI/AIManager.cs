@@ -52,4 +52,6 @@ public class AIManager : Singleton<AIManager>
 
         return assistList;
     }
+
+    private void OnDestroy() => agents.Clear();
 }

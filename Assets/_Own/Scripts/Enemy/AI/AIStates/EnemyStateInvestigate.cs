@@ -21,7 +21,7 @@ public class EnemyStateInvestigate : FSMState<EnemyAI>
     {
         investigationTimeDiff       = investigationDuration;
         agent.navMeshAgent.speed    = agent.investigateSpeed;
-        agent.minimumTimeThreshold  = minimumInvestigationTimeTreshold;
+        agent.minimumAwarenessLevelThreshold  = minimumInvestigationTimeTreshold;
 
         StartCoroutine(Work());
     }

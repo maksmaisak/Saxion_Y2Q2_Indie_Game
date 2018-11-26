@@ -16,9 +16,11 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     [SerializeField] float maxViewDistance = 20.0f;
     [SerializeField] float disturbanceHearingRadius = 10f;
     [SerializeField] float maxSearchRadius = 5.0f;
+    [SerializeField] float assistanceRadius = 7.0f;
+    [SerializeField] float maxFootstepsHearingRadius = 9.0f;
+    [SerializeField] float footstepsHearingRadiusWhileCovered = 4.0f; 
     [Space]
     [Header("AI Settings")]
-    [SerializeField] float assistanceRadius = 7.0f;
     [SerializeField] float chaseAwarenessLevel = 2.0f;
     [SerializeField] float investigateAwarenessLevel = 1.0f;
     [SerializeField] float secondsToRememberPlayer = 2.0f;
@@ -52,7 +54,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
     public float awarenessLevel { get; private set; }
     public float lastSeenTime { get; private set; }
-    public float minimumTimeThreshold { get; set; }
+    public float minimumAwarenessLevelThreshold { get; set; }
 
     public bool isPlayerVisible { get; private set; }
     public bool canDelayInvestigation { get; private set; }
@@ -62,13 +64,16 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     public int aiGUID { get; private set; }
 
     public EnemyIndicator indicator { get; private set; }
+    public Rigidbody playerRigidbody { get; private set; }
+    public PlayerShootingController playerShootingController { get; private set; }
     /********* PRIVATE *********/
 
-    private float seenTimeMultiplier = 1.0f;
+    private float awarenessLevelMultiplier = 1.0f;
+    private float hearingFootstepsDiff;
     private float lastAwarenesLevel;
     private float trackingTimeDiff;
 
-    private bool isTimeMultiplierRunning = false;
+    private bool isAwarenessMultiplierRunning = false;
     private bool wasPlayerPreviouslySeen = false;
     private bool isStateChangeRequired = false;
     private bool alreadyCallAssistance = false;
@@ -93,6 +98,12 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
         indicator.SetTrackedTransform(trackerTransform);
         indicator.SetTrackedRenderer(GetComponentInChildren<Renderer>());
+
+        playerShootingController = targetTransform.GetComponentInParent<PlayerShootingController>();
+        Assert.IsNotNull(playerShootingController);
+
+        playerRigidbody = targetTransform.GetComponentInParent<Rigidbody>();
+        Assert.IsNotNull(playerRigidbody);
 
         fsm             = new FSM<EnemyAI>(this);
         health          = GetComponent<Health>();
@@ -119,7 +130,12 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
     {
         isPlayerVisible = Visibility.CanSeeObject(visionOrigin, targetTransform, fov, maxSearchRadius);
 
-        UpdateSeenTimeDiff();
+        if (CanHearPlayer())
+            hearingFootstepsDiff += Time.deltaTime;
+        else
+            hearingFootstepsDiff = 0;
+        
+        UpdateAwarenessLevel();
         UpdateStatesAndConditions();
         UpdateTrackingProgress();
     }
@@ -152,7 +168,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
         if (!wasPlayerPreviouslySeen)
             wasPlayerPreviouslySeen = true;
 
-        if (!isTimeMultiplierRunning)
+        if (!isAwarenessMultiplierRunning)
             StartCoroutine(UpdateSeenTimeMultiplier());
 
         lastKnownPlayerPosition = targetTransform.position;
@@ -161,11 +177,12 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
             awarenessLevel = lastAwarenesLevel;
     }
 
-    private void UpdateSeenTimeDiff()
+    private void UpdateAwarenessLevel()
     {
         float oldAwarenessLevelDiff  = awarenessLevel;
-        awarenessLevel              += isPlayerVisible ? Time.deltaTime * seenTimeMultiplier : -Time.deltaTime;
-        awarenessLevel               = Mathf.Max(minimumTimeThreshold, awarenessLevel);
+        awarenessLevel              += hearingFootstepsDiff;
+        awarenessLevel              += isPlayerVisible ? Time.deltaTime * awarenessLevelMultiplier : -Time.deltaTime;
+        awarenessLevel               = Mathf.Max(minimumAwarenessLevelThreshold, awarenessLevel);
         isStateChangeRequired        = IsStateChangeRequired(oldAwarenessLevelDiff);
         awarenessLevel               = Mathf.Clamp(awarenessLevel, 0f, chaseAwarenessLevel);
     }
@@ -206,7 +223,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
         return true;
     }
-
+    
     public void StartAttackPlayer()
     {
         awarenessLevel            = chaseAwarenessLevel + 0.2f; // Set this manually to prevent changeing states multiple times
@@ -215,6 +232,44 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
         fsm.ChangeState<EnemyStateChasePlayer>();
     }
 
+    private bool CanHearPlayer()
+    {
+        // No need to check for that since the agent is already chasing the player
+        if (awarenessLevel >= chaseAwarenessLevel)
+            return false;
+        
+        // The player should be moving
+        if (playerRigidbody.velocity.magnitude < 1.0f)
+            return false;
+        
+        // The player should not be crouching
+        if (playerShootingController.IsCrouching())
+            return false;
+        
+        Vector3 delta           = (targetTransform.position - visionOrigin.transform.position);
+        float distanceSqr       = delta.sqrMagnitude;
+        float hearingRadiusSqr  = maxFootstepsHearingRadius * maxFootstepsHearingRadius;
+        
+        // The player should be within max hearing radius
+        if (distanceSqr > hearingRadiusSqr)
+            return false;
+        
+        Ray ray = new Ray(visionOriginTransform.position, delta.normalized);
+        
+        // If the player is on the other side of the wall
+        // the hearing radius is reduced.
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, delta.magnitude + 1.0f, blockingLayerMask))
+            if (hit.distance * hit.distance < distanceSqr)
+                hearingRadiusSqr = footstepsHearingRadiusWhileCovered * footstepsHearingRadiusWhileCovered;
+                
+        // Check the distance again, the player might be covered, therefore the hearing radius is reduced.
+        if (distanceSqr > hearingRadiusSqr)
+            return false;
+        
+        return true;
+    }
+    
     private bool IsStateChangeRequired(float oldSeenTimeDiff)
     {
         return (oldSeenTimeDiff < 1.0f && awarenessLevel >= investigateAwarenessLevel) ||
@@ -223,9 +278,7 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
 
     private IEnumerator UpdateSeenTimeMultiplier()
     {
-        isTimeMultiplierRunning = true;
-
-        yield return new WaitForSeconds(0.5f);
+        isAwarenessMultiplierRunning = true;
 
         while (isPlayerVisible)
         {
@@ -241,16 +294,16 @@ public class EnemyAI : MyBehaviour, IEventReceiver<Distraction>
                 float distance              = Mathf.Min(toOther.magnitude, fov.maxDistance);
                 float bonusMultiplier       = 0.08f;
                 float maxBonusMultiplier    = 0.4f;
-                seenTimeMultiplier          += Mathf.Min(maxBonusMultiplier, maxBonusMultiplier - (bonusMultiplier * distance / 100.0f));
-                Mathf.Clamp(seenTimeMultiplier, 1f, 2.0f);
+                awarenessLevelMultiplier    += Mathf.Min(maxBonusMultiplier, maxBonusMultiplier - (bonusMultiplier * distance / 100.0f));
+                Mathf.Clamp(awarenessLevelMultiplier, 1f, 2.0f);
             }
-            else seenTimeMultiplier = 1.0f;
+            else awarenessLevelMultiplier = 1.0f;
 
             yield return null;
         }
 
-        isTimeMultiplierRunning = false;
-        seenTimeMultiplier      = 1.0f;
+        isAwarenessMultiplierRunning         = false;
+        awarenessLevelMultiplier        = 1.0f;
     }
 
     public void On(Distraction distraction)
