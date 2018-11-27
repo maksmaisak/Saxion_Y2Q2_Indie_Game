@@ -70,6 +70,7 @@ GameObject:
   - component: {fileID: 4202339561881696}
   - component: {fileID: 54616829281024890}
   - component: {fileID: 114746085961955554}
+  - component: {fileID: 114767040526137970}
   m_Layer: 0
   m_Name: EnemyProjectile
   m_TagString: Untagged
@@ -288,6 +289,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114767040526137970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1951964812841994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd962c4bd51046a5a2091013858fea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 1000, y: 1000, z: 1000}
 --- !u!135 &135596140340959276
 SphereCollider:
   m_ObjectHideFlags: 1

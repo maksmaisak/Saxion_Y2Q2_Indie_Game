@@ -47,7 +47,7 @@ public class AutoDestroyParticleSystem : MonoBehaviour
         ParticleSystem.MinMaxCurve startLifetime = particleSystem.main.startLifetime;
         if (startLifetime.mode == ParticleSystemCurveMode.Constant)
         {
-            Debug.LogWarning("AutoDestroyParticleSystem doesn't support non-constant startLifetime settings yet. The particle system might be destroyed earlier than needed.");
+            //Debug.LogWarning("AutoDestroyParticleSystem doesn't support non-constant startLifetime settings yet. The particle system might be destroyed earlier than needed.");
         }
         float particleLifetime = startLifetime.constant;
 
