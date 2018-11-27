@@ -90,7 +90,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     {
         while (true)
         {
-            if (!isAttackingInMelee && !IsCloserToTargetThan(minShootingDistance) && agent.shootingController.CanShootAt(agent.targetTransform.gameObject))
+            if (!isAttackingInMelee && !IsCloserToTargetThan(minShootingDistance) && agent.shootingController.IsClearPath(agent.targetTransform.gameObject))
             {
                 isShooting = true;
                 if (agent.shootingController.ShootAt(agent.targetTransform.gameObject))

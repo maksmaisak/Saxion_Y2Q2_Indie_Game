@@ -36,7 +36,7 @@ public class ShootingController
         isInitialized = true;
     }
     
-    public bool CanShootAt(GameObject target)
+    public bool IsClearPath(GameObject target)
     {
         Assert.IsTrue(isInitialized);
         
