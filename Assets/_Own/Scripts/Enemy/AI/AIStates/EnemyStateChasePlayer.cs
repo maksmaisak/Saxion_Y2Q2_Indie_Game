@@ -16,9 +16,9 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [Header("Ranged attack")] 
     [SerializeField] float shootingCooldown = 1f;
     [SerializeField] float minShootingDistance = 10f;
+    [SerializeField] [Range(0f, 1f)] float rangedAttackProbabilityPerSecond = 0.5f;
 
-    private bool isAttackingInMelee;
-    private bool isShooting;
+    private bool isAttacking;
 
     void OnEnable()
     {
@@ -44,7 +44,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         {
             agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
 
-            if (agent.navMeshAgent.remainingDistance  < agent.navMeshAgent.stoppingDistance)
+            if (agent.navMeshAgent.remainingDistance < agent.navMeshAgent.stoppingDistance)
             {
                 if (!agent.isPlayerVisible)
                     if (agent.GetTimeSinceLastPlayerSeen() > secondsToEvadeMode)
@@ -71,15 +71,15 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     {
         while (true)
         {
-            if (!isShooting && IsCloserToTargetThan(maxMeleeStartDistance))
+            if (!isAttacking && IsCloserToTargetThan(maxMeleeStartDistance))
             {
-                isAttackingInMelee = true;
+                isAttacking = true;
                 yield return new WaitForSeconds(meleeTime);
 
                 if (IsCloserToTargetThan(maxMeleeDamageDistance))
                     DealDamage();
                 
-                isAttackingInMelee = false;
+                isAttacking = false;
             }
 
             yield return null;
@@ -90,14 +90,16 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     {
         while (true)
         {
-            if (!isAttackingInMelee && !IsCloserToTargetThan(minShootingDistance) && agent.shootingController.IsClearPath(agent.targetTransform.gameObject))
+            // Adjust for multiple checks per second.
+            float chance = 1f - Mathf.Pow(1f - rangedAttackProbabilityPerSecond, Time.deltaTime);
+            if (!isAttacking && Random.value < chance && !IsCloserToTargetThan(minShootingDistance) && agent.shootingController.IsClearPath(agent.targetTransform.gameObject))
             {
-                isShooting = true;
+                isAttacking = true;
                 if (agent.shootingController.ShootAt(agent.targetTransform.gameObject))
                 {
                     yield return new WaitForSeconds(shootingCooldown);
                 }
-                isShooting = false;
+                isAttacking = false;
             }
 
             yield return null;
