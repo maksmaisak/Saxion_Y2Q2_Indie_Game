@@ -7,28 +7,47 @@ using UnityEngine.Assertions;
 public class PoisonCloud : MonoBehaviour
 {
     [SerializeField] float duration = 10f;
+    [SerializeField] float dissipationDuration = 5f;
+    [Tooltip("Can only damage anything after this time after starting.")]
+    [SerializeField] float startDelay = 0.5f;
     [SerializeField] int damage = 10;
     [SerializeField] float damageInterval = 1f;
     [SerializeField] LayerMask canDamageLayer = ~0;
     [SerializeField] string ignoreTag = string.Empty;
+    [Header("Snapping")] 
+    [SerializeField] LayerMask snapToSurfaceLayerMask = Physics.DefaultRaycastLayers;
+    [SerializeField] float maxSnapDistance = 1f;
 
+    private bool canDamage;
     private readonly Dictionary<GameObject, Coroutine> damageCoroutines = new Dictionary<GameObject, Coroutine>();
 
     void Start()
-    {
+    {        
         Assert.IsTrue(
             gameObject.GetComponentsInChildren<Collider>().Any(c => c.isTrigger), 
             "No trigger collider found under PoisonCloud. Can't damage anyone without a trigger."
         );
+
+        SnapToSurface();
+        StartCoroutine(DissipateCoroutine());
+        
+        if (startDelay > 0f)
+        {
+            SetTriggersEnabled(false);
+            this.Delay(startDelay, () => SetTriggersEnabled(true));
+        }
     }
 
     void OnDisable()
     {
+        damageCoroutines.Clear();
         StopAllCoroutines();
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
+        if (!enabled) return;
+        
         GameObject go = other.gameObject;
         if (damageCoroutines.ContainsKey(go)) return;
         
@@ -40,7 +59,7 @@ public class PoisonCloud : MonoBehaviour
         damageCoroutines.Add(go, damageCoroutine);
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         GameObject go = other.gameObject;
         
@@ -51,13 +70,49 @@ public class PoisonCloud : MonoBehaviour
         StopCoroutine(damageCoroutine);
         damageCoroutines.Remove(go);
     }
+    
+    private void SnapToSurface()
+    {
+        Ray ray = new Ray(transform.position, Vector3.down);
+        RaycastHit hit;
 
+        bool didHit = Physics.Raycast(
+            ray, out hit, maxSnapDistance, 
+            snapToSurfaceLayerMask, QueryTriggerInteraction.Ignore
+        );
+        if (!didHit) return;
+
+        transform.position = hit.point;
+        transform.rotation = Quaternion.identity;
+    }
+    
     private IEnumerator DamageCoroutine(Health health)
     {
         while (enabled)
         {
             health.DealDamage(damage);
             yield return new WaitForSeconds(damageInterval);
+        }
+    }
+    
+    private IEnumerator DissipateCoroutine()
+    {
+        float time = Time.time;
+        // Not using a simple WaitForSecond to make it possible to change duration while the cloud is active.
+        yield return new WaitUntil(() => Time.time >= time + duration);
+
+        GetComponentInChildren<ParticleSystem>()?.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        time = Time.time;
+        yield return new WaitUntil(() => Time.time >= time + dissipationDuration);
+        enabled = false;
+    }
+
+    private void SetTriggersEnabled(bool isActive = true)
+    {
+        foreach (Collider trigger in GetComponentsInChildren<Collider>().Where(c => c.isTrigger))
+        {
+            trigger.enabled = isActive;
         }
     }
 }
