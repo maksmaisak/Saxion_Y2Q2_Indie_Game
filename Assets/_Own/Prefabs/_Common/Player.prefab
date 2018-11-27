@@ -113,7 +113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4653816073077152}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1501,7 +1501,7 @@ GameObject:
   - component: {fileID: 114022868917531880}
   - component: {fileID: 114478302957969906}
   m_Layer: 9
-  m_Name: ThirdPersonCharacter
+  m_Name: PlayerCharacter
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1917,7 +1917,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000077682295834}
-  m_LocalRotation: {x: -0.037258785, y: -0.0000000037227037, z: -1.3879979e-10, w: 0.99930567}
+  m_LocalRotation: {x: -0.03725879, y: 4.4378086e-16, z: 1.6546226e-17, w: 0.99930567}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2374,7 +2374,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1752629989059712}
-  m_LocalRotation: {x: 0.70090926, y: -0.000000016858099, z: -1.4708643e-10, w: 0.71325046}
+  m_LocalRotation: {x: 0.70090926, y: -0.000000016858099, z: -1.3712664e-10, w: 0.71325046}
   m_LocalPosition: {x: -4, y: 20.972046, z: 2.9538932}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
   m_Children:
@@ -2695,7 +2695,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659476796608624}
-  m_LocalRotation: {x: -0.037258785, y: 0.0000000037227037, z: 1.3879979e-10, w: 0.99930567}
+  m_LocalRotation: {x: -0.03725879, y: -4.4378086e-16, z: -1.6546226e-17, w: 0.99930567}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2871,7 +2871,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1904720713988524}
-  m_LocalRotation: {x: -0.037258785, y: 0.0000000037227037, z: 1.3879979e-10, w: 0.99930567}
+  m_LocalRotation: {x: -0.03725879, y: -4.4378086e-16, z: -1.6546226e-17, w: 0.99930567}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3127,7 +3127,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!95 &95781225232138254
 Animator:
   serializedVersion: 3

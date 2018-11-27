@@ -8,11 +8,18 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] float minimumChaseTimeThreshold = 2.0f;
     [SerializeField] float secondsToEvadeMode = 3.0f;
     [SerializeField] float faceTargetSpeed = 10.0f;
-    [Header("Attack")]
-    [SerializeField] float maxAttackStartDistance = 2f;
-    [SerializeField] float maxAttackDamageDistance = 2f;
-    [SerializeField] float attackTime = 1f;
-    [SerializeField] int attackDamage = 100;
+    [Header("Melee attack")]
+    [SerializeField] float maxMeleeStartDistance = 2f;
+    [SerializeField] float maxMeleeDamageDistance = 2f;
+    [SerializeField] float meleeTime = 1f;
+    [SerializeField] int meleeDamage = 100;
+    [Header("Ranged attack")] 
+    [SerializeField] float shootingCooldown = 1f;
+    [SerializeField] float minShootingDistance = 10f;
+    [SerializeField] [Range(0f, 1f)] float rangedAttackProbabilityPerSecond = 0.5f;
+    [SerializeField] [Range(0f, 1f)] float firstRangedAttackProbability = 0.8f;
+
+    private bool isAttacking;
 
     void OnEnable()
     {
@@ -23,7 +30,8 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         agent.SetInvestigateNewDisturbance(false);
 
         StartCoroutine(MoveCoroutine());
-        StartCoroutine(AttackCoroutine());
+        StartCoroutine(MeleeAttackCoroutine());
+        StartCoroutine(RangedAttackCoroutine());
     }
 
     void OnDisable()
@@ -39,7 +47,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         {
             agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
 
-            if (agent.navMeshAgent.remainingDistance  < agent.navMeshAgent.stoppingDistance)
+            if (agent.navMeshAgent.remainingDistance < agent.navMeshAgent.stoppingDistance)
             {
                 if (!agent.isPlayerVisible)
                     if (agent.GetTimeSinceLastPlayerSeen() > secondsToEvadeMode)
@@ -56,28 +64,61 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
                         Time.deltaTime * faceTargetSpeed
                     );
                 }
-            }
+            }          
 
             yield return null;
         }
     }
 
-    private IEnumerator AttackCoroutine()
+    private IEnumerator MeleeAttackCoroutine()
     {
         while (true)
         {
-            if (IsCloserToTargetThan(maxAttackStartDistance))
+            if (!isAttacking && IsCloserToTargetThan(maxMeleeStartDistance))
             {
-                yield return new WaitForSeconds(attackTime);
+                isAttacking = true;
+                yield return new WaitForSeconds(meleeTime);
 
-                if (IsCloserToTargetThan(maxAttackDamageDistance))
+                if (IsCloserToTargetThan(maxMeleeDamageDistance))
                     DealDamage();
+                
+                isAttacking = false;
             }
 
             yield return null;
         }
     }
 
+    private IEnumerator RangedAttackCoroutine()
+    {
+        bool isFirstShot = true;
+        
+        while (true)
+        {
+
+            float chance = firstRangedAttackProbability;
+
+            if (isFirstShot)
+            {
+                // Adjust for multiple checks per second.
+                chance = 1f - Mathf.Pow(1f - rangedAttackProbabilityPerSecond, Time.deltaTime);
+            }
+
+            if (!isAttacking && Random.value < chance && !IsCloserToTargetThan(minShootingDistance) && agent.shootingController.IsClearPath(agent.targetTransform.gameObject))
+            {
+                isAttacking = true;
+                if (agent.shootingController.ShootAt(agent.targetTransform.gameObject))
+                {
+                    isFirstShot = false;
+                    yield return new WaitForSeconds(shootingCooldown);
+                }
+                isAttacking = false;
+            }
+
+            yield return null;
+        }
+    }
+    
     private bool IsCloserToTargetThan(float maxDistance)
     {
         Vector3 toTarget = agent.targetTransform.position - transform.position;
@@ -95,6 +136,6 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
             return;
         }
 
-        health.DealDamage(attackDamage);
+        health.DealDamage(meleeDamage);
     }
 }

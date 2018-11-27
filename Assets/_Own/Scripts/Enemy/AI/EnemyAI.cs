@@ -1,4 +1,4 @@
-﻿    using UnityEngine;
+    using UnityEngine;
     using UnityEngine.AI;
     using System.Collections;
     using System.Collections.Generic;
@@ -47,7 +47,9 @@
     
         public FSM<EnemyAI> fsm { get; private set; }
         public NavMeshAgent navMeshAgent { get; private set; }
-    
+        [SerializeField] ShootingController _shootingController;
+        public ShootingController shootingController => _shootingController;
+        
         public Vector3 spawnPosition { get; private set; }
         public Vector3? lastInvestigatePosition { get; set; }
         public Vector3 lastKnownPlayerPosition { get; private set; }
@@ -124,7 +126,8 @@
             };
     
             health.OnDeath += OnDeath;
-    
+            shootingController.Initialize(gameObject);
+            
             spawnPosition                  = transform.position;
             canAgentPatrol                 = canPatrol;
             canWanderOnInvestigationFinish = false;
