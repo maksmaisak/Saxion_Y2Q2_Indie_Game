@@ -17,6 +17,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] float shootingCooldown = 1f;
     [SerializeField] float minShootingDistance = 10f;
     [SerializeField] [Range(0f, 1f)] float rangedAttackProbabilityPerSecond = 0.5f;
+    [SerializeField] [Range(0f, 1f)] float firstRangedAttackProbability = 0.8f;
 
     private bool isAttacking;
 
@@ -28,8 +29,8 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         agent.SetNoCallAssistance(true);
 
         StartCoroutine(MoveCoroutine());
-        StartCoroutine(AttackCoroutine());
-        StartCoroutine(ShootCoroutine());
+        StartCoroutine(MeleeAttackCoroutine());
+        StartCoroutine(RangedAttackCoroutine());
     }
 
     void OnDisable()
@@ -67,7 +68,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         }
     }
 
-    private IEnumerator AttackCoroutine()
+    private IEnumerator MeleeAttackCoroutine()
     {
         while (true)
         {
@@ -86,17 +87,27 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         }
     }
 
-    private IEnumerator ShootCoroutine()
+    private IEnumerator RangedAttackCoroutine()
     {
+        bool isFirstShot = true;
+        
         while (true)
         {
-            // Adjust for multiple checks per second.
-            float chance = 1f - Mathf.Pow(1f - rangedAttackProbabilityPerSecond, Time.deltaTime);
+
+            float chance = firstRangedAttackProbability;
+
+            if (isFirstShot)
+            {
+                // Adjust for multiple checks per second.
+                chance = 1f - Mathf.Pow(1f - rangedAttackProbabilityPerSecond, Time.deltaTime);
+            }
+
             if (!isAttacking && Random.value < chance && !IsCloserToTargetThan(minShootingDistance) && agent.shootingController.IsClearPath(agent.targetTransform.gameObject))
             {
                 isAttacking = true;
                 if (agent.shootingController.ShootAt(agent.targetTransform.gameObject))
                 {
+                    isFirstShot = false;
                     yield return new WaitForSeconds(shootingCooldown);
                 }
                 isAttacking = false;
