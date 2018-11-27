@@ -431,5 +431,5 @@
             canInvestigateDisturbance = enable;
         }
 
-        public bool IsPlayerCrouching() => playerAnimator.GetBool("Crouching");
+        public bool IsPlayerCrouching() => playerAnimator.GetBool("Crouch");
     }
