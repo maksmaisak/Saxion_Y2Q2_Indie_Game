@@ -71,7 +71,6 @@
         public Investigation currentInvestigation { get; private set; }
         public EnemyIndicator indicator { get; private set; }
         public Rigidbody playerRigidbody { get; private set; }
-        public PlayerShootingController playerShootingController { get; private set; }
         /********* PRIVATE *********/
     
         private float awarenessLevelMultiplier = 1.0f;
@@ -84,6 +83,8 @@
         private bool isStateChangeRequired = false;
         private bool alreadyCallAssistance = false;
         private bool canInvestigateDisturbance = true;
+
+        private Animator playerAnimator;
     
         private void Start()
         {
@@ -106,8 +107,8 @@
             indicator.SetTrackedTransform(trackerTransform);
             indicator.SetTrackedRenderer(GetComponentInChildren<Renderer>());
     
-            playerShootingController = targetTransform.GetComponentInParent<PlayerShootingController>();
-            Assert.IsNotNull(playerShootingController);
+            playerAnimator = targetTransform.GetComponentInParent<Animator>();
+            Assert.IsNotNull(playerAnimator);
     
             playerRigidbody = targetTransform.GetComponentInParent<Rigidbody>();
             Assert.IsNotNull(playerRigidbody);
@@ -231,7 +232,7 @@
                 return false;
             
             // The player should not be crouching
-            if (playerShootingController.IsCrouching())
+            if (IsPlayerCrouching())
                 return false;
             
             Vector3 delta           = (targetTransform.position - visionOrigin.transform.position);
@@ -426,10 +427,6 @@
         {
             canInvestigateDisturbance = enable;
         }
-        
-        public bool IsCloseToLastKnownPlayerLocation()
-        {
-            return (transform.position - lastKnownPlayerPosition).sqrMagnitude <
-                   stoppingDistanceBeforeLastPlayerPosition * stoppingDistanceBeforeLastPlayerPosition;
-        }
+
+        public bool IsPlayerCrouching() => playerAnimator.GetBool("Crouching");
     }
