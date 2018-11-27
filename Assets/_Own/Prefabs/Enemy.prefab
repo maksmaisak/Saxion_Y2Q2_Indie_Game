@@ -90,7 +90,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
   m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
-  m_LocalPosition: {x: 84.55, y: 0, z: 57.627254}
+  m_LocalPosition: {x: 3.17, y: 0, z: 7.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4479920549087334}
@@ -215,10 +215,16 @@ MonoBehaviour:
   maxViewDistance: 40
   disturbanceHearingRadius: 25
   maxSearchRadius: 7
-  secondsToChase: 2
-  secondsToInvestigate: 1
+  assistanceRadius: 7
+  maxFootstepsHearingRadius: 9
+  footstepsHearingRadiusWhileCovered: 4
+  chaseAwarenessLevel: 2
+  investigateAwarenessLevel: 1
   secondsToRememberPlayer: 0.5
-  canPatrol: 1
+  deathDistractionPriority: 10
+  timeBetweenInvestigations: 3
+  maxDistractionPointOffsetRange: 15
+  canPatrol: 0
   chaseSpeed: 4
   patrolSpeed: 0.75
   wanderSpeed: 1.89
