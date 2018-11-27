@@ -65,8 +65,7 @@ public class PlayerCameraController : MonoBehaviour
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
         GetComponent<Health>().OnDeath += OnDeath;
         
-        var levelCanvas = LevelCanvas.instance;
-        Assert.IsNotNull(levelCanvas, "Level canvas not found! Put in the canvas prefab if it's not there.");
+        var levelCanvas = LevelCanvas.Get();
         activeInThirdPersonOnly = levelCanvas.activeInThirdPersonOnly;
         activeInSniperZoomOnly  = levelCanvas.activeInSniperZoomOnly;
     }
