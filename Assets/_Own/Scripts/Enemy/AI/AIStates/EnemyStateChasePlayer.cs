@@ -23,7 +23,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
 
     void OnEnable()
     {
-        agent.navMeshAgent.speed   = agent.chaseSpeed;
+        agent.navMeshAgent.speed = agent.chaseSpeed;
         agent.minimumAwarenessLevelThreshold = minimumChaseTimeThreshold;
 
         agent.SetNoCallAssistance(true);

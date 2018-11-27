@@ -49,6 +49,8 @@ public class PoisonCloud : MonoBehaviour
         if (!enabled) return;
         
         GameObject go = other.gameObject;
+        if ((go.layer & canDamageLayer) == 0) return;
+        if (!string.IsNullOrWhiteSpace(ignoreTag) && go.CompareTag(ignoreTag)) return;
         if (damageCoroutines.ContainsKey(go)) return;
         
         var health = go.GetComponentInChildren<Health>();

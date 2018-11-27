@@ -23,8 +23,6 @@ public class PlayerCameraController : MonoBehaviour
 {
     [SerializeField] CinemachineFreeLook primaryVirtualCamera;
     [SerializeField] CinemachineVirtualCamera sniperZoomVirtualCamera;
-    [SerializeField] GameObject activeInThirdPersonOnly;
-    [SerializeField] GameObject activeInSniperZoomOnly;
     [SerializeField] Transform mouse;
     [SerializeField] Animator playerAnimator;
     
@@ -45,6 +43,9 @@ public class PlayerCameraController : MonoBehaviour
     private CinemachineVirtualCamera hardLookAtMouseSniperCamera;
     private CinemachineVirtualCamera hardLookAtMousePrimaryCamera;
     private Renderer[] renderers;
+    
+    private GameObject activeInThirdPersonOnly;
+    private GameObject activeInSniperZoomOnly;
         
     void Start()
     {
@@ -61,10 +62,13 @@ public class PlayerCameraController : MonoBehaviour
         isSniping = currentFov < primaryMinFov;
         
         renderers = GetComponentsInChildren<Renderer>();
-
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
-
         GetComponent<Health>().OnDeath += OnDeath;
+        
+        var levelCanvas = LevelCanvas.instance;
+        Assert.IsNotNull(levelCanvas, "Level canvas not found! Put in the canvas prefab if it's not there.");
+        activeInThirdPersonOnly = levelCanvas.activeInThirdPersonOnly;
+        activeInSniperZoomOnly  = levelCanvas.activeInSniperZoomOnly;
     }
 
     void Update()
@@ -85,6 +89,9 @@ public class PlayerCameraController : MonoBehaviour
     {
         currentFov = primaryMaxFov;
         UpdateCameras();
+        
+        if (activeInThirdPersonOnly) activeInThirdPersonOnly.SetActive(false);
+        if (activeInSniperZoomOnly) activeInSniperZoomOnly.SetActive(false);
         
         enabled = false;
     }
