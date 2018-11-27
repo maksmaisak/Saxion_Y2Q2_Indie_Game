@@ -13,16 +13,11 @@ public class EnemyStateGoBack : FSMState<EnemyAI>
 
         agent.navMeshAgent.speed        = agent.goBackSpeed;
         agent.minimumAwarenessLevelThreshold      = 0.0f;
-        agent.canInvestigateDisturbance = true;
 
         StartCoroutine(Work());
     }
 
-    private void OnDisable()
-    {
-        agent.canInvestigateDisturbance = false;
-        StopAllCoroutines();
-    }
+    private void OnDisable() => StopAllCoroutines();
 
     private IEnumerator Work()
     {

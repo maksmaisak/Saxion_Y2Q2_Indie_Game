@@ -32,7 +32,6 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
         }
 
         isCurrentWaypointReached         = false;
-        agent.canInvestigateDisturbance  = true;
  
         if (currentWaypoint.Equals(Vector3.zero))
             currentWaypoint = waypoints[waypointIndex];
@@ -42,12 +41,7 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
         StartCoroutine(FollowWaypoints());
     }
 
-    private void OnDisable()
-    {
-        agent.canInvestigateDisturbance = false;
-        
-        StopAllCoroutines();
-    }
+    private void OnDisable() => StopAllCoroutines();
 
     IEnumerator FollowWaypoints()
     {

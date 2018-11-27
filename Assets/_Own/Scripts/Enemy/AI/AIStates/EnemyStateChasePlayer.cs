@@ -20,6 +20,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         agent.minimumAwarenessLevelThreshold = minimumChaseTimeThreshold;
 
         agent.SetNoCallAssistance(true);
+        agent.SetInvestigateNewDisturbance(false);
 
         StartCoroutine(MoveCoroutine());
         StartCoroutine(AttackCoroutine());
@@ -28,6 +29,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     void OnDisable()
     {
         StopAllCoroutines();
+        agent.SetInvestigateNewDisturbance(true);
         agent.SetNoCallAssistance(false);
     }
 
