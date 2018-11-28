@@ -74,8 +74,11 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>
     private void OnInvestigationFinish(Investigation investigation) => investigations.Remove(investigation);
     
     private void Start() => StartCoroutine(UpdateInvestigationsCoroutine());
-    private void OnDestroy()
+    
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        
         StopAllCoroutines();
         agents.Clear();
     }

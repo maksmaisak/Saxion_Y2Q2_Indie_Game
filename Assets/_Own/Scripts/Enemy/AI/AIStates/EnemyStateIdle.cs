@@ -6,8 +6,6 @@ public class EnemyStateIdle : FSMState<EnemyAI>
     [SerializeField] float rotationSpeedChange = 100f;
     [SerializeField] float rotationSpeedCap = 100f;
     
-    private float delayToPatrole = 2.0f;
-    
     private void OnEnable()
     {
         agent.minimumAwarenessLevelThreshold = 0.0f;

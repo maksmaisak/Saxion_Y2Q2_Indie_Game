@@ -11,6 +11,23 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1305885103597862}
   m_IsPrefabAsset: 1
+--- !u!1 &1211944654120446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4687207904074830}
+  - component: {fileID: 136496407779050470}
+  - component: {fileID: 114359073974146582}
+  m_Layer: 11
+  m_Name: JimmyHead
+  m_TagString: EnemyHead
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1305885103597862
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,6 +93,7 @@ GameObject:
   - component: {fileID: 33273926255780506}
   - component: {fileID: 23625920182231650}
   - component: {fileID: 136142863382577424}
+  - component: {fileID: 114235073960228744}
   m_Layer: 11
   m_Name: jimmy2.0
   m_TagString: Untagged
@@ -96,6 +114,7 @@ Transform:
   - {fileID: 4479920549087334}
   - {fileID: 4159333755516054}
   - {fileID: 4694593943350588}
+  - {fileID: 4687207904074830}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -125,6 +144,19 @@ Transform:
   m_Father: {fileID: 4063796871211330}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4687207904074830
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1211944654120446}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.385, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4063796871211330}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4694593943350588
 Transform:
   m_ObjectHideFlags: 1
@@ -132,7 +164,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1818073951204180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.91, z: 0}
+  m_LocalPosition: {x: 0, y: 0.91, z: -0.076}
   m_LocalScale: {x: 0.3998356, y: 0.39983577, z: 0.3998356}
   m_Children: []
   m_Father: {fileID: 4063796871211330}
@@ -230,7 +262,6 @@ MonoBehaviour:
   wanderSpeed: 1.89
   investigateSpeed: 1.41
   goBackSpeed: 1
-  stoppingDistanceBeforeLastPlayerPosition: 1.2
   indicatorPrefab: {fileID: 1536027338821604, guid: 2990bb28c724247a48f2bff6ab46fb05,
     type: 2}
   trackerTransform: {fileID: 4159333755516054}
@@ -259,6 +290,28 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Health+OnHealthChangedEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+--- !u!114 &114235073960228744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1818073951204180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822c078dfbbdc734e87b5af839d5940a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114359073974146582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1211944654120446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822c078dfbbdc734e87b5af839d5940a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114467999107253788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,10 +397,23 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 2.0895247
-  m_Height: 4.179051
+  m_Radius: 1.0470191
+  m_Height: 2.094038
   m_Direction: 1
-  m_Center: {x: -0.006206794, y: 1.0635395, z: 0.0057401964}
+  m_Center: {x: 0.1277574, y: 0.24286574, z: 2.4621688e-10}
+--- !u!136 &136496407779050470
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1211944654120446}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2515936
+  m_Height: 0.50318736
+  m_Direction: 1
+  m_Center: {x: 0.07, y: -0.04, z: -0.07}
 --- !u!195 &195546136665236794
 NavMeshAgent:
   m_ObjectHideFlags: 1
