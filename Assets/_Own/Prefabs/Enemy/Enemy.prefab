@@ -122,7 +122,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
   m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
-  m_LocalPosition: {x: 3.17, y: 0, z: 7.73}
+  m_LocalPosition: {x: 13.32, y: 0.036854148, z: 11.642521}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4965588103020308}
@@ -251,11 +251,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde3388017694687b741d16e089d8946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 20
+  duration: 12
   nextPositionDistance: 10
   minDistanceToObstacle: 5
   wanderTimeTreshold: 1
-  chanceToWanderInPlayerDirection: 20
+  chanceToWanderInPlayerDirection: 25
 --- !u!114 &114079209304563808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -272,10 +272,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   maxViewAngle: 80
-  maxViewDistance: 40
-  disturbanceHearingRadius: 25
+  maxViewDistance: 80
+  disturbanceHearingRadius: 20
   maxSearchRadius: 7
-  assistanceRadius: 7
+  assistanceRadius: 10
   maxFootstepsHearingRadius: 9
   footstepsHearingRadiusWhileCovered: 4
   chaseAwarenessLevel: 2
@@ -285,7 +285,7 @@ MonoBehaviour:
   timeBetweenInvestigations: 3
   maxDistractionPointOffsetRange: 15
   canPatrol: 1
-  chaseSpeed: 5
+  chaseSpeed: 4.5
   patrolSpeed: 0.75
   wanderSpeed: 1.89
   investigateSpeed: 1.41
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db710f29eab4d869ba1fee5252d096b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 20
+  rotationSpeed: 40
   rotationSpeedChange: 50
   rotationSpeedCap: 70
 --- !u!114 &114824004397904264
@@ -397,7 +397,7 @@ MonoBehaviour:
   rotationDuration: 3
   lookAroundRotationAmount: 240
   minimumInvestigationTimeTreshold: 1
-  investigationDuration: 14
+  investigationDuration: 7
 --- !u!114 &114998865380716300
 MonoBehaviour:
   m_ObjectHideFlags: 1
