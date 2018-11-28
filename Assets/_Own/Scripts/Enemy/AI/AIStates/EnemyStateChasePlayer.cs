@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class EnemyStateChasePlayer : FSMState<EnemyAI>
@@ -18,6 +19,8 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] float minShootingDistance = 10f;
     [SerializeField] [Range(0f, 1f)] float rangedAttackProbabilityPerSecond = 0.5f;
     [SerializeField] [Range(0f, 1f)] float firstRangedAttackProbability = 0.8f;
+    [Space] 
+    [SerializeField] UnityEvent OnThrow;
 
     private bool isAttacking;
 
@@ -95,7 +98,6 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         
         while (true)
         {
-
             float chance = firstRangedAttackProbability;
 
             if (isFirstShot)
@@ -110,6 +112,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
                 if (agent.shootingController.ShootAt(agent.targetTransform.gameObject))
                 {
                     isFirstShot = false;
+                    OnThrow.Invoke();
                     yield return new WaitForSeconds(shootingCooldown);
                 }
                 isAttacking = false;
