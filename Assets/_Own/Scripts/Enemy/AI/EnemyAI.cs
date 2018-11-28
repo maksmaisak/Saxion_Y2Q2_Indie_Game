@@ -25,7 +25,6 @@
         [SerializeField] float chaseAwarenessLevel = 2.0f;
         [SerializeField] float investigateAwarenessLevel = 1.0f;
         [SerializeField] float secondsToRememberPlayer = 2.0f;
-        [SerializeField] float deathDistractionPriority = 10.0f;
         [SerializeField] float secondsBetweenInvestigations = 3.0f;
         [Range(0.1f, 10f)]
         [SerializeField] float maxDistractionPointOffsetRange = 10f;
@@ -316,7 +315,6 @@
         {
             AIManager.instance.UnregisterAgent(this);
 
-            new Distraction(transform.position, deathDistractionPriority).PostEvent();
             new EnemyDeath(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
         }
     
@@ -429,10 +427,10 @@
             isAlreadyBeingHit = true;
 
             attachedObjectHit = newGameobject;
-            
+
             this.Delay(0.05f, () => { isAlreadyBeingHit = false; });
         }
-        
+
         public bool CanStartNewInvestigation(Investigation investigation)
         {
             if (health.isDead)
@@ -444,12 +442,12 @@
             if (currentInvestigation != null && (currentInvestigation.priority > investigation.priority))
                 if (investigation.startTime - currentInvestigation.startTime < secondsBetweenInvestigations)
                     return false;
-            
+
             float distanceSqr = (investigation.distractionPoint - transform.position).sqrMagnitude;
 
-            if (distanceSqr > disturbanceHearingRadius * disturbanceHearingRadius)
+            if (distanceSqr > (disturbanceHearingRadius * disturbanceHearingRadius) * investigation.distractionLoudness)
                 return false;
-            
+
             return true;
         }
 

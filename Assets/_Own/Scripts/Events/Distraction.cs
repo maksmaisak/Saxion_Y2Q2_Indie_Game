@@ -3,11 +3,13 @@ using UnityEngine;
 public class Distraction : BroadcastEvent<Distraction>
 {
     public readonly Vector3 position;
-    public readonly float distractionPriority;
+    public readonly float priority;
+    public readonly float loudness;
  
-    public Distraction(Vector3 position, float distractionPriority = 5.0f)
+    public Distraction(Vector3 position, float distractionPriority, float loudness = 1f)
     {
         this.position = position;
-        this.distractionPriority = distractionPriority;
+        this.priority = distractionPriority;
+        this.loudness = loudness;
     }
 }

@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 114824004397904264}
   - component: {fileID: 114998865380716300}
   - component: {fileID: 114655431840501490}
+  - component: {fileID: 114564425641617442}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -281,7 +282,6 @@ MonoBehaviour:
   chaseAwarenessLevel: 2
   investigateAwarenessLevel: 1
   secondsToRememberPlayer: 0.5
-  deathDistractionPriority: 10
   secondsBetweenInvestigations: 1.5
   maxDistractionPointOffsetRange: 6.05
   canPatrol: 0
@@ -353,6 +353,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822c078dfbbdc734e87b5af839d5940a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114564425641617442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305885103597862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2c326ce306a44809bf8a8fa78a28119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distractionLoudness: 1.42
+  distractionPriority: 8
 --- !u!114 &114655431840501490
 MonoBehaviour:
   m_ObjectHideFlags: 1
