@@ -21,6 +21,7 @@ public class PlayerShootingController : MonoBehaviour
     [SerializeField] float reloadInterval = 1f;
     [SerializeField] float bulletSpeed = 20f;
     [SerializeField] float shotDistractionPriority = 4.0f;
+    [SerializeField] float shotDistractionLoudness = 1.6f;
     [SerializeField] SnapShootingImprecision snapShootingImprecisionStanding;
     [SerializeField] SnapShootingImprecision snapShootingImprecisionCrouching;
 
@@ -68,7 +69,7 @@ public class PlayerShootingController : MonoBehaviour
         var bullet = Instantiate(bulletPrefab, position, Quaternion.LookRotation(bulletForward));
         bullet.GetComponent<Rigidbody>().velocity = bulletForward * bulletSpeed;
 
-        new Distraction(transform.position, shotDistractionPriority).PostEvent();
+        new Distraction(transform.position, shotDistractionPriority, shotDistractionLoudness).PostEvent();
 
         timeWhenCanShoot = Time.time + reloadInterval;
     }

@@ -17,7 +17,7 @@
         [SerializeField] float maxViewDistance = 20.0f;
         public float disturbanceHearingRadius = 10f;
         [SerializeField] float maxSearchRadius = 5.0f;
-        [SerializeField] float assistanceRadius = 7.0f;
+        [SerializeField] float roaringRadius = 7.0f;
         [SerializeField] float maxFootstepsHearingRadius = 9.0f;
         [SerializeField] float footstepsHearingRadiusWhileCovered = 4.0f; 
         [Space]
@@ -25,10 +25,9 @@
         [SerializeField] float chaseAwarenessLevel = 2.0f;
         [SerializeField] float investigateAwarenessLevel = 1.0f;
         [SerializeField] float secondsToRememberPlayer = 2.0f;
-        [SerializeField] float deathDistractionPriority = 10.0f;
-        [SerializeField] float timeBetweenInvestigations = 3.0f;
-        [Range(0.1f, 3.5f)]
-        [SerializeField] float maxDistractionPointOffsetRange = 3.5f;
+        [SerializeField] float secondsBetweenInvestigations = 3.0f;
+        [Range(0.1f, 10f)]
+        [SerializeField] float maxDistractionPointOffsetRange = 10f;
         [SerializeField] bool canPatrol = false;
         [Space]
         [Header("AI Movement")]
@@ -37,7 +36,6 @@
         public float wanderSpeed = 1.4f;
         public float investigateSpeed = 1.2f;
         public float goBackSpeed = 1f;
-    
         [Header("AI Assignable")]
         [SerializeField] GameObject indicatorPrefab;
         [SerializeField] Transform trackerTransform;
@@ -232,7 +230,7 @@
         {
             if(!alreadyCallAssistance)
             {
-                List<EnemyAI> assistList = AIManager.instance.GetAllAssistAgentsInRange(this, assistanceRadius);
+                List<EnemyAI> assistList = AIManager.instance.GetAllAssistAgentsInRange(this, roaringRadius);
     
                 foreach (EnemyAI agent in assistList)
                     agent.StartAttackPlayer();
@@ -317,7 +315,6 @@
         {
             AIManager.instance.UnregisterAgent(this);
 
-            new Distraction(transform.position, deathDistractionPriority).PostEvent();
             new EnemyDeath(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
         }
     
@@ -377,7 +374,7 @@
         {
             canDelayInvestigation     = true;
             isStateChangeRequired     = false;
-            lastInvestigatePosition   = investigation.distractionPoint;
+            lastInvestigatePosition   = CalculateDistractionPoint(investigation);
             currentInvestigation      = investigation;
             currentInvestigation.OnInvestigationFinish += OnInvestigationFinish;
             
@@ -410,12 +407,13 @@
         {
             // Increase or decrease the offset to the actual distractionPoint based on distractionPriority
             float distance              = Vector3.Distance(transform.position, investigation.distractionPoint);
-            float offsetRadius          = Mathf.Min(maxDistractionPointOffsetRange, investigation.priority * distance / 100f);        
+            float radiusMultiplier      = 4f;
+            float offsetRadius          = Mathf.Max(0.1f, maxDistractionPointOffsetRange - (investigation.priority * distance * radiusMultiplier / 100f));
             Vector2 randomPoint         = Random.insideUnitCircle.normalized * offsetRadius;
-            Vector3 delta               = new Vector3(randomPoint.x, investigation.distractionPoint.y, randomPoint.y);
+            Vector3 delta               = new Vector3(randomPoint.x, 0.0f, randomPoint.y);
     
             NavMeshHit hit;
-            bool foundPosition = NavMesh.SamplePosition(transform.position + delta, out hit, offsetRadius, NavMesh.AllAreas);
+            bool foundPosition = NavMesh.SamplePosition(investigation.distractionPoint + delta, out hit, offsetRadius, NavMesh.AllAreas);
             Assert.IsTrue(foundPosition);
             
             return hit.position;
@@ -429,10 +427,10 @@
             isAlreadyBeingHit = true;
 
             attachedObjectHit = newGameobject;
-            
+
             this.Delay(0.05f, () => { isAlreadyBeingHit = false; });
         }
-        
+
         public bool CanStartNewInvestigation(Investigation investigation)
         {
             if (health.isDead)
@@ -442,14 +440,14 @@
                 return false;
 
             if (currentInvestigation != null && (currentInvestigation.priority > investigation.priority))
-                if (investigation.startTime - currentInvestigation.startTime < timeBetweenInvestigations)
+                if (investigation.startTime - currentInvestigation.startTime < secondsBetweenInvestigations)
                     return false;
-            
+
             float distanceSqr = (investigation.distractionPoint - transform.position).sqrMagnitude;
 
-            if (distanceSqr > disturbanceHearingRadius * disturbanceHearingRadius)
+            if (distanceSqr > (disturbanceHearingRadius * disturbanceHearingRadius) * investigation.distractionLoudness)
                 return false;
-            
+
             return true;
         }
 
