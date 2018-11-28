@@ -4,10 +4,11 @@
     using System.Collections.Generic;
     using Cinemachine.Utility;
     using UnityEngine.Assertions;
+    using UnityEditor;
     
     [DisallowMultipleComponent]
     [RequireComponent(typeof(NavMeshAgent), typeof(Health))]
-    public class EnemyAI : MyBehaviour
+    public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     {
         [Header("AI Search Settings")] 
         [SerializeField] Transform visionOrigin;
@@ -89,6 +90,18 @@
         private bool isAlreadyBeingHit = false;
 
         private Animator playerAnimator;
+        
+        void ISerializationCallbackReceiver.OnBeforeSerialize()
+        {
+        #if UNITY_EDITOR
+            // Prevent saving if this is a prefab
+            PrefabType prefabType = PrefabUtility.GetPrefabType(this);
+            if (prefabType == PrefabType.Prefab || prefabType == PrefabType.ModelPrefab )
+                canPatrol = false;
+        #endif
+        }
+    
+        void ISerializationCallbackReceiver.OnAfterDeserialize() {}
     
         private void Start()
         {

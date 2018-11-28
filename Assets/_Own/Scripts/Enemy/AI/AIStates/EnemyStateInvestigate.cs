@@ -8,7 +8,6 @@
     {
         [SerializeField] float minDelay = 0.1f;
         [SerializeField] float maxDelay = 1f;
-        [SerializeField] float stoppingDistance = 5f;
         [SerializeField] float rotationDuration = 4f;
         [SerializeField] float lookAroundRotationAmount = 180.0f;
         [SerializeField] float minimumInvestigationTimeTreshold = 1.0f;
@@ -53,8 +52,8 @@
                 if (agent.isPlayerVisible)
                     investigationTimeDiff = investigationDuration;
     
-                if ((agent.lastInvestigatePosition.Value - agent.transform.position).sqrMagnitude <=
-                    stoppingDistance * stoppingDistance)
+                if (agent.navMeshAgent.remainingDistance <=
+                    agent.navMeshAgent.stoppingDistance)
                 {
                     if (currentTween == null)
                         StartCoroutine(StartRotation());

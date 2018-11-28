@@ -23,7 +23,11 @@ public class Bullet : MonoBehaviour
                     Destroy(gameObject);
                     OnHit.Invoke();
                 });
+                return;
             }
         }
+        
+        OnHit.Invoke();
+        Destroy(gameObject);
     }
 }
