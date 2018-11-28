@@ -67,10 +67,10 @@ public static class Ballistics {
         float angleHigh = Mathf.Atan((vSqr + Mathf.Sqrt(vSqr * vSqr - g * (g * x * x + 2f * y * vSqr))) / (x * g));
         
         Vector3 startVelocityLow = GetVelocity(flatDirection, angleLow, muzzleSpeed);
-        float timeLow = x / muzzleSpeed * Mathf.Cos(angleLow);
+        float timeLow = x / (muzzleSpeed * Mathf.Cos(angleLow));
 
         Vector3 startVelocityHigh = GetVelocity(flatDirection, angleHigh, muzzleSpeed);
-        float timeHigh = x / muzzleSpeed * Mathf.Cos(angleHigh);
+        float timeHigh = x / (muzzleSpeed * Mathf.Cos(angleHigh));
         
         return new TrajectoryPair(
             new BallisticTrajectory(start, startVelocityLow , timeLow),
