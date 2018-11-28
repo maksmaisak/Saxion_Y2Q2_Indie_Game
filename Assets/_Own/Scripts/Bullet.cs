@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
             
     private void OnCollisionEnter(Collision other)
     {
-        if (ignoreTag == string.Empty || !other.gameObject.CompareTag(ignoreTag))
+        if (string.IsNullOrWhiteSpace(ignoreTag) || !other.gameObject.CompareTag(ignoreTag))
         {
             var health = other.gameObject.GetComponentInChildren<Health>();
             if (!health) health = other.gameObject.GetComponentInParent<Health>();

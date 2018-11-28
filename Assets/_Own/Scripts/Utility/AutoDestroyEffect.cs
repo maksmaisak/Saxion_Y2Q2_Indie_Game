@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 /// Destroys the gameobject once all child particle systems and audio sources have finished playing.
-public class AutoDestroyParticleSystem : MonoBehaviour
+public class AutoDestroyEffect : MonoBehaviour
 {
     private ParticleSystem[] particleSystems;
     private AudioSource[] audioSources;
