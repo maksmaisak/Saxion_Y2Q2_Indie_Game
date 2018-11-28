@@ -35,6 +35,12 @@ public class ShootingController
         
         isInitialized = true;
     }
+
+    public BallisticTrajectory? GetTrajectoryTo(Transform targetTransform)
+    {
+        //Ballistics.GetLowAndHighTrajectories()
+        throw new NotImplementedException();
+    }
     
     public bool IsClearPath(GameObject target)
     {
