@@ -36,7 +36,6 @@
         public float wanderSpeed = 1.4f;
         public float investigateSpeed = 1.2f;
         public float goBackSpeed = 1f;
-        [SerializeField] float stoppingDistanceBeforeLastPlayerPosition = 2f;
     
         [Header("AI Assignable")]
         [SerializeField] GameObject indicatorPrefab;
@@ -74,7 +73,9 @@
         public EnemyIndicator indicator { get; private set; }
         public Rigidbody playerRigidbody { get; private set; }
         /********* PRIVATE *********/
-    
+
+        public GameObject attachedObjectHit;
+        
         private float awarenessLevelMultiplier = 1.0f;
         private float hearingFootstepsDiff;
         private float lastAwarenesLevel;
@@ -85,6 +86,7 @@
         private bool isStateChangeRequired = false;
         private bool alreadyCallAssistance = false;
         private bool canInvestigateDisturbance = true;
+        private bool isAlreadyBeingHit = false;
 
         private Animator playerAnimator;
     
@@ -301,8 +303,9 @@
         private void OnDeath(Health sender)
         {
             AIManager.instance.UnregisterAgent(this);
-            
+
             new Distraction(transform.position, deathDistractionPriority).PostEvent();
+            new EnemyDeath(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
         }
     
         private void ChangeStates()
@@ -380,10 +383,9 @@
         
         public void StartAttackPlayer()
         {
+            isStateChangeRequired     = true;
             awarenessLevel            = chaseAwarenessLevel + 0.2f; // Set this manually to prevent changeing states multiple times
             lastKnownPlayerPosition   = targetTransform.position;
-    
-            fsm.ChangeState<EnemyStateChasePlayer>();
         }
         
         public float GetTimeSinceLastPlayerSeen()
@@ -404,6 +406,18 @@
             Assert.IsTrue(foundPosition);
             
             return hit.position;
+        }
+
+        public void SetAttachedObjectHit(GameObject newGameobject)
+        {
+            if(isAlreadyBeingHit)
+                return;
+
+            isAlreadyBeingHit = true;
+
+            attachedObjectHit = newGameobject;
+            
+            this.Delay(0.05f, () => { isAlreadyBeingHit = false; });
         }
         
         public bool CanStartNewInvestigation(Investigation investigation)

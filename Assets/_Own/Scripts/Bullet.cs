@@ -15,7 +15,14 @@ public class Bullet : MonoBehaviour
         {
             var health = other.gameObject.GetComponentInChildren<Health>();
             if (!health) health = other.gameObject.GetComponentInParent<Health>();
-            if (health) health.DealDamage(damage);
+            if (health)
+            {
+                this.DoNextFrame(() =>
+                {
+                    health.DealDamage(damage);
+                    Destroy(gameObject);
+                });
+            }
         }
 
         OnHit.Invoke();
