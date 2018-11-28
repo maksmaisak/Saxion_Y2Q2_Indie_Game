@@ -34,19 +34,19 @@ public static class Ballistics {
         return startVelocity;
     }
 
-    public struct BallisticTrajectoryPair
+    public struct TrajectoryPair
     {
         public BallisticTrajectory low;
         public BallisticTrajectory high;
 
-        public BallisticTrajectoryPair(BallisticTrajectory low, BallisticTrajectory high)
+        public TrajectoryPair(BallisticTrajectory low, BallisticTrajectory high)
         {
             this.low = low;
             this.high = high;
         }
     }
 
-    public static BallisticTrajectoryPair? GetLowAndHighTrajectories(
+    public static TrajectoryPair? GetLowAndHighTrajectories(
         Vector3 start,
         Vector3 target,
         float muzzleSpeed
@@ -65,14 +65,14 @@ public static class Ballistics {
         float angleLow = Mathf.Atan((vSqr - Mathf.Sqrt(vSqr * vSqr - g * (g * x * x + 2f * y * vSqr))) / (x * g));
         if (float.IsNaN(angleLow)) return null;
         float angleHigh = Mathf.Atan((vSqr + Mathf.Sqrt(vSqr * vSqr - g * (g * x * x + 2f * y * vSqr))) / (x * g));
-
+        
         Vector3 startVelocityLow = GetVelocity(flatDirection, angleLow, muzzleSpeed);
-        float timeLow = (startVelocityLow.y + Mathf.Sqrt(startVelocityLow.y * startVelocityLow.y - 2 * g * y)) * 0.5f;
+        float timeLow = x / muzzleSpeed * Mathf.Cos(angleLow);
 
         Vector3 startVelocityHigh = GetVelocity(flatDirection, angleHigh, muzzleSpeed);
-        float timeHigh = (startVelocityHigh.y + Mathf.Sqrt(startVelocityHigh.y * startVelocityHigh.y - 2 * g * y)) * 0.5f;
+        float timeHigh = x / muzzleSpeed * Mathf.Cos(angleHigh);
         
-        return new BallisticTrajectoryPair(
+        return new TrajectoryPair(
             new BallisticTrajectory(start, startVelocityLow , timeLow),
             new BallisticTrajectory(start, startVelocityHigh, timeHigh)
         );

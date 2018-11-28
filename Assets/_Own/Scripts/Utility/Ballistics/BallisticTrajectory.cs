@@ -22,11 +22,12 @@ public struct BallisticTrajectory
     public bool CheckIsClear(LayerMask obstacleDetectionLayerMask, GameObject target, int numSegments = 10, float sphereCastRadius = 0.1f)
     {
         Vector3 previousPosition = GetPositionAt(0f);
-        for (int i = 0; i < numSegments; ++i)
+        for (int i = 1; i <= numSegments; ++i)
         {
-            float time = totalTime * i / (numSegments + 1);
+            float time = totalTime * i / numSegments;
             Vector3 position = GetPositionAt(time);
             if (!CheckIsSegmentClear(previousPosition, position, sphereCastRadius, obstacleDetectionLayerMask, target)) return false;
+            previousPosition = position;
         }
 
         return true;
@@ -37,7 +38,7 @@ public struct BallisticTrajectory
         Vector3 delta = pointB - pointA;
         float distance = delta.magnitude;
         Vector3 direction = delta / distance;
-        
+                
         RaycastHit hit;
         bool didHit = Physics.SphereCast(
             origin: pointA,
@@ -49,6 +50,8 @@ public struct BallisticTrajectory
             queryTriggerInteraction: QueryTriggerInteraction.Ignore
         );
         
-        return !didHit || hit.collider.gameObject == target;
+        bool isClear = !didHit || hit.collider.gameObject == target;
+        Debug.DrawLine(pointA, pointB, isClear ? Color.green : Color.red, 20f);
+        return isClear;
     }
 }

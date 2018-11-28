@@ -104,7 +104,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
                 chance = 1f - Mathf.Pow(1f - rangedAttackProbabilityPerSecond, Time.deltaTime);
             }
 
-            if (!isAttacking && Random.value < chance && !IsCloserToTargetThan(minShootingDistance) && agent.shootingController.IsClearPath(agent.targetTransform.gameObject))
+            if (!isAttacking && Random.value < chance && !IsCloserToTargetThan(minShootingDistance))
             {
                 isAttacking = true;
                 if (agent.shootingController.ShootAt(agent.targetTransform.gameObject))

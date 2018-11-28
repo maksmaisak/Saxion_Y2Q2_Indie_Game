@@ -36,40 +36,6 @@ public class ShootingController
         isInitialized = true;
     }
 
-    public BallisticTrajectory? GetTrajectoryTo(Transform targetTransform)
-    {
-        //Ballistics.GetLowAndHighTrajectories()
-        throw new NotImplementedException();
-    }
-    
-    public bool IsClearPath(GameObject target)
-    {
-        Assert.IsTrue(isInitialized);
-        
-        Vector3? startVelocity = Ballistics.GetStartVelocity(
-            projectileOrigin.position,
-            target.transform.position,
-            muzzleSpeed
-        );
-
-        if (!startVelocity.HasValue) return false;
-
-        Vector3 delta = target.transform.position - projectileOrigin.position;
-
-        RaycastHit hit;
-        bool didHit = Physics.SphereCast(
-            origin: projectileOrigin.position,
-            radius: sphereCastRadius,
-            direction: delta.normalized,
-            hitInfo: out hit,
-            maxDistance: delta.magnitude,
-            layerMask: obstacleDetectionLayerMask & ~(1 << target.layer),
-            queryTriggerInteraction: QueryTriggerInteraction.Ignore
-        );
-
-        return !didHit || hit.collider.gameObject == gameObject;
-    }
-
     /// Returns true if successful
     public bool ShootAt(GameObject target)
     {
@@ -77,23 +43,38 @@ public class ShootingController
         
         Vector3 delta = target.transform.position - projectileOrigin.position;
         Vector3 direction = delta.normalized;
-
         Vector3 projectileSpawnPosition = projectileOrigin.position + direction * spawnPointOffset;
 
-        Vector3? startVelocity = Ballistics.GetStartVelocity(
-            start: projectileSpawnPosition,
-            target: target.transform.position,
-            muzzleSpeed: muzzleSpeed
-        );
-
-        if (!startVelocity.HasValue) return false;
+        BallisticTrajectory? trajectory = GetTrajectoryTo(target);
+        
+        if (!trajectory.HasValue) return false;
 
         Shoot(
             position: projectileSpawnPosition,
-            startVelocity: startVelocity.Value
+            startVelocity: trajectory.Value.startVelocity
         );
 
         return true;
+    }
+    
+    public BallisticTrajectory? GetTrajectoryTo(GameObject target)
+    {
+        Ballistics.TrajectoryPair? trajectories = Ballistics.GetLowAndHighTrajectories(
+            projectileOrigin.position, 
+            target.transform.position,
+            muzzleSpeed
+        );
+        if (!trajectories.HasValue) return null;
+        
+        LayerMask layerMask = obstacleDetectionLayerMask & ~(1 << target.layer);
+
+        if (trajectories.Value.low.CheckIsClear(layerMask, target)) 
+            return trajectories.Value.low;
+        
+        if (trajectories.Value.high.CheckIsClear(layerMask, target)) 
+            return trajectories.Value.high;
+
+        return null;
     }
 
     private void Shoot(Vector3 position, Vector3 startVelocity)
