@@ -14,6 +14,7 @@ public class ShootingController
     [SerializeField] float spawnPointOffset = 1.2f;
     [Space]
     [SerializeField] LayerMask obstacleDetectionLayerMask;
+    [SerializeField] int numTrajectoryCastSegments = 10;
     [SerializeField] float sphereCastRadius = 0.1f;
     [SerializeField] Transform projectileOrigin;
 
@@ -68,10 +69,10 @@ public class ShootingController
         
         LayerMask layerMask = obstacleDetectionLayerMask & ~(1 << target.layer);
 
-        if (trajectories.Value.low.CheckIsClear(layerMask, target)) 
+        if (trajectories.Value.low.CheckIsClear(layerMask, target, numTrajectoryCastSegments, sphereCastRadius)) 
             return trajectories.Value.low;
         
-        if (trajectories.Value.high.CheckIsClear(layerMask, target)) 
+        if (trajectories.Value.high.CheckIsClear(layerMask, target, numTrajectoryCastSegments, sphereCastRadius)) 
             return trajectories.Value.high;
 
         return null;

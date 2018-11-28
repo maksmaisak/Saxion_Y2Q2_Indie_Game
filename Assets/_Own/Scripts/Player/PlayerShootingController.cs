@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -24,6 +25,7 @@ public class PlayerShootingController : MonoBehaviour
     [SerializeField] float shotDistractionLoudness = 1.6f;
     [SerializeField] SnapShootingImprecision snapShootingImprecisionStanding;
     [SerializeField] SnapShootingImprecision snapShootingImprecisionCrouching;
+    [SerializeField] UnityEvent OnShoot;
 
     private float timeWhenCanShoot;
     private PlayerCameraController cameraController;
@@ -49,9 +51,10 @@ public class PlayerShootingController : MonoBehaviour
     {
         if (!aimingTarget) return;
         
-        if (CanShoot() && Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && CanShoot())
         {
             Shoot();
+            OnShoot.Invoke();
         }
     }
 

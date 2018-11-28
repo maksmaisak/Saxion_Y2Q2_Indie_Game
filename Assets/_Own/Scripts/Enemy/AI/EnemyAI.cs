@@ -5,8 +5,9 @@
     using Cinemachine.Utility;
     using UnityEngine.Assertions;
     using UnityEditor;
-    
-    [DisallowMultipleComponent]
+    using UnityEngine.Events;
+
+[DisallowMultipleComponent]
     [RequireComponent(typeof(NavMeshAgent), typeof(Health))]
     public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     {
@@ -39,13 +40,15 @@
         [Header("AI Assignable")]
         [SerializeField] GameObject indicatorPrefab;
         [SerializeField] Transform trackerTransform;
+        [SerializeField] ShootingController _shootingController;
+
+        [SerializeField] UnityEvent OnCallForAssistance;
     
         /********* PUBLIC *********/
         public Health health { get; private set; }
     
         public FSM<EnemyAI> fsm { get; private set; }
         public NavMeshAgent navMeshAgent { get; private set; }
-        [SerializeField] ShootingController _shootingController;
         public ShootingController shootingController => _shootingController;
         
         public Vector3 spawnPosition { get; private set; }
@@ -73,7 +76,7 @@
         public Rigidbody playerRigidbody { get; private set; }
         /********* PRIVATE *********/
 
-        public GameObject attachedObjectHit;
+        private GameObject attachedObjectHit;
         
         private float awarenessLevelMultiplier = 1.0f;
         private float hearingFootstepsDiff;
@@ -234,6 +237,8 @@
     
                 foreach (EnemyAI agent in assistList)
                     agent.StartAttackPlayer();
+                
+                OnCallForAssistance.Invoke();
             }
         }
     
@@ -315,6 +320,7 @@
         {
             AIManager.instance.UnregisterAgent(this);
 
+            // TODO would be better with attachedObjectHit == head, with head being assigned in the inspector.
             new EnemyDeath(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
         }
     
