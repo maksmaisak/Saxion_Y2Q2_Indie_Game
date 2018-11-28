@@ -74,7 +74,7 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
 
     void ISerializationCallbackReceiver.OnBeforeSerialize()
     {
-     #if UNITY_EDITOR
+    #if UNITY_EDITOR
         // Prevent saving if this is a prefab
         PrefabType prefabType = PrefabUtility.GetPrefabType(this);
         if (prefabType == PrefabType.Prefab || prefabType == PrefabType.ModelPrefab )
