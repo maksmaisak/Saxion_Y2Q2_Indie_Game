@@ -21,11 +21,9 @@ public class Bullet : MonoBehaviour
                 {
                     health.DealDamage(damage);
                     Destroy(gameObject);
+                    OnHit.Invoke();
                 });
             }
         }
-
-        OnHit.Invoke();
-        Destroy(gameObject);
     }
 }
