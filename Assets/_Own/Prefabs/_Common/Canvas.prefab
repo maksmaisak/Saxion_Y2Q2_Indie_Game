@@ -575,13 +575,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc71fa1426d0b294fa286f839e16d0d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHeadshotDeadEnemyText: Enemy killed (Headshot)
-  onDeadEnemyText: Enemy killed.
+  onHeadshotDeadEnemyText: Headshot
+  onDeadEnemyText: Mutant killed
   deathNotificationDisplayText: {fileID: 114369406699810020}
   hitCanvasGroup: {fileID: 225607040581556730}
   fadeZoom:
-    transitionDuration: 1
-    fadedOutScale: 0.68
+    transitionDuration: 0.5
+    fadedOutScale: 0.5
 --- !u!114 &114638096468957844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -971,7 +971,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1605085529216154}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

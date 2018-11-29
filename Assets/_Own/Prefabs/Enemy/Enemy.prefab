@@ -173,6 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4629673203318234}
   - component: {fileID: 136037623882103372}
+  - component: {fileID: 114717651695898872}
   m_Layer: 11
   m_Name: BobHead
   m_TagString: EnemyHead
@@ -187,7 +188,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
   m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
-  m_LocalPosition: {x: 69.3, y: 0, z: 22.04}
+  m_LocalPosition: {x: 57.4, y: 0.036854148, z: 5.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4965588103020308}
@@ -829,7 +830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c326ce306a44809bf8a8fa78a28119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distractionLoudness: 1.42
   distractionPriority: 8
   overrideEnemyHearingRadius: 1
   enemyHearingRadius: 22
@@ -846,6 +846,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayToGoIdle: 0.5
   stoppingDistanceBeforeSpawnPosition: 2
+--- !u!114 &114717651695898872
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1960823628001640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822c078dfbbdc734e87b5af839d5940a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114723270555857622
 MonoBehaviour:
   m_ObjectHideFlags: 1
