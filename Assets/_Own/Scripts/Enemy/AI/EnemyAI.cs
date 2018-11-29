@@ -412,17 +412,13 @@
         public Vector3 CalculateDistractionPoint(Investigation investigation)
         {
             // Increase or decrease the offset to the actual distractionPoint based on distractionPriority
-            float distance              = Vector3.Distance(transform.position, investigation.distractionPoint);
-            float radiusMultiplier      = 4f;
-            float offsetRadius          = Mathf.Max(0.1f, maxDistractionPointOffsetRange - (investigation.priority * distance * radiusMultiplier / 100f));
-            Vector2 randomPoint         = Random.insideUnitCircle.normalized * offsetRadius;
-            Vector3 delta               = new Vector3(randomPoint.x, 0.0f, randomPoint.y);
-    
-            NavMeshHit hit;
-            bool foundPosition = NavMesh.SamplePosition(investigation.distractionPoint + delta, out hit, offsetRadius, NavMesh.AllAreas);
-            Assert.IsTrue(foundPosition);
+            float distance         = Vector3.Distance(transform.position, investigation.distractionPoint);
+            float radiusMultiplier = 4f;
+            float offsetRadius     = Mathf.Max(0.1f, maxDistractionPointOffsetRange - (investigation.priority * distance * radiusMultiplier / 100f));
+            Vector2 randomPoint    = Random.insideUnitCircle.normalized * offsetRadius;
+            Vector3 delta          = new Vector3(randomPoint.x, 0.0f, randomPoint.y);
             
-            return hit.position;
+            return investigation.distractionPoint + delta;
         }
 
         public void SetAttachedObjectHit(GameObject newGameobject)
