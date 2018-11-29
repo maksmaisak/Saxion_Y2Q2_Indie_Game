@@ -188,8 +188,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
   m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
-  m_LocalPosition: {x: 44.22, y: 0, z: -17.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 55.57, y: 0.036854148, z: 10.27}
+  m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
   m_Children:
   - {fileID: 4965588103020308}
   - {fileID: 4159333755516054}
@@ -691,8 +691,8 @@ MonoBehaviour:
   secondsBetweenInvestigations: 1.5
   maxDistractionPointOffsetRange: 6.05
   canPatrol: 0
-  chaseSpeed: 4
-  patrolSpeed: 0.75
+  chaseSpeed: 4.25
+  patrolSpeed: 1
   wanderSpeed: 1.89
   investigateSpeed: 1.41
   goBackSpeed: 1
