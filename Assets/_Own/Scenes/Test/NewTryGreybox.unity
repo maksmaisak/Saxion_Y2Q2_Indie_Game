@@ -5263,7 +5263,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -7008,7 +7008,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -8487,7 +8487,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -9404,7 +9404,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -12678,7 +12678,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -13033,7 +13033,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -13872,7 +13872,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 335664189}
-  m_LocalRotation: {x: 0.99930567, y: -0.00000046421303, z: -3.9093676e-10, w: 0.03725879}
+  m_LocalRotation: {x: 0.99930567, y: -0.0000004655347, z: 0.000000035056292, w: 0.037258793}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14581,7 +14581,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -15030,6 +15030,11 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
+--- !u!4 &368684480 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400128, guid: 84b6c1e3827041a4884cbdaf754d3ffa,
+    type: 3}
+  m_PrefabInternal: {fileID: 653460320}
 --- !u!4 &369716299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4661215624126492, guid: 214716af88a55334592f4e9a186150cc,
@@ -16132,7 +16137,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -20650,7 +20655,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -24681,6 +24686,60 @@ Transform:
   m_Father: {fileID: 1455226186}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &653460320
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1749709590}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 69c184645d664154e9e18916977a4824, type: 2}
+    - target: {fileID: 9500000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 84b6c1e3827041a4884cbdaf754d3ffa, type: 3}
+  m_IsPrefabAsset: 0
 --- !u!1 &654379186
 GameObject:
   m_ObjectHideFlags: 0
@@ -29571,7 +29630,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -30789,7 +30848,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 844526180}
-  m_LocalRotation: {x: 0.99930567, y: 0.00000046070147, z: -0.000000034091045, w: 0.03725879}
+  m_LocalRotation: {x: 0.99930567, y: 0.00000045939422, z: 9.697294e-10, w: 0.037258793}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -31336,11 +31395,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4426798771896372, guid: c26cc69c7969742be8e253fdad625a36, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.00000040039978
+      value: -0.00000040172142
       objectReference: {fileID: 0}
     - target: {fileID: 4426798771896372, guid: c26cc69c7969742be8e253fdad625a36, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.000000002770193
+      value: 0.000000032677036
       objectReference: {fileID: 0}
     - target: {fileID: 4426798771896372, guid: c26cc69c7969742be8e253fdad625a36, type: 2}
       propertyPath: m_LocalRotation.w
@@ -32300,7 +32359,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -34033,7 +34092,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 970949927}
-  m_LocalRotation: {x: 0.99930567, y: 0.00000046070147, z: -0.000000034091045, w: 0.03725879}
+  m_LocalRotation: {x: 0.99930567, y: 0.00000045939422, z: 9.697294e-10, w: 0.037258793}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -40352,7 +40411,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -41951,6 +42010,16 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1888301047}
     m_Modifications:
+    - target: {fileID: 114203872819064852, guid: 06abf0aa0771e544991bb688142572a7,
+        type: 2}
+      propertyPath: m_SelectedEdges.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114203872819064852, guid: 06abf0aa0771e544991bb688142572a7,
+        type: 2}
+      propertyPath: m_selectedTriangles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4447650805208986, guid: 06abf0aa0771e544991bb688142572a7, type: 2}
       propertyPath: m_LocalPosition.x
       value: 56.671
@@ -45740,7 +45809,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -47474,7 +47543,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -47507,64 +47576,68 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1749709590}
+    m_TransformParent: {fileID: 2078979924}
     m_Modifications:
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.1434784
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.97762996
+      value: -0.11
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.27939987
+      value: 0.321
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.05411566
+      value: -0.80992687
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.75741
+      value: 0.4337455
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.004621664
+      value: -0.3780352
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.65067685
+      value: 0.11389759
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -51.531002
+      value: -127.159004
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -26.031002
+      value: 8.247001
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -16.320002
+      value: 134.061
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.01000001
+      value: 0.010000016
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.0100000035
+      value: 0.010000005
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
       propertyPath: m_LocalScale.z
-      value: -0.010000009
+      value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47a496348be35f24aa2d85d5697804a2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f269eb969d55524eb40922b55b4f0f8, type: 3}
   m_IsPrefabAsset: 0
@@ -47573,36 +47646,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 4f269eb969d55524eb40922b55b4f0f8,
     type: 3}
   m_PrefabInternal: {fileID: 1381306462}
---- !u!1 &1381306464 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: 4f269eb969d55524eb40922b55b4f0f8,
-    type: 3}
-  m_PrefabInternal: {fileID: 1381306462}
---- !u!1773428102 &1381306465
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1381306464}
-  m_Enabled: 1
-  m_Weight: 1
-  m_TranslationAtRest: {x: -0.14348602, y: 0.9776334, z: 0.27939987}
-  m_RotationAtRest: {x: 4.44057, y: 98.83891, z: 4.369627}
-  m_TranslationOffsets:
-  - {x: -0.07200432, y: 0.12100029, z: -0.1969986}
-  m_RotationOffsets:
-  - {x: 26.031456, y: 16.320105, z: -51.530556}
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_IsContraintActive: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 1575232176}
-    weight: 1
 --- !u!1 &1383918013
 GameObject:
   m_ObjectHideFlags: 0
@@ -48579,7 +48622,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -50469,7 +50512,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1508272802}
-  m_LocalRotation: {x: 0.70090926, y: -0.000000016858099, z: 8.577599e-11, w: 0.71325046}
+  m_LocalRotation: {x: 0.70090926, y: -0.000000016858099, z: 9.137273e-11, w: 0.71325046}
   m_LocalPosition: {x: 70.88, y: 21.032045, z: 51.166107}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
   m_Children:
@@ -51043,7 +51086,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -52539,11 +52582,6 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
---- !u!4 &1575232176 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400126, guid: a4d845ce88992434d8ca70ff9ee06483,
-    type: 3}
-  m_PrefabInternal: {fileID: 1679352323}
 --- !u!1001 &1575337961
 Prefab:
   m_ObjectHideFlags: 0
@@ -53465,7 +53503,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -55046,54 +55084,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1668549676}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1679352323
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1749709590}
-    m_Modifications:
-    - target: {fileID: 400000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9500000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-  m_SourcePrefab: {fileID: 100100000, guid: a4d845ce88992434d8ca70ff9ee06483, type: 3}
-  m_IsPrefabAsset: 0
---- !u!4 &1679352324 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: a4d845ce88992434d8ca70ff9ee06483,
-    type: 3}
-  m_PrefabInternal: {fileID: 1679352323}
 --- !u!1 &1679658901
 GameObject:
   m_ObjectHideFlags: 0
@@ -57105,8 +57095,8 @@ Transform:
   - {fileID: 998278640}
   - {fileID: 2117321140}
   - {fileID: 445762811}
-  - {fileID: 1381306463}
-  - {fileID: 1679352324}
+  - {fileID: 2078979924}
+  - {fileID: 2060271871}
   m_Father: {fileID: 1587305455}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -62149,7 +62139,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -63142,7 +63132,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -65818,7 +65808,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-22924790
+  m_Name: pb_Mesh-3597206
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -67424,6 +67414,11 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
+--- !u!4 &2060271871 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 84b6c1e3827041a4884cbdaf754d3ffa,
+    type: 3}
+  m_PrefabInternal: {fileID: 653460320}
 --- !u!1001 &2060992711
 Prefab:
   m_ObjectHideFlags: 0
@@ -67857,6 +67852,61 @@ Transform:
   m_Father: {fileID: 1455226186}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 55.539, z: 0}
+--- !u!1 &2078979923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2078979924}
+  - component: {fileID: 2078979925}
+  m_Layer: 9
+  m_Name: GunRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2078979924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2078979923}
+  m_LocalRotation: {x: -0.41435164, y: 0.4971054, z: -0.7055724, w: 0.28873265}
+  m_LocalPosition: {x: -0.2131195, y: 1.3664554, z: 0.0434227}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1381306463}
+  m_Father: {fileID: 1749709590}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1773428102 &2078979925
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2078979923}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: -0.14348602, y: 0.9776334, z: 0.27939987}
+  m_RotationAtRest: {x: 4.44057, y: 98.83891, z: 4.369627}
+  m_TranslationOffsets:
+  - {x: -0.07200432, y: 0.12100029, z: -0.1969986}
+  m_RotationOffsets:
+  - {x: 26.031456, y: 16.320105, z: -51.530556}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 368684480}
+    weight: 1
 --- !u!1001 &2081704174
 Prefab:
   m_ObjectHideFlags: 0
@@ -69230,7 +69280,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
