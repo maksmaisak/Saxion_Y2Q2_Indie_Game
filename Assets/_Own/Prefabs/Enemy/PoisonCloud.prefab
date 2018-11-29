@@ -159,12 +159,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 10
-  damage: 10
+  dissipationDuration: 5
+  startDelay: 0.5
+  damage: 20
   damageInterval: 1
   canDamageLayer:
     serializedVersion: 2
     m_Bits: 4294967295
   ignoreTag: 
+  snapToSurfaceLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967291
+  maxSnapDistance: 1
 --- !u!114 &114926138152402502
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -10,6 +10,7 @@ public class PoisonCloud : MonoBehaviour
     [SerializeField] float dissipationDuration = 5f;
     [Tooltip("Can only damage anything after this time after starting.")]
     [SerializeField] float startDelay = 0.5f;
+    [Header("Damage")]
     [SerializeField] int damage = 10;
     [SerializeField] float damageInterval = 1f;
     [SerializeField] LayerMask canDamageLayer = ~0;
