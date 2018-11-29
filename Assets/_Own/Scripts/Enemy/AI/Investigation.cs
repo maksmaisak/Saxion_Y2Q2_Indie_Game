@@ -8,18 +8,19 @@ public class Investigation
     public float startTime { get; }
     public List<EnemyAI> agents { get; }
     public Vector3 distractionPoint { get; }
-    public float distractionLoudness { get; }
     public float priority { get; }
+    public float? enemyHearingRadius { get; }
 
     public delegate void OnFinishInvestigation(Investigation investigation);
     public event OnFinishInvestigation OnInvestigationFinish;
     
-    public Investigation(Distraction distraction) {
-        distractionPoint            = distraction.position;
-        priority                    = distraction.priority;
-        this.distractionLoudness    = distraction.loudness;
-        agents                      = new List<EnemyAI>();
-        startTime                   = Time.time;
+    public Investigation(Distraction distraction)
+    {
+        distractionPoint   = distraction.position;
+        priority           = distraction.priority;
+        enemyHearingRadius = distraction.enemyHearingRadius;
+        agents             = new List<EnemyAI>();
+        startTime          = Time.time;
     }
 
     public void AssignAgent(EnemyAI agent) => agents.Add(agent);

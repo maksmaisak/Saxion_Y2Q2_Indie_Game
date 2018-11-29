@@ -187,7 +187,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
   m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
-  m_LocalPosition: {x: 3.17, y: 0, z: 7.73}
+  m_LocalPosition: {x: 69.3, y: 0, z: 22.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4965588103020308}
@@ -679,7 +679,7 @@ MonoBehaviour:
     m_Bits: 1
   maxViewAngle: 80
   maxViewDistance: 60
-  disturbanceHearingRadius: 15
+  defaultDisturbanceHearingRadius: 15
   maxSearchRadius: 7
   roaringRadius: 7
   maxFootstepsHearingRadius: 9
@@ -831,6 +831,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distractionLoudness: 1.42
   distractionPriority: 8
+  overrideEnemyHearingRadius: 1
+  enemyHearingRadius: 22
 --- !u!114 &114655431840501490
 MonoBehaviour:
   m_ObjectHideFlags: 1

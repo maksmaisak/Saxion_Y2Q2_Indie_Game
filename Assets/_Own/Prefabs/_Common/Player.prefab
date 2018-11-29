@@ -1656,7 +1656,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1682916120228484}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.0999994, y: -2.2699394, z: 25.603018}
+  m_LocalPosition: {x: 70.88, y: 1.5600605, z: 51.163017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4438890235227580}
@@ -1751,7 +1751,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1925517579161580}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 2.1, y: -3.77, z: 25.56}
+  m_LocalPosition: {x: 70.88, y: 0.06, z: 51.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4715875823041658}
@@ -1952,7 +1952,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000077682295834}
-  m_LocalRotation: {x: -0.000000052430604, y: -0.99930567, z: -0.037258793, w: -0.00000002052825}
+  m_LocalRotation: {x: 0.99930567, y: 0.00000045939424, z: 9.697294e-10, w: 0.037258793}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2121,7 +2121,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1497783660311768}
   m_LocalRotation: {x: 0.70090926, y: -0, z: -0, w: 0.7132505}
-  m_LocalPosition: {x: 2.0999997, y: 0.20204592, z: 25.606106}
+  m_LocalPosition: {x: 70.88, y: 4.032046, z: 51.166107}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4007054109452582}
@@ -2245,7 +2245,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1433424298001972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.0999992, y: -2.2699394, z: 28.603018}
+  m_LocalPosition: {x: 70.88, y: 1.5600605, z: 54.163017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4136402711137062}
@@ -2422,8 +2422,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1752629989059712}
-  m_LocalRotation: {x: 0.70090926, y: -0.000000016858099, z: -1.3075574e-10, w: 0.71325046}
-  m_LocalPosition: {x: 2.0999997, y: 17.202045, z: 25.606106}
+  m_LocalRotation: {x: 0.70090926, y: -0.000000016858099, z: 9.997342e-11, w: 0.71325046}
+  m_LocalPosition: {x: 70.88, y: 21.032045, z: 51.166107}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
   m_Children:
   - {fileID: 4924330265902946}
@@ -2713,7 +2713,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1036894842758646}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.59, y: 3.76, z: -26.93}
+  m_LocalPosition: {x: -1.3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4034036683312008}
@@ -2756,7 +2756,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659476796608624}
-  m_LocalRotation: {x: -0.000000052430604, y: -0.99930567, z: -0.037258793, w: -0.00000002052825}
+  m_LocalRotation: {x: 0.99930567, y: 0.00000045939424, z: 9.697294e-10, w: 0.037258793}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2932,7 +2932,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1904720713988524}
-  m_LocalRotation: {x: -0.000000052430604, y: -0.99930567, z: -0.037258793, w: -0.00000002052825}
+  m_LocalRotation: {x: 0.99930567, y: -0.00000046553458, z: 0.00000003505629, w: 0.037258793}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3555,11 +3555,13 @@ MonoBehaviour:
   playerAnimator: {fileID: 95781225232138254}
   reloadInterval: 1
   bulletSpeed: 75
-  shotDistractionPriority: 4
   snapShootingImprecisionStanding:
     angle: 5
   snapShootingImprecisionCrouching:
     angle: 4
+  shotDistractionPriority: 2
+  overrideEnemyHearingRange: 1
+  shotHearingRange: 30
   OnShoot:
     m_PersistentCalls:
       m_Calls:

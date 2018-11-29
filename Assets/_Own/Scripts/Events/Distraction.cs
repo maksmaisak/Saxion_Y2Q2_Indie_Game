@@ -4,12 +4,12 @@ public class Distraction : BroadcastEvent<Distraction>
 {
     public readonly Vector3 position;
     public readonly float priority;
-    public readonly float loudness;
+    public readonly float? enemyHearingRadius;
  
-    public Distraction(Vector3 position, float distractionPriority, float loudness = 1f)
+    public Distraction(Vector3 position, float priority, float? enemyHearingRadius = null)
     {
         this.position = position;
-        this.priority = distractionPriority;
-        this.loudness = loudness;
+        this.priority = priority;
+        this.enemyHearingRadius = enemyHearingRadius;
     }
 }

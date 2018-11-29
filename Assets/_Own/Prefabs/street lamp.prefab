@@ -166,7 +166,7 @@ Transform:
   - {fileID: 4590147291288226}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4098567174663200
 Transform:
   m_ObjectHideFlags: 1
@@ -590,6 +590,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c326ce306a44809bf8a8fa78a28119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distractionPriority: 6
+  overrideEnemyHearingRadius: 1
+  enemyHearingRadius: 15
 --- !u!114 &114679178982313790
 MonoBehaviour:
   m_ObjectHideFlags: 1

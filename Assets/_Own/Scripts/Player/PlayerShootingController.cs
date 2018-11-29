@@ -21,12 +21,16 @@ public class PlayerShootingController : MonoBehaviour
     [SerializeField] Animator playerAnimator;
     [SerializeField] float reloadInterval = 1f;
     [SerializeField] float bulletSpeed = 20f;
-    [SerializeField] float shotDistractionPriority = 4.0f;
-    [SerializeField] float shotDistractionLoudness = 1.6f;
     [SerializeField] SnapShootingImprecision snapShootingImprecisionStanding;
     [SerializeField] SnapShootingImprecision snapShootingImprecisionCrouching;
-    [SerializeField] UnityEvent OnShoot;
+    
+    [Header("Enemy shot hearing")]
+    [SerializeField] float shotDistractionPriority = 2.0f;
+    [SerializeField] bool overrideEnemyHearingRange = true;
+    [SerializeField] float shotHearingRange = 30f;
 
+    [SerializeField] UnityEvent OnShoot;
+    
     private float timeWhenCanShoot;
     private PlayerCameraController cameraController;
     
@@ -72,7 +76,11 @@ public class PlayerShootingController : MonoBehaviour
         var bullet = Instantiate(bulletPrefab, position, Quaternion.LookRotation(bulletForward));
         bullet.GetComponent<Rigidbody>().velocity = bulletForward * bulletSpeed;
 
-        new Distraction(transform.position, shotDistractionPriority, shotDistractionLoudness).PostEvent();
+        new Distraction(
+            transform.position, 
+            shotDistractionPriority, 
+            overrideEnemyHearingRange ? (float?)shotHearingRange : null
+        ).PostEvent();
 
         timeWhenCanShoot = Time.time + reloadInterval;
     }

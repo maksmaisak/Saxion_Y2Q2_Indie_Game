@@ -6,6 +6,7 @@
     using UnityEngine.Assertions;
     using UnityEditor;
     using UnityEngine.Events;
+    using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
     [RequireComponent(typeof(NavMeshAgent), typeof(Health))]
@@ -16,7 +17,7 @@
         [SerializeField] LayerMask blockingLayerMask = Physics.DefaultRaycastLayers;
         [SerializeField] float maxViewAngle = 60.0f;
         [SerializeField] float maxViewDistance = 20.0f;
-        public float disturbanceHearingRadius = 10f;
+        [SerializeField] float defaultDisturbanceHearingRadius = 15f;
         [SerializeField] float maxSearchRadius = 5.0f;
         [SerializeField] float roaringRadius = 7.0f;
         [SerializeField] float maxFootstepsHearingRadius = 9.0f;
@@ -378,10 +379,10 @@
     
         public void Investigate(Investigation investigation)
         {
-            canDelayInvestigation     = true;
-            isStateChangeRequired     = false;
-            lastInvestigatePosition   = CalculateDistractionPoint(investigation);
-            currentInvestigation      = investigation;
+            canDelayInvestigation   = true;
+            isStateChangeRequired   = false;
+            lastInvestigatePosition = CalculateDistractionPoint(investigation);
+            currentInvestigation    = investigation;
             currentInvestigation.OnInvestigationFinish += OnInvestigationFinish;
             
             // If already is investigating update navmeshagent
@@ -399,9 +400,9 @@
         
         public void StartAttackPlayer()
         {
-            isStateChangeRequired     = true;
-            awarenessLevel            = chaseAwarenessLevel + 0.2f; // Set this manually to prevent changeing states multiple times
-            lastKnownPlayerPosition   = targetTransform.position;
+            isStateChangeRequired   = true;
+            awarenessLevel          = chaseAwarenessLevel + 0.2f; // Set this manually to prevent changing states multiple times
+            lastKnownPlayerPosition = targetTransform.position;
         }
         
         public float GetTimeSinceLastPlayerSeen()
@@ -421,16 +422,16 @@
             return investigation.distractionPoint + delta;
         }
 
-        public void SetAttachedObjectHit(GameObject newGameobject)
+        public void SetAttachedObjectHit(GameObject newGameObject)
         {
             if(isAlreadyBeingHit)
                 return;
 
             isAlreadyBeingHit = true;
 
-            attachedObjectHit = newGameobject;
+            attachedObjectHit = newGameObject;
 
-            this.Delay(0.05f, () => { isAlreadyBeingHit = false; });
+            this.Delay(0.05f, () => isAlreadyBeingHit = false);
         }
 
         public bool CanStartNewInvestigation(Investigation investigation)
@@ -446,11 +447,8 @@
                     return false;
 
             float distanceSqr = (investigation.distractionPoint - transform.position).sqrMagnitude;
-
-            if (distanceSqr > (disturbanceHearingRadius * disturbanceHearingRadius) * investigation.distractionLoudness)
-                return false;
-
-            return true;
+            float hearingRadius = investigation.enemyHearingRadius ?? defaultDisturbanceHearingRadius;
+            return distanceSqr <= hearingRadius * hearingRadius;
         }
 
         public void SetInvestigateNewDisturbance(bool enable)
