@@ -30610,16 +30610,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 1305885103597862, guid: bd10c1459ab4048a4b7813998f87f81b, type: 2}
-      propertyPath: m_Name
-      value: Enemy (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063796871211330, guid: bd10c1459ab4048a4b7813998f87f81b, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063796871211330, guid: bd10c1459ab4048a4b7813998f87f81b, type: 2}
-      propertyPath: m_LocalScale.z
+    - target: {fileID: 114079209304563808, guid: bd10c1459ab4048a4b7813998f87f81b,
+        type: 2}
+      propertyPath: canPatrol
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114467999107253788, guid: bd10c1459ab4048a4b7813998f87f81b,
@@ -30672,10 +30665,9 @@ Prefab:
       propertyPath: waypoints.Array.data[4].z
       value: -8.810587
       objectReference: {fileID: 0}
-    - target: {fileID: 114079209304563808, guid: bd10c1459ab4048a4b7813998f87f81b,
-        type: 2}
-      propertyPath: canPatrol
-      value: 1
+    - target: {fileID: 1305885103597862, guid: bd10c1459ab4048a4b7813998f87f81b, type: 2}
+      propertyPath: m_Name
+      value: Enemy (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd10c1459ab4048a4b7813998f87f81b, type: 2}
@@ -45026,7 +45018,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4426737552660424, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 1.00000376e-10
+      value: 1.0002126e-10
       objectReference: {fileID: 0}
     - target: {fileID: 4136402711137062, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.y
