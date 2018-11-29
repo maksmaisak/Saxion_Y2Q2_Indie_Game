@@ -111,10 +111,18 @@
             if (!visionOrigin) visionOrigin = transform;
     
             visionOriginTransform = visionOrigin;
-    
-            Assert.IsTrue(PlayerVisibilityCenter.exists);
-            targetTransform = PlayerVisibilityCenter.instance.transform;
-    
+
+            if (PlayerVisibilityCenter.exists)
+            {
+                targetTransform = PlayerVisibilityCenter.instance.transform;
+            }
+            else
+            {
+                Debug.LogWarning("No PlayerVisibilityCenter found. Defaulting to transform of `PlayerCharacter`");
+                targetTransform = GameObject.Find("PlayerCharacter")?.transform;
+            }
+            Assert.IsNotNull(targetTransform);
+
             Assert.IsNotNull(indicatorPrefab);
             indicator = ObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
     
