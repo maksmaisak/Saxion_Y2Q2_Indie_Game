@@ -31,6 +31,8 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
 
         agent.SetNoCallAssistance(true);
         agent.SetInvestigateNewDisturbance(false);
+        
+        agent.indicator.ShowAlertDetectedPlayer();
 
         StartCoroutine(MoveCoroutine());
         StartCoroutine(MeleeAttackCoroutine());
@@ -124,6 +126,9 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     
     private bool IsCloserToTargetThan(float maxDistance)
     {
+        if (agent.isPlayerVisible)
+            return agent.navMeshAgent.remainingDistance < maxDistance;
+
         Vector3 toTarget = agent.targetTransform.position - transform.position;
         return toTarget.sqrMagnitude < maxDistance * maxDistance;
     }

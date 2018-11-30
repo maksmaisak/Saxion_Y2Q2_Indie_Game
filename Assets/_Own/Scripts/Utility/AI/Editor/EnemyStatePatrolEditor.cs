@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
+	
 /// Editor script for LevelEnemyPathManager
 [CustomEditor(typeof(EnemyStatePatrol))]
-public class LevelEnemyPathManagerEditor : Editor {
+public class EnemyStatePatrolEditor : Editor {
 
 	void OnSceneGUI() {
 
-		var pathManager = target as EnemyStatePatrol;
-		var points = pathManager.waypoints;
+		var patrol = target as EnemyStatePatrol;
+		var points = patrol.waypoints;
 
 		Handles.DrawAAPolyLine(3f, points.ToArray());
 
@@ -23,11 +24,13 @@ public class LevelEnemyPathManagerEditor : Editor {
 
 			if (didChange) {
 				
-				Undo.RecordObject(pathManager, "Move enemy path waypoint");
-				EditorUtility.SetDirty(pathManager);
+				Undo.RecordObject(patrol, "Move enemy path waypoint");
+				EditorUtility.SetDirty(patrol);
 
 				points[i] = newValue;
 			}
 		}
 	}
 }
+
+#endif
