@@ -8,10 +8,8 @@ public class StatsLine : MonoBehaviour
     [SerializeField] FadeZoom fadeZoom;
     [SerializeField] TMP_Text valueText;
     [SerializeField] float textTransitionDuration = 1f;
-    
-    public int finalValue { get; set; } = 100;
-    
-    public Tween TransitionIn()
+        
+    public Tween TransitionIn(int finalValue = 100)
     {
         var canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0f;

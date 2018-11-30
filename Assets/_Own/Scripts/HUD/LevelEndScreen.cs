@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
@@ -8,7 +9,10 @@ public class LevelEndScreen : MyBehaviour, IEventReceiver<LevelFinished>
     [SerializeField] float mainFadeInDelay = 0f;
     [SerializeField] float mainFadeInTime = 1f;
     [Space] 
-    [SerializeField] private float statsFadeInDelay = 1f;
+    [SerializeField] StatsLine lineScore;
+    [SerializeField] StatsLine lineKills;
+    [SerializeField] StatsLine lineHeadshots;
+    [SerializeField] float statsFadeInDelay = 1f;
     [Space]
     [SerializeField] CanvasGroup buttons;
     [SerializeField] float buttonFadeInDelay = 3f;
@@ -43,10 +47,9 @@ public class LevelEndScreen : MyBehaviour, IEventReceiver<LevelFinished>
         }
         
         Sequence statsSequence = DOTween.Sequence().AppendInterval(statsFadeInDelay);
-        foreach (StatsLine statsLine in GetComponentsInChildren<StatsLine>())
-        {
-            statsSequence.Append(statsLine.TransitionIn());
-        }
+        if (lineScore    ) statsSequence.Append(lineScore    .TransitionIn(message.score    ));
+        if (lineKills    ) statsSequence.Append(lineKills    .TransitionIn(message.kills    ));
+        if (lineHeadshots) statsSequence.Append(lineHeadshots.TransitionIn(message.headshots));
 
         if (buttons)
         {
