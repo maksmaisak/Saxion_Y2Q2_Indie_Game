@@ -10,7 +10,7 @@ public class FadeZoom
 
     private Sequence currentTransition;
     
-    public void FadeIn(CanvasGroup canvasGroup, Transform transform)
+    public Sequence FadeIn(CanvasGroup canvasGroup, Transform transform)
     {        
         currentTransition?.Kill(complete: false);
         
@@ -28,7 +28,7 @@ public class FadeZoom
             .SetEase(Ease.OutExpo)
             .SetUpdate(isIndependentUpdate: true);
 
-        currentTransition = DOTween
+        return currentTransition = DOTween
             .Sequence()
             .Join(fade)
             .Join(zoom)

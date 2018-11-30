@@ -36,6 +36,7 @@ public class DeathScreen : MyBehaviour, IEventReceiver<PlayerDied>
 			main
 				.DOFade(1f, mainFadeInTime)
 				.SetDelay(mainFadeInDelay);
+			main.interactable = main.blocksRaycasts = true;
 		}
 
 		if (buttons)
