@@ -126,6 +126,9 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     
     private bool IsCloserToTargetThan(float maxDistance)
     {
+        if (agent.isPlayerVisible)
+            return agent.navMeshAgent.remainingDistance < maxDistance;
+
         Vector3 toTarget = agent.targetTransform.position - transform.position;
         return toTarget.sqrMagnitude < maxDistance * maxDistance;
     }
