@@ -55,6 +55,11 @@ public class Highlightable : MonoBehaviour
 		Vector3 cameraPosition = cameraTransform.position;
 		Vector3 delta = position - cameraPosition;
 		float distance = delta.magnitude;
+		if (distance > maxDistance)
+		{
+			hudElement.gameObject.SetActive(false);
+			return;
+		}
 		
 		Ray ray = new Ray(cameraPosition, delta);
 		RaycastHit hit;
