@@ -1,5 +1,6 @@
 using System;
 using Cinemachine.Utility;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
@@ -20,12 +21,15 @@ public class EnemyIndicator : MonoBehaviour
 
     [SerializeField][Range(0f, 2f)] float currentValue = 0f;
 
+    [SerializeField] AlertSettings heardSomethingAlertSettings;
+    [SerializeField] AlertSettings detectedPlayerAlertSettings;
+    
     [Header("Positioning")]
     [SerializeField] Transform trackedTransform;
     [Tooltip("This is used to determine the size of the target object on screen")]
     [SerializeField] Renderer trackedRenderer;
     [SerializeField] Vector2 interpolationPadding = new Vector2(0.1f, 0.1f);
-
+    
     [Header("Fadeout based on distance from the camera")] 
     [SerializeField] float fadeFullDistance = 20f;
     [SerializeField] float fadeNoneDistance = 50f;
@@ -37,11 +41,20 @@ public class EnemyIndicator : MonoBehaviour
     [SerializeField] float fadeNoneViewportArea = 0f;
     [Tooltip("Determines how opacity varies as the object's viewport area goes from fadeFullViewportArea to fadeNoneViewportArea.")]
     [SerializeField] AnimationCurve fadeoutCurveViewportArea = AnimationCurve.Linear(0f, 1f, 1f, 0f);
-
+    
     private Canvas canvas;
     private RectTransform rectTransform;
     private new Camera camera;
     private Transform cameraTransform;
+
+    [Serializable]
+    class AlertSettings
+    {
+        public Vector3 maxScale = new Vector3(1.5f, 1.5f, 1.5f);
+        public float duration = 0.2f;
+        public int vibrato = 1;
+        public float elasticity = 10f;
+    }
 
     struct RectPositionAndRotation
     {
@@ -88,25 +101,16 @@ public class EnemyIndicator : MonoBehaviour
         
         SetState(currentValue);
     }
-
-    private void UpdatePositionAndRotation()
-    {
-        RectPositionAndRotation config = GetRectPositionAndRotation();
-        rectTransform.rotation = config.rotation;
-        rectTransform.anchorMin = rectTransform.anchorMax = config.position;
-        rectTransform.anchoredPosition = Vector2.zero;
-    }
     
-    private void UpdateAlpha()
+    public void SetTrackedTransform(Transform newTrackedTransform)
     {
-        float alpha = GetAlpha();
-        
-        foreach (Image image in new[]{imageIdle, imageSuspicious, imageAggressive})
-        {
-            Color color = image.color;
-            color.a = alpha;
-            image.color = color;
-        }
+        trackedTransform = newTrackedTransform;
+    }
+
+    /// Sets the renderer used to determine the size of the tracked object on screen.
+    public void SetTrackedRenderer(Renderer newTrackedRenderer)
+    {
+        trackedRenderer = newTrackedRenderer;
     }
 
     /// stateInterpolation values:
@@ -116,9 +120,8 @@ public class EnemyIndicator : MonoBehaviour
     /// Values in between interpolate between adjacent states
     public void SetState(float stateInterpolation)
     {
-        currentValue = stateInterpolation;
-
-        stateInterpolation = Mathf.Clamp(stateInterpolation, 0f, 2f);
+        currentValue = stateInterpolation = Mathf.Clamp(stateInterpolation, 0f, 2f);
+        
         if (stateInterpolation <= 1f)
         {
             imageIdle.fillOrigin = (int)Image.OriginVertical.Top;
@@ -141,15 +144,46 @@ public class EnemyIndicator : MonoBehaviour
         }
     }
 
-    public void SetTrackedTransform(Transform newTrackedTransform)
+    public void ShowAlertHeardSomething()
     {
-        trackedTransform = newTrackedTransform;
+        transform.DOKill(complete: true);
+        transform.DOPunchScale(
+            heardSomethingAlertSettings.maxScale, 
+            heardSomethingAlertSettings.duration, 
+            heardSomethingAlertSettings.vibrato,
+            heardSomethingAlertSettings.elasticity
+        );
     }
 
-    /// Sets the renderer used to determine the size of the tracked object on screen.
-    public void SetTrackedRenderer(Renderer newTrackedRenderer)
+    public void ShowAlertDetectedPlayer()
     {
-        trackedRenderer = newTrackedRenderer;
+        transform.DOKill(complete: true);
+        transform.DOPunchScale(
+            detectedPlayerAlertSettings.maxScale, 
+            detectedPlayerAlertSettings.duration, 
+            detectedPlayerAlertSettings.vibrato,
+            detectedPlayerAlertSettings.elasticity
+        );
+    }
+    
+    private void UpdatePositionAndRotation()
+    {
+        RectPositionAndRotation config = GetRectPositionAndRotation();
+        rectTransform.rotation = config.rotation;
+        rectTransform.anchorMin = rectTransform.anchorMax = config.position;
+        rectTransform.anchoredPosition = Vector2.zero;
+    }
+    
+    private void UpdateAlpha()
+    {
+        float alpha = GetAlpha();
+        
+        foreach (Image image in new[]{imageIdle, imageSuspicious, imageAggressive})
+        {
+            Color color = image.color;
+            color.a = alpha;
+            image.color = color;
+        }
     }
 
     private RectPositionAndRotation GetRectPositionAndRotation()

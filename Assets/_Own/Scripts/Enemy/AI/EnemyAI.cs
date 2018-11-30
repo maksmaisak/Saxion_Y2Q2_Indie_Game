@@ -388,6 +388,8 @@
             // If already is investigating update navmeshagent
             if (isInvestigating)
                 navMeshAgent.SetDestination(lastInvestigatePosition.Value);
+            
+            indicator.ShowAlertHeardSomething();
     
             fsm.ChangeState<EnemyStateInvestigate>();
         }

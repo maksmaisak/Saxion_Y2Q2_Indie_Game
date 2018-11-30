@@ -31,6 +31,8 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
 
         agent.SetNoCallAssistance(true);
         agent.SetInvestigateNewDisturbance(false);
+        
+        agent.indicator.ShowAlertDetectedPlayer();
 
         StartCoroutine(MoveCoroutine());
         StartCoroutine(MeleeAttackCoroutine());

@@ -124,6 +124,11 @@ MonoBehaviour:
   colorAggressive: {r: 1, g: 0, b: 0, a: 1}
   imageAggressive: {fileID: 114888419188914738}
   currentValue: 0
+  hearingAlertSettings:
+    maxScale: {x: 1.5, y: 1.5, z: 1.5}
+    duration: 0.2
+    vibrato: 1
+    elasticity: 10
   trackedTransform: {fileID: 0}
   trackedRenderer: {fileID: 0}
   interpolationPadding: {x: 0.1, y: 0.05}
