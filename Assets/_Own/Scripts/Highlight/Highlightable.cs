@@ -7,9 +7,9 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Highlightable : MonoBehaviour
-{	
+{
 	[Tooltip("The highlight can't appear if the object is further away than this from the camera.")]
-	[SerializeField] float maxDistance;
+	[SerializeField] float maxDistance = 100f;
 	[SerializeField] private LayerMask raycastLayerMask = Physics.DefaultRaycastLayers;
 	[Tooltip("The highlight only shows up if the object is within this rectangle on the screen, defined in normalized viewport coordinates.")]
 	[SerializeField] Rect requiredViewportRect;
@@ -29,7 +29,7 @@ public class Highlightable : MonoBehaviour
 		cameraTransform = camera.transform;
 		
 		renderer = GetComponentInChildren<Renderer>();
-		Assert.IsNotNull(renderer);
+		Assert.IsNotNull(renderer, "No Renderer found on a Highlightable object. Can't determine bounds on screen.");
 		
 		Assert.IsNotNull(hudElementPrefab);
 		hudElement = ObjectBuilder.CreateAndAddObjectToCanvas(hudElementPrefab);
@@ -43,8 +43,8 @@ public class Highlightable : MonoBehaviour
 
 	void LateUpdate()
 	{
-		Vector3 position = transform.position;
-		Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
+		Vector3 position = renderer.bounds.center;
+		Vector3 viewportPosition = camera.WorldToViewportPoint(position);
 		if (viewportPosition.z < 0f || !requiredViewportRect.Contains(viewportPosition))
 		{
 			hudElement.gameObject.SetActive(false);
@@ -52,11 +52,14 @@ public class Highlightable : MonoBehaviour
 		}
 
 		Vector3 cameraPosition = cameraTransform.position;
-		Ray ray = new Ray(cameraPosition, position - cameraPosition);
+		Vector3 delta = position - cameraPosition;
+		float distance = delta.magnitude;
+		
+		Ray ray = new Ray(cameraPosition, delta);
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, maxDistance, raycastLayerMask) && hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform))
+		if (Physics.Raycast(ray, out hit, distance, raycastLayerMask))
 		{
-			if (hit.distance < Vector3.Distance(cameraPosition, position))
+			if (hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform) && !transform.IsChildOf(hit.collider.transform))
 			{
 				hudElement.gameObject.SetActive(false);
 				return;
