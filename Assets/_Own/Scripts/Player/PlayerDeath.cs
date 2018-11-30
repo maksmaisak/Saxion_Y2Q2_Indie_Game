@@ -18,11 +18,6 @@ public class PlayerDeath : MonoBehaviour
 	private void OnDeath(Health health)
 	{
 		new PlayerDied().PostEvent();
-		this.Delay(levelRestartDelay, Restart);
-	}
-
-	private void Restart()
-	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		this.Delay(levelRestartDelay, LevelManager.instance.RestartCurrentLevel);
 	}
 }
