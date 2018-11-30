@@ -5,12 +5,13 @@ using System.Linq;
 using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 public class Highlightable : MonoBehaviour
-{	
+{
 	[Tooltip("The highlight can't appear if the object is further away than this from the camera.")]
-	[SerializeField] float maxDistance;
-	[SerializeField] private LayerMask raycastLayerMask = Physics.DefaultRaycastLayers;
+	[SerializeField] float maxDistance = 100f;
+	[SerializeField] LayerMask blockingLayers = Physics.DefaultRaycastLayers;
 	[Tooltip("The highlight only shows up if the object is within this rectangle on the screen, defined in normalized viewport coordinates.")]
 	[SerializeField] Rect requiredViewportRect;
 	[SerializeField] float sizeMultiplier = 1f;
@@ -29,7 +30,7 @@ public class Highlightable : MonoBehaviour
 		cameraTransform = camera.transform;
 		
 		renderer = GetComponentInChildren<Renderer>();
-		Assert.IsNotNull(renderer);
+		Assert.IsNotNull(renderer, "No Renderer found on a Highlightable object. Can't determine bounds on screen.");
 		
 		Assert.IsNotNull(hudElementPrefab);
 		hudElement = ObjectBuilder.CreateAndAddObjectToCanvas(hudElementPrefab);
@@ -43,8 +44,8 @@ public class Highlightable : MonoBehaviour
 
 	void LateUpdate()
 	{
-		Vector3 position = transform.position;
-		Vector3 viewportPosition = camera.WorldToViewportPoint(transform.position);
+		Vector3 position = renderer.bounds.center;
+		Vector3 viewportPosition = camera.WorldToViewportPoint(position);
 		if (viewportPosition.z < 0f || !requiredViewportRect.Contains(viewportPosition))
 		{
 			hudElement.gameObject.SetActive(false);
@@ -52,11 +53,19 @@ public class Highlightable : MonoBehaviour
 		}
 
 		Vector3 cameraPosition = cameraTransform.position;
-		Ray ray = new Ray(cameraPosition, position - cameraPosition);
-		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, maxDistance, raycastLayerMask) && hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform))
+		Vector3 delta = position - cameraPosition;
+		float distance = delta.magnitude;
+		if (distance > maxDistance)
 		{
-			if (hit.distance < Vector3.Distance(cameraPosition, position))
+			hudElement.gameObject.SetActive(false);
+			return;
+		}
+		
+		Ray ray = new Ray(cameraPosition, delta);
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit, distance, blockingLayers))
+		{
+			if (hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform) && !transform.IsChildOf(hit.collider.transform))
 			{
 				hudElement.gameObject.SetActive(false);
 				return;
