@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 1}
+  m_FogColor: {r: 0.7830189, g: 0.705464, b: 0.41736382, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.02
   m_LinearFogStart: 0
@@ -23,10 +23,10 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0.95
+  m_AmbientIntensity: 0.76
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: e79deb2e6d4a5b142a0efa22234d22f5, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: d1385980456cd2044b282d73625457db, type: 2}
   m_HaloStrength: 0
   m_FlareStrength: 1
   m_FlareFadeSpeed: 4
@@ -5773,7 +5773,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 230743936}
-  m_LocalRotation: {x: -0.15927404, y: 0.6957806, z: 0.6770133, w: 0.1793719}
+  m_LocalRotation: {x: -0.15927455, y: 0.69578016, z: 0.67701364, w: 0.17937155}
   m_LocalPosition: {x: -5, y: 20.8, z: 29.4}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -33542,7 +33542,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1075305929}
-  m_LocalRotation: {x: -0.6136093, y: -0.28921935, z: -0.2579615, w: 0.68796194}
+  m_LocalRotation: {x: -0.6136094, y: -0.2892192, z: -0.25796136, w: 0.68796206}
   m_LocalPosition: {x: 12.2, y: 8.1, z: 11.8}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -39661,7 +39661,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1230000911}
-  m_LocalRotation: {x: -0.29987594, y: -0.6661747, z: -0.5993926, w: 0.3271303}
+  m_LocalRotation: {x: -0.29987586, y: -0.66617477, z: -0.59939265, w: 0.32713017}
   m_LocalPosition: {x: 10.3, y: 14.1, z: 31}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -41461,7 +41461,7 @@ MonoBehaviour:
   sharedProfile: {fileID: 11400000, guid: 7ba2b06fb32e5274aad88925a5b8d3f5, type: 2}
   isGlobal: 1
   blendDistance: 0
-  weight: 1
+  weight: 0.54
   priority: 0
 --- !u!4 &1309069312
 Transform:
@@ -45036,7 +45036,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4426737552660424, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 1.4748222e-13
+      value: 1.5039558e-13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
@@ -48419,8 +48419,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.754717, g: 0.6029918, b: 0.24563903, a: 1}
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
