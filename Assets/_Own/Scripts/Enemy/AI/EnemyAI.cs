@@ -322,7 +322,7 @@
             AIManager.instance.UnregisterAgent(this);
 
             // TODO would be better with attachedObjectHit == head, with head being assigned in the inspector.
-            new EnemyDeath(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
+            new EnemyDied(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
         }
     
         private void ChangeStates()

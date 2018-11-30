@@ -17,6 +17,7 @@ public class PlayerDeath : MonoBehaviour
 
 	private void OnDeath(Health health)
 	{
+		new PlayerDied().PostEvent();
 		this.Delay(levelRestartDelay, Restart);
 	}
 
