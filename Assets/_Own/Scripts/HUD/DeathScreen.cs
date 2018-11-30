@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DeathScreen : MyBehaviour, IEventReceiver<PlayerDied>
 {
@@ -11,9 +12,19 @@ public class DeathScreen : MyBehaviour, IEventReceiver<PlayerDied>
 	[SerializeField] CanvasGroup buttons;
 	[SerializeField] private float buttonFadeInDelay = 5f;
 	[SerializeField] private float buttonsFadeInTime = 2f;
-	
+
+	void Start()
+	{
+		foreach (Transform child in transform)
+		{
+			child.gameObject.SetActive(false);
+		}
+	}
+
 	public void On(PlayerDied message)
 	{
+		if (!isActiveAndEnabled) return;
+				
 		foreach (Transform child in transform)
 		{
 			child.gameObject.SetActive(true);
@@ -33,15 +44,20 @@ public class DeathScreen : MyBehaviour, IEventReceiver<PlayerDied>
 			buttons.interactable = false;
 			buttons.blocksRaycasts = false;
 
-			buttons
-				.DOFade(1f, buttonsFadeInTime)
-				.SetDelay(buttonFadeInDelay)
-				.SetEase(Ease.InExpo)
-				.onComplete += () => 
-			{
-				buttons.interactable = true;
-				buttons.blocksRaycasts = true;
-			};
+			DOTween.Sequence()
+				.AppendInterval(buttonFadeInDelay)
+				.AppendCallback(() =>
+				{
+					CursorHelper.SetLock(false);
+					buttons.interactable = true;
+					buttons.blocksRaycasts = true;
+					buttons.GetComponentInChildren<Button>()?.Select();
+				})
+				.Append(
+					buttons
+					.DOFade(1f, buttonsFadeInTime)
+					.SetEase(Ease.InExpo)
+				);
 		}
  	}
 }

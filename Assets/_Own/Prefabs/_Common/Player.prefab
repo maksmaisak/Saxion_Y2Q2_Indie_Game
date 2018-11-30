@@ -1952,7 +1952,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000077682295834}
-  m_LocalRotation: {x: 6.4108896e-10, y: 0.99930567, z: 0.03725879, w: -0.000000017194433}
+  m_LocalRotation: {x: -6.410887e-10, y: 0.99930567, z: 0.037258793, w: 0.000000017194433}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2422,7 +2422,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1752629989059712}
-  m_LocalRotation: {x: 0.70090926, y: 1.4747575e-13, z: 1.5929608e-10, w: 0.7132506}
+  m_LocalRotation: {x: 0.70090926, y: -0, z: -0, w: 0.7132506}
   m_LocalPosition: {x: 70.88, y: 21.032045, z: 51.166107}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
   m_Children:
@@ -2756,7 +2756,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659476796608624}
-  m_LocalRotation: {x: 6.4108896e-10, y: 0.99930567, z: 0.03725879, w: -0.000000017194433}
+  m_LocalRotation: {x: -6.410887e-10, y: 0.99930567, z: 0.037258793, w: 0.000000017194433}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2932,7 +2932,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1904720713988524}
-  m_LocalRotation: {x: -6.4108874e-10, y: 0.99930567, z: 0.03725879, w: 0.000000017194433}
+  m_LocalRotation: {x: 6.410887e-10, y: 0.99930567, z: 0.037258793, w: -0.000000017194433}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3556,9 +3556,9 @@ MonoBehaviour:
   reloadInterval: 1
   bulletSpeed: 75
   snapShootingImprecisionStanding:
-    angle: 5
+    angle: 3
   snapShootingImprecisionCrouching:
-    angle: 4
+    angle: 2
   shotDistractionPriority: 2
   overrideEnemyHearingRange: 1
   shotHearingRange: 30
@@ -3651,12 +3651,10 @@ MonoBehaviour:
   mouse: {fileID: 0}
   playerAnimator: {fileID: 95781225232138254}
   zoomSpeed: 5
-  primaryMaxFov: 41
-  primaryMinFov: 40
   sniperMaxFov: 39
   sniperMinFov: 10
   invertScroll: 0
-  currentFov: 0
+  currentSniperFov: 0
   sniperCameraShakeStanding:
     amplitudeGain: 2
     frequencyGain: 2

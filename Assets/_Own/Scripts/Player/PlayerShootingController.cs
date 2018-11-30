@@ -36,6 +36,8 @@ public class PlayerShootingController : MonoBehaviour
     
     void Start()
     {
+        CursorHelper.SetLock(true);
+        
         if (!aimingTarget) aimingTarget = FindObjectOfType<AimingTarget>().transform;
         Assert.IsNotNull(aimingTarget);
                 
@@ -44,11 +46,6 @@ public class PlayerShootingController : MonoBehaviour
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
 
         GetComponent<Health>().OnDeath += sender => enabled = false;
-    }
-    
-    void OnApplicationPause(bool pauseStatus)
-    {
-        CursorHelper.SetLock(!pauseStatus);
     }
 
     void Update()
