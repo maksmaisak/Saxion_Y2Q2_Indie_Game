@@ -5,12 +5,13 @@ using System.Linq;
 using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 public class Highlightable : MonoBehaviour
 {
 	[Tooltip("The highlight can't appear if the object is further away than this from the camera.")]
 	[SerializeField] float maxDistance = 100f;
-	[SerializeField] private LayerMask raycastLayerMask = Physics.DefaultRaycastLayers;
+	[SerializeField] LayerMask blockingLayers = Physics.DefaultRaycastLayers;
 	[Tooltip("The highlight only shows up if the object is within this rectangle on the screen, defined in normalized viewport coordinates.")]
 	[SerializeField] Rect requiredViewportRect;
 	[SerializeField] float sizeMultiplier = 1f;
@@ -57,7 +58,7 @@ public class Highlightable : MonoBehaviour
 		
 		Ray ray = new Ray(cameraPosition, delta);
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, distance, raycastLayerMask))
+		if (Physics.Raycast(ray, out hit, distance, blockingLayers))
 		{
 			if (hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform) && !transform.IsChildOf(hit.collider.transform))
 			{
