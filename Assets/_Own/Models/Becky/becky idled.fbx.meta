@@ -1,0 +1,271 @@
+fileFormatVersion: 2
+guid: 7c19659d1d4277b4d9481d346fe7b37c
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Becky4
+    100004: head
+    100006: JOINTS
+    100008: Lankle
+    100010: LCL_inside
+    100012: LCL_outside
+    100014: Lelbow
+    100016: Lfoot
+    100018: LHip
+    100020: Lknee
+    100022: LLitle_finger_1
+    100024: LLitle_finger_1 1
+    100026: LLitle_finger_2
+    100028: LLitle_finger_2 1
+    100030: LLitle_finger_3
+    100032: LLitle_finger_3 1
+    100034: LLitle_finger_4
+    100036: LLitle_finger_4 1
+    100038: LMiddle_finger_1
+    100040: LMiddle_finger_1 1
+    100042: LMiddle_finger_2
+    100044: LMiddle_finger_2 1
+    100046: LMiddle_finger_3
+    100048: LMiddle_finger_3 1
+    100050: LMiddle_finger_4
+    100052: LMiddle_finger_4 1
+    100054: Lnext_to_little_finger_finger_1
+    100056: Lnext_to_little_finger_finger_1 1
+    100058: Lnext_to_little_finger_finger_2
+    100060: Lnext_to_little_finger_finger_2 1
+    100062: Lnext_to_little_finger_finger_3
+    100064: Lnext_to_little_finger_finger_3 1
+    100066: Lnext_to_little_finger_finger_4
+    100068: Lnext_to_little_finger_finger_4 1
+    100070: Lpoint__finger_1
+    100072: Lpoint__finger_1 1
+    100074: Lpoint__finger_2
+    100076: Lpoint__finger_2 1
+    100078: Lpoint__finger_3
+    100080: Lpoint__finger_3 1
+    100082: Lpoint__finger_4
+    100084: Lpoint__finger_4 1
+    100086: Lshoulder
+    100088: Lthumb_1
+    100090: Lthumb_1 1
+    100092: Lthumb_2
+    100094: Lthumb_2 1
+    100096: Lthumb_3
+    100098: Lthumb_3 1
+    100100: Lthumb_4
+    100102: Lthumb_4 1
+    100104: Ltoe
+    100106: Lwrist
+    100108: Lwrist 1
+    100110: neck1
+    100112: Rankle
+    100114: RCL_inside1
+    100116: RCL_outside1
+    100118: Relbow
+    100120: Rfoot
+    100122: RHip
+    100124: Rknee
+    100126: Rshoulder
+    100128: Rtoe
+    100130: spine_1ribcage
+    100132: spine_2_belly_soft
+    100134: spine_4
+    100136: spine_5_pelvis
+    100138: top_of_the_head
+    100140: transform17
+    100142: transform25
+    100144: transform26
+    400000: //RootNode
+    400002: Becky4
+    400004: head
+    400006: JOINTS
+    400008: Lankle
+    400010: LCL_inside
+    400012: LCL_outside
+    400014: Lelbow
+    400016: Lfoot
+    400018: LHip
+    400020: Lknee
+    400022: LLitle_finger_1
+    400024: LLitle_finger_1 1
+    400026: LLitle_finger_2
+    400028: LLitle_finger_2 1
+    400030: LLitle_finger_3
+    400032: LLitle_finger_3 1
+    400034: LLitle_finger_4
+    400036: LLitle_finger_4 1
+    400038: LMiddle_finger_1
+    400040: LMiddle_finger_1 1
+    400042: LMiddle_finger_2
+    400044: LMiddle_finger_2 1
+    400046: LMiddle_finger_3
+    400048: LMiddle_finger_3 1
+    400050: LMiddle_finger_4
+    400052: LMiddle_finger_4 1
+    400054: Lnext_to_little_finger_finger_1
+    400056: Lnext_to_little_finger_finger_1 1
+    400058: Lnext_to_little_finger_finger_2
+    400060: Lnext_to_little_finger_finger_2 1
+    400062: Lnext_to_little_finger_finger_3
+    400064: Lnext_to_little_finger_finger_3 1
+    400066: Lnext_to_little_finger_finger_4
+    400068: Lnext_to_little_finger_finger_4 1
+    400070: Lpoint__finger_1
+    400072: Lpoint__finger_1 1
+    400074: Lpoint__finger_2
+    400076: Lpoint__finger_2 1
+    400078: Lpoint__finger_3
+    400080: Lpoint__finger_3 1
+    400082: Lpoint__finger_4
+    400084: Lpoint__finger_4 1
+    400086: Lshoulder
+    400088: Lthumb_1
+    400090: Lthumb_1 1
+    400092: Lthumb_2
+    400094: Lthumb_2 1
+    400096: Lthumb_3
+    400098: Lthumb_3 1
+    400100: Lthumb_4
+    400102: Lthumb_4 1
+    400104: Ltoe
+    400106: Lwrist
+    400108: Lwrist 1
+    400110: neck1
+    400112: Rankle
+    400114: RCL_inside1
+    400116: RCL_outside1
+    400118: Relbow
+    400120: Rfoot
+    400122: RHip
+    400124: Rknee
+    400126: Rshoulder
+    400128: Rtoe
+    400130: spine_1ribcage
+    400132: spine_2_belly_soft
+    400134: spine_4
+    400136: spine_5_pelvis
+    400138: top_of_the_head
+    400140: transform17
+    400142: transform25
+    400144: transform26
+    2100000: lambert10
+    4300000: Becky4
+    7400000: Idle
+    9500000: //RootNode
+    13700000: Becky4
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert10
+    second: {fileID: 2100000, guid: 69c184645d664154e9e18916977a4824, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 35
+      lastFrame: 49
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: Becky4
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

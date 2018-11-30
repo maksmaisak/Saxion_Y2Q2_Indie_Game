@@ -189,7 +189,12 @@ ModelImporter:
     7400002: Becky Idle
     9500000: //RootNode
     13700000: Becky4
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert10
+    second: {fileID: 2100000, guid: 69c184645d664154e9e18916977a4824, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
