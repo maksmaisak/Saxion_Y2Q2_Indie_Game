@@ -29,7 +29,7 @@ public class LevelEndScreen : MyBehaviour, IEventReceiver<LevelFinished>
     public void On(LevelFinished message)
     {
         if (!isActiveAndEnabled) return;
-				
+
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
