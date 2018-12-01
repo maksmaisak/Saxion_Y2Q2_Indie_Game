@@ -24,8 +24,6 @@ public class LevelEndScreen : MyBehaviour, IEventReceiver<LevelFinished>
         {
             child.gameObject.SetActive(false);
         }
-
-        this.Delay(2f, () => new LevelFinished().PostEvent());
     }
 
     public void On(LevelFinished message)

@@ -11,6 +11,4 @@ public class LevelFinished : BroadcastEvent<LevelFinished>
         this.kills = kills;
         this.headshots = headshots;
     }
-    
-    public LevelFinished() : this(100, 15, 7) {}
 }
