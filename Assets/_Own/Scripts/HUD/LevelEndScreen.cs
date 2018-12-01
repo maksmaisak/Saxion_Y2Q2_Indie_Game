@@ -1,6 +1,7 @@
 using System.Linq;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class LevelEndScreen : MyBehaviour, IEventReceiver<LevelFinished>
@@ -44,11 +45,14 @@ public class LevelEndScreen : MyBehaviour, IEventReceiver<LevelFinished>
             main.interactable = main.blocksRaycasts = true;
         }
         
+        Assert.IsTrue(StatsTracker.exists, "No StatsTracker found. Add it to the __app gameobject on the __preload scene.");
+        var stats = StatsTracker.instance;
+        
         Sequence statsSequence = DOTween.Sequence().AppendInterval(statsFadeInDelay);
-        if (lineScore    ) statsSequence.Append(lineScore    .TransitionIn(message.score    ));
-        if (lineKills    ) statsSequence.Append(lineKills    .TransitionIn(message.kills    ));
-        if (lineHeadshots) statsSequence.Append(lineHeadshots.TransitionIn(message.headshots));
-
+        if (lineScore    ) statsSequence.Append(lineScore    .TransitionIn(stats.score       ));
+        if (lineKills    ) statsSequence.Append(lineKills    .TransitionIn(stats.numKills    ));
+        if (lineHeadshots) statsSequence.Append(lineHeadshots.TransitionIn(stats.numHeadshots));
+        
         if (buttons)
         {
             buttons.alpha = 0f;

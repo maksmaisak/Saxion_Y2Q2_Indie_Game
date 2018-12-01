@@ -1,10 +1,8 @@
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 
-public class LevelExit : MonoBehaviour
+public class LevelExit : MyBehaviour
 {
-    // TODO have this keep track of the stats.
-
     private bool didTrigger;
     
     private void OnTriggerEnter(Collider other)
@@ -15,6 +13,6 @@ public class LevelExit : MonoBehaviour
         didTrigger = true;
         
         // TEMP hardcoded values
-        new LevelFinished(100, 15, 7).PostEvent();
+        new LevelFinished().PostEvent();
     }
 }
