@@ -118,7 +118,7 @@
             targetTransform = PlayerVisibilityCenter.instance.transform;
     
             Assert.IsNotNull(indicatorPrefab);
-            indicator = ObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
+            indicator = CanvasObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
     
             Assert.IsNotNull(indicator);
             Assert.IsNotNull(trackerTransform);
@@ -322,7 +322,7 @@
             AIManager.instance.UnregisterAgent(this);
 
             // TODO would be better with attachedObjectHit == head, with head being assigned in the inspector.
-            new EnemyDeath(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
+            new OnEnemyDied(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
         }
     
         private void ChangeStates()

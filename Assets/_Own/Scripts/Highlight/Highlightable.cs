@@ -33,7 +33,7 @@ public class Highlightable : MonoBehaviour
 		Assert.IsNotNull(renderer, "No Renderer found on a Highlightable object. Can't determine bounds on screen.");
 		
 		Assert.IsNotNull(hudElementPrefab);
-		hudElement = ObjectBuilder.CreateAndAddObjectToCanvas(hudElementPrefab);
+		hudElement = CanvasObjectBuilder.CreateAndAddObjectToCanvas(hudElementPrefab);
 	}
 
 	private void OnDestroy()

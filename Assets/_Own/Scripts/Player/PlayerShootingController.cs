@@ -13,7 +13,7 @@ class SnapShootingImprecision
     public float angle = 5f;
 }
 
-public class PlayerShootingController : MonoBehaviour
+public class PlayerShootingController : MyBehaviour
 {
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnLocation;
@@ -36,6 +36,8 @@ public class PlayerShootingController : MonoBehaviour
     
     void Start()
     {
+        CursorHelper.SetLock(true);
+        
         if (!aimingTarget) aimingTarget = FindObjectOfType<AimingTarget>().transform;
         Assert.IsNotNull(aimingTarget);
                 
@@ -44,11 +46,6 @@ public class PlayerShootingController : MonoBehaviour
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
 
         GetComponent<Health>().OnDeath += sender => enabled = false;
-    }
-    
-    void OnApplicationPause(bool pauseStatus)
-    {
-        CursorHelper.SetLock(!pauseStatus);
     }
 
     void Update()
@@ -61,7 +58,7 @@ public class PlayerShootingController : MonoBehaviour
             OnShoot.Invoke();
         }
     }
-
+    
     private void Shoot()
     {
         Vector3 targetPosition = aimingTarget.transform.position;

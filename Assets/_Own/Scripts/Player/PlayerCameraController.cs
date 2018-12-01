@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 [Serializable]
 struct CameraNoiseConfig
@@ -20,7 +19,7 @@ struct CameraNoiseConfig
     public float frequencyGain;
 }
 
-public class PlayerCameraController : MonoBehaviour
+public class PlayerCameraController : MyBehaviour
 {
     [SerializeField] CinemachineFreeLook primaryVirtualCamera;
     [SerializeField] CinemachineVirtualCamera sniperZoomVirtualCamera;
@@ -60,7 +59,7 @@ public class PlayerCameraController : MonoBehaviour
         
         renderers = GetComponentsInChildren<Renderer>();
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
-        GetComponent<Health>().OnDeath += OnDeath;
+        GetComponent<Health>().OnDeath += sender => enabled = false;
         
         var levelCanvas = LevelCanvas.Get();
         activeInThirdPersonOnly = levelCanvas.activeInThirdPersonOnly;
@@ -81,7 +80,7 @@ public class PlayerCameraController : MonoBehaviour
         UpdateSniperCameraShake();
     }
 
-    private void OnDeath(Health health)
+    void OnDisable()
     {
         isSniping = false;
         
