@@ -3,8 +3,6 @@ using Cinemachine.Utility;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]

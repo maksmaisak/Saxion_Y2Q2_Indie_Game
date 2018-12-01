@@ -118,7 +118,7 @@
             targetTransform = PlayerVisibilityCenter.instance.transform;
     
             Assert.IsNotNull(indicatorPrefab);
-            indicator = ObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
+            indicator = CanvasObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
     
             Assert.IsNotNull(indicator);
             Assert.IsNotNull(trackerTransform);
