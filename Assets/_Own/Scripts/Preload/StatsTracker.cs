@@ -2,8 +2,8 @@ using System;
 using UnityEngine;
 
 public class StatsTracker : Singleton<StatsTracker>,
-    IEventReceiver<LevelStarted>,
-    IEventReceiver<EnemyDied>
+    IEventReceiver<OnLevelStarted>,
+    IEventReceiver<OnEnemyDied>
 {
     [Serializable]
     class ScoreBonuses
@@ -11,7 +11,7 @@ public class StatsTracker : Singleton<StatsTracker>,
         [SerializeField] int enemyKillRegular  = 50;
         [SerializeField] int enemyKillHeadshot = 100;
 
-        public int GetScoreFor(EnemyDied message)
+        public int GetScoreFor(OnEnemyDied message)
         {
             return message.wasHeadshot ? enemyKillHeadshot : enemyKillRegular;
         }
@@ -23,7 +23,7 @@ public class StatsTracker : Singleton<StatsTracker>,
     public int numKills { get; private set; }
     public int numHeadshots { get; private set; }
     
-    public void On(EnemyDied message)
+    public void On(OnEnemyDied message)
     {
         score += GetScoreFor(message);
 
@@ -31,8 +31,8 @@ public class StatsTracker : Singleton<StatsTracker>,
         if (message.wasHeadshot) numHeadshots += 1;
     }
 
-    public int GetScoreFor(EnemyDied message) => scoreBonuses.GetScoreFor(message);
-    public void On(LevelStarted message)
+    public int GetScoreFor(OnEnemyDied message) => scoreBonuses.GetScoreFor(message);
+    public void On(OnLevelStarted message)
     {
         score = 0;
         numKills = 0;

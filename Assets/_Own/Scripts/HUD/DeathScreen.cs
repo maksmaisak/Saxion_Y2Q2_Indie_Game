@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DeathScreen : MyBehaviour, IEventReceiver<PlayerDied>
+public class DeathScreen : MyBehaviour, IEventReceiver<OnPlayerDied>
 {
 	[SerializeField] CanvasGroup main;
 	[SerializeField] float mainFadeInDelay = 2f;
@@ -21,7 +21,7 @@ public class DeathScreen : MyBehaviour, IEventReceiver<PlayerDied>
 		}
 	}
 
-	public void On(PlayerDied message)
+	public void On(OnPlayerDied message)
 	{
 		if (!isActiveAndEnabled) return;
 				

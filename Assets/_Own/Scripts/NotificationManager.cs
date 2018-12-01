@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class NotificationManager : MyBehaviour, IEventReceiver<EnemyDied>
+public class NotificationManager : MyBehaviour, IEventReceiver<OnEnemyDied>
 {
     [SerializeField] string onHeadshotDeadEnemyText = "MUTANT KILLED";
     [SerializeField] string onDeadEnemyText = "HEADSHOT";
@@ -15,7 +15,7 @@ public class NotificationManager : MyBehaviour, IEventReceiver<EnemyDied>
         Debug.Assert(hitCanvasGroup);
     }
 
-    public void On(EnemyDied message)
+    public void On(OnEnemyDied message)
     {
         // TODO: Create a pop up text object instead of setting the text?
         if (message.wasHeadshot)

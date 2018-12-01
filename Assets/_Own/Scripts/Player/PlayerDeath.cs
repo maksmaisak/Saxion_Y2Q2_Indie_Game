@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Health))]
-public class PlayerDeath : MyBehaviour, IEventReceiver<LevelFinished>
+public class PlayerDeath : MyBehaviour, IEventReceiver<OnLevelCompleted>
 {
 	[SerializeField] float levelRestartDelay = 5f;
 	
@@ -20,11 +20,11 @@ public class PlayerDeath : MyBehaviour, IEventReceiver<LevelFinished>
 
 	private void OnDeath(Health health)
 	{
-		new PlayerDied().PostEvent();
+		new OnPlayerDied().PostEvent();
 		this.Delay(levelRestartDelay, LevelManager.instance.RestartCurrentLevel);
 	}
 
-	public void On(LevelFinished message)
+	public void On(OnLevelCompleted message)
 	{
 		if (health) health.SetCanBeReduced(false);
 	}

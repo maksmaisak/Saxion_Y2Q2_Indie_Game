@@ -4,15 +4,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class OnlyActiveDuringGameplay : MyBehaviour,
-	IEventReceiver<PlayerDied>,
-	IEventReceiver<LevelFinished>
+	IEventReceiver<OnPlayerDied>,
+	IEventReceiver<OnLevelCompleted>
 {
 	[SerializeField] float fadeOutDuration = 1f;
 	
 	private CanvasGroup canvasGroup;
 
-	public void On(PlayerDied message) => OnGameplayEnded();
-	public void On(LevelFinished message) => OnGameplayEnded();
+	public void On(OnPlayerDied message) => OnGameplayEnded();
+	public void On(OnLevelCompleted message) => OnGameplayEnded();
 	
 	private void OnGameplayEnded()
 	{

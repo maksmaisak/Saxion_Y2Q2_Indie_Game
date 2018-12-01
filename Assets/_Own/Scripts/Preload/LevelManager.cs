@@ -6,7 +6,7 @@ public class LevelManager : Singleton<LevelManager>
     public void RestartCurrentLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        new LevelStarted()
+        new OnLevelStarted()
             .SetDeliveryType(MessageDeliveryType.Immediate)
             .PostEvent();
     }

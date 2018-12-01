@@ -7,6 +7,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     [RequireComponent(typeof(ThirdPersonCharacter))]
     public class ThirdPersonUserControl : MonoBehaviour
     {
+        public bool receivesUserInput { get; set; } = true;
+        
         private ThirdPersonCharacter m_Character; // A reference to the ThirdPersonCharacter on the object
         private Transform m_Cam; // A reference to the main camera in the scenes transform
         private Vector3 m_CamForward; // The current forward direction of the camera
@@ -37,6 +39,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     
         private void Update()
         {
+            if (!receivesUserInput)
+            {
+                m_Jump = false;
+                return;
+            }
+            
             if (!m_Jump)
             {
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
@@ -51,6 +59,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
+            if (!receivesUserInput)
+            {
+                m_Character.Move(Vector3.zero, m_isCrouching, false);
+                return;
+            }
+            
             // read inputs
             float h = CrossPlatformInputManager.GetAxis("Horizontal");
             float v = CrossPlatformInputManager.GetAxis("Vertical");

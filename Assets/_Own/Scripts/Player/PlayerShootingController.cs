@@ -13,7 +13,7 @@ class SnapShootingImprecision
     public float angle = 5f;
 }
 
-public class PlayerShootingController : MonoBehaviour
+public class PlayerShootingController : MyBehaviour
 {
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnLocation;
@@ -58,7 +58,7 @@ public class PlayerShootingController : MonoBehaviour
             OnShoot.Invoke();
         }
     }
-
+    
     private void Shoot()
     {
         Vector3 targetPosition = aimingTarget.transform.position;

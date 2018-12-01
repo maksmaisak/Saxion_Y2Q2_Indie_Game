@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-public class LevelEndScreen : MyBehaviour, IEventReceiver<LevelFinished>
+public class LevelEndScreen : MyBehaviour, IEventReceiver<OnLevelCompleted>
 {
     [SerializeField] CanvasGroup main;
     [SerializeField] float mainFadeInDelay = 0f;
@@ -27,7 +27,7 @@ public class LevelEndScreen : MyBehaviour, IEventReceiver<LevelFinished>
         }
     }
 
-    public void On(LevelFinished message)
+    public void On(OnLevelCompleted message)
     {
         if (!isActiveAndEnabled) return;
 
