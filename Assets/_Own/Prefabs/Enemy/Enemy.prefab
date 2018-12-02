@@ -188,7 +188,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305885103597862}
   m_LocalRotation: {x: -0, y: -0.49761793, z: -0, w: 0.8673964}
-  m_LocalPosition: {x: 55.57, y: 0.036854148, z: 10.27}
+  m_LocalPosition: {x: 69.3, y: 0, z: 22.04}
   m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
   m_Children:
   - {fileID: 4965588103020308}
@@ -680,16 +680,16 @@ MonoBehaviour:
     m_Bits: 1
   maxViewAngle: 80
   maxViewDistance: 60
+  fullViewRadius: 7
   defaultDisturbanceHearingRadius: 15
-  maxSearchRadius: 7
-  roaringRadius: 15
-  maxFootstepsHearingRadius: 9
+  footstepsHearingRadius: 9
   footstepsHearingRadiusWhileCovered: 4
   chaseAwarenessLevel: 2
   investigateAwarenessLevel: 1
   secondsToRememberPlayer: 0.5
   secondsBetweenInvestigations: 1.5
   maxDistractionPointOffsetRange: 6.05
+  roaringRadius: 15
   canPatrol: 0
   chaseSpeed: 4.25
   patrolSpeed: 1
@@ -698,7 +698,7 @@ MonoBehaviour:
   goBackSpeed: 1
   indicatorPrefab: {fileID: 1536027338821604, guid: 2990bb28c724247a48f2bff6ab46fb05,
     type: 2}
-  trackerTransform: {fileID: 4159333755516054}
+  indicatorLocation: {fileID: 4159333755516054}
   _shootingController:
     bulletPrefab: {fileID: 1951964812841994, guid: d0d284259aa9345b28a7a422afc27b0d,
       type: 2}
