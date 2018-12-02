@@ -21,7 +21,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     [Header("Hearing")]
     [SerializeField] float footstepsHearingRadius = 9.0f;
     [SerializeField] float footstepsHearingRadiusWhileCovered = 4.0f;
-    [SerializeField] float defaultDisturbanceHearingRadius = 15f;
     [Header("Behavior")]
     [SerializeField] float chaseAwarenessLevel = 2.0f;
     [SerializeField] float investigateAwarenessLevel = 1.0f;
@@ -537,7 +536,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
                 return false;
 
         float distanceSqr = (investigation.distractionPoint - transform.position).sqrMagnitude;
-        float hearingRadius = investigation.enemyHearingRadius ?? defaultDisturbanceHearingRadius;
+        float hearingRadius = investigation.enemyHearingRadius;
         return distanceSqr <= hearingRadius * hearingRadius;
     }
 

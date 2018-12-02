@@ -7,7 +7,6 @@ using UnityEngine.Assertions;
 public class DistractionOnDeath : MonoBehaviour
 {
     [SerializeField] float distractionPriority = 6f;
-    [SerializeField] bool overrideEnemyHearingRadius = true;
     [SerializeField] float enemyHearingRadius = 15f;
     
     #if UNITY_EDITOR
@@ -20,7 +19,6 @@ public class DistractionOnDeath : MonoBehaviour
         void OnSceneGUI()
         {
             var distractionOnDeath = (DistractionOnDeath)target;
-            if (!distractionOnDeath.overrideEnemyHearingRadius) return;
             float hearingRadius = distractionOnDeath.enemyHearingRadius;
 
             Transform transform = distractionOnDeath.transform;
@@ -51,11 +49,7 @@ public class DistractionOnDeath : MonoBehaviour
         var health = GetComponent<Health>();
         health.OnDeath += sender =>
         {
-            new Distraction(
-                transform.position, 
-                distractionPriority, 
-                overrideEnemyHearingRadius ? (float?)enemyHearingRadius : null
-            ).PostEvent();
+            new Distraction(transform.position, distractionPriority, enemyHearingRadius).PostEvent();
         };
     }
 }
