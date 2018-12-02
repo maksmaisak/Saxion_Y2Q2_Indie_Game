@@ -8,23 +8,28 @@ public class RagdollOnDeath : MonoBehaviour
 	private Animator animator;
 	
 	void Start ()
-	{
+	{		
 		rigidbodies = GetComponentsInChildren<Rigidbody>(includeInactive: true);
 		animator = GetComponent<Animator>();
 		
-		SetKinematic(true);
+		SetRigidbodiesActive(true);
 		GetComponent<Health>().OnDeath += sender =>
 		{
-			SetKinematic(false);
+			TimeHelper.timeScale = 0.001f;
+			
+			SetRigidbodiesActive(false);
 			animator.enabled = false;
 		};
+
+		GetComponent<Health>().DealDamage(100);
 	}
 
-	void SetKinematic(bool isKinematic)
+	void SetRigidbodiesActive(bool isActive)
 	{		
 		foreach (var rb in rigidbodies)
 		{
-			rb.isKinematic = isKinematic;
+			rb.isKinematic = isActive;
+			rb.detectCollisions = isActive;
 		}
 	}
 }
