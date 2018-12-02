@@ -9,7 +9,7 @@ public class Investigation
     public List<EnemyAI> agents { get; }
     public Vector3 distractionPoint { get; }
     public float priority { get; }
-    public float? enemyHearingRadius { get; }
+    public float enemyHearingRadius { get; }
 
     public delegate void OnFinishInvestigation(Investigation investigation);
     public event OnFinishInvestigation OnInvestigationFinish;

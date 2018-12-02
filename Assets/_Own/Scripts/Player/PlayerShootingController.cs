@@ -26,7 +26,6 @@ public class PlayerShootingController : MyBehaviour
     
     [Header("Enemy shot hearing")]
     [SerializeField] float shotDistractionPriority = 2.0f;
-    [SerializeField] bool overrideEnemyHearingRange = true;
     [SerializeField] float shotHearingRange = 30f;
 
     [SerializeField] UnityEvent OnShoot;
@@ -73,11 +72,7 @@ public class PlayerShootingController : MyBehaviour
         var bullet = Instantiate(bulletPrefab, position, Quaternion.LookRotation(bulletForward));
         bullet.GetComponent<Rigidbody>().velocity = bulletForward * bulletSpeed;
 
-        new Distraction(
-            transform.position, 
-            shotDistractionPriority, 
-            overrideEnemyHearingRange ? (float?)shotHearingRange : null
-        ).PostEvent();
+        new Distraction(transform.position, shotDistractionPriority, shotHearingRange).PostEvent();
 
         timeWhenCanShoot = Time.time + reloadInterval;
     }
