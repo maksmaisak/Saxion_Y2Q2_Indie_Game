@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,6 +7,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] int damage = 1;
     [SerializeField] string ignoreTag = string.Empty;
+    [Header("Force applied if target was killed")]
     [SerializeField] float hitImpulseMultiplier = 1f;
     [Space] 
     [SerializeField] UnityEvent OnHit;
@@ -37,10 +39,20 @@ public class Bullet : MonoBehaviour
         bool wasAlive = health.isAlive;
         health.DealDamage(damage);
         bool didDie = wasAlive && health.isDead;
-        if (!didDie) return;
+        if (!didDie)
+        {
+            Debug.Log("Target didn't die");
+            return;
+        }
         
         var rb = collision.gameObject.GetComponentInParent<Rigidbody>();
-        if (rb == null) return;
+        if (rb == null)
+        {
+            Debug.Log("No Rigidbody found on dead target");
+            return;
+        }
+        
+        Debug.Log(Vector3.Dot(-collision.impulse, collision.relativeVelocity));
         
         rb.AddForce(-collision.impulse * hitImpulseMultiplier, ForceMode.Impulse);
     }

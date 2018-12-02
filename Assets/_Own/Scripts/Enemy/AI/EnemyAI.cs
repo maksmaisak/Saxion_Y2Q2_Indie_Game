@@ -76,8 +76,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     public EnemyIndicator indicator { get; private set; }
     public Rigidbody playerRigidbody { get; private set; }
     /********* PRIVATE *********/
-
-    private GameObject attachedObjectHit;
     
     private float awarenessLevelMultiplier = 1.0f;
     private float hearingFootstepsDiff;
@@ -89,7 +87,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     private bool isStateChangeRequired = false;
     private bool alreadyCallAssistance = false;
     private bool canInvestigateDisturbance = true;
-    private bool isAlreadyBeingHit = false;
 
     private Animator playerAnimator;
     
@@ -333,9 +330,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     {
         AIManager.instance.UnregisterAgent(this);
 
-        // TODO would be better with attachedObjectHit == head, with head being assigned in the inspector.
-        new OnEnemyDied(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
-
         if (indicator != null)
             Destroy(indicator.gameObject);
         indicator = null;
@@ -428,18 +422,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
         Vector3 delta          = new Vector3(randomPoint.x, 0.0f, randomPoint.y);
         
         return investigation.distractionPoint + delta;
-    }
-
-    public void SetAttachedObjectHit(GameObject newGameObject)
-    {
-        if(isAlreadyBeingHit)
-            return;
-
-        isAlreadyBeingHit = true;
-
-        attachedObjectHit = newGameObject;
-
-        this.Delay(0.05f, () => isAlreadyBeingHit = false);
     }
 
     public bool CanStartNewInvestigation(Investigation investigation)
