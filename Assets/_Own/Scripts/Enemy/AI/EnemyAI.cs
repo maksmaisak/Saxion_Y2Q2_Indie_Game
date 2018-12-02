@@ -93,6 +93,108 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 
     private Animator playerAnimator;
     
+    #if UNITY_EDITOR
+    
+    [CustomEditor(typeof(EnemyAI), editorForChildClasses: true)]
+    [CanEditMultipleObjects]
+    public class EnemyAIEditor : Editor
+    {
+        private readonly Color visionSurfaces = new Color(1f, 0f, 0f, 0.02f); 
+        private readonly Color visionHandles  = new Color(1f, 0f, 0f, 1f   ); 
+        
+        private readonly Color hearingSurfaces = new Color(0f, 0f, 1f, 0.02f); 
+        private readonly Color hearingHandles  = new Color(0f, 0f, 1f, 1f   );
+    
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            
+            serializedObject.ApplyModifiedProperties();
+        }
+    
+        void OnSceneGUI()
+        {
+            var ai = (EnemyAI)target;
+            float maxViewDistance = ai.maxViewDistance;
+            float fullViewRadius  = ai.fullViewRadius;
+            float footstepsHearingRadius = ai.footstepsHearingRadius;
+            float footstepsHearingRadiusWhileCovered = ai.footstepsHearingRadiusWhileCovered;
+            
+            Transform transform = ai.visionOrigin;
+            Vector3 position = transform.position;
+            Vector3 up = transform.up;
+            Vector3 forward = transform.forward;
+            Quaternion rotation = transform.rotation;
+                        
+            EditorGUI.BeginChangeCheck();
+
+            Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
+            {
+                Handles.color = visionSurfaces;
+                DrawViewArc(
+                    position,
+                    up,
+                    forward,
+                    ai.maxViewAngle,
+                    ai.maxViewDistance
+                );
+                Handles.color = visionHandles;
+                maxViewDistance = Handles.RadiusHandle(rotation, position, maxViewDistance);
+            }
+
+            {
+                Handles.color = visionSurfaces;
+                DrawViewArc(
+                    position,
+                    up,
+                    -forward,
+                    360f - ai.maxViewAngle,
+                    ai.fullViewRadius
+                );
+                Handles.color = visionHandles;
+                fullViewRadius = Handles.RadiusHandle(rotation, position, fullViewRadius);
+            }
+
+            {
+                Handles.color = hearingSurfaces;
+                Handles.DrawSolidDisc(position, up, footstepsHearingRadius);
+
+                Handles.color = hearingHandles;
+                footstepsHearingRadius = Handles.RadiusHandle(rotation, position, footstepsHearingRadius);
+            }
+
+            {
+                Handles.color = hearingSurfaces;
+                Handles.DrawSolidDisc(position, up, ai.footstepsHearingRadiusWhileCovered);
+                
+                Handles.color = hearingHandles;
+                footstepsHearingRadiusWhileCovered = 
+                    Handles.RadiusHandle(rotation, position, footstepsHearingRadiusWhileCovered);
+            }
+
+            if (!EditorGUI.EndChangeCheck()) return;
+            
+            Undo.RecordObject(ai, "Change AI settings");
+            ai.maxViewDistance = maxViewDistance;
+            ai.fullViewRadius = fullViewRadius;
+            ai.footstepsHearingRadius = footstepsHearingRadius;
+            ai.footstepsHearingRadiusWhileCovered = footstepsHearingRadiusWhileCovered;
+        }
+        
+        void DrawViewArc(Vector3 position, Vector3 up, Vector3 forward, float angle, float radius)
+        {
+            Handles.DrawSolidArc(
+                position,
+                up,
+                Quaternion.AngleAxis(-angle / 2, up) * forward,
+                angle,
+                radius
+            );
+        }
+    }
+    
+    #endif
+    
     void ISerializationCallbackReceiver.OnBeforeSerialize()
     {
     #if UNITY_EDITOR
