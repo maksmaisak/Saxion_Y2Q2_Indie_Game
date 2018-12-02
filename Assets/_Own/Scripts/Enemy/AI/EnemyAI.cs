@@ -22,7 +22,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     [SerializeField] float footstepsHearingRadius = 9.0f;
     [SerializeField] float footstepsHearingRadiusWhileCovered = 4.0f;
     [SerializeField] float defaultDisturbanceHearingRadius = 15f;
-    [Space]
     [Header("Behavior")]
     [SerializeField] float chaseAwarenessLevel = 2.0f;
     [SerializeField] float investigateAwarenessLevel = 1.0f;
