@@ -1590,7 +1590,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4426737552660424, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -1.6398208e-16
+      value: -2.706691e-16
       objectReference: {fileID: 0}
     - target: {fileID: 4696339124936922, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1619,6 +1619,26 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &673070319 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1925517579161580, guid: 9f73eb9de7b7c46fe8d8089be8c5a323,
+    type: 2}
+  m_PrefabInternal: {fileID: 673070318}
+--- !u!114 &673070320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 673070319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fb964fb3a613de4d97eee034ffcf2cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthRegenerationPeriod: 1
+  outOfCombatTimeToHealthRegeneration: 10
+  healthRegenerationAmount: 5
+  regeneratePercent: 0
 --- !u!1001 &692561272
 Prefab:
   m_ObjectHideFlags: 0
@@ -2199,6 +2219,11 @@ Prefab:
     - target: {fileID: 4063796871211330, guid: bd10c1459ab4048a4b7813998f87f81b, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114079209304563808, guid: bd10c1459ab4048a4b7813998f87f81b,
+        type: 2}
+      propertyPath: defaultDisturbanceHearingRadius
+      value: 50.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd10c1459ab4048a4b7813998f87f81b, type: 2}

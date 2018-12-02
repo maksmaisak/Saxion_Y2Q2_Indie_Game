@@ -339,7 +339,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 
             foreach (EnemyAI agent in assistList)
                 agent.StartAttackPlayer();
-            
+
             OnCallForAssistance.Invoke();
         }
     }
@@ -421,6 +421,8 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     private void OnDeath(Health sender)
     {
         AIManager.instance.UnregisterAgent(this);
+
+        fsm.ChangeState<EnemyStateIdle>();
 
         // TODO would be better with attachedObjectHit == head, with head being assigned in the inspector.
         new OnEnemyDied(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
