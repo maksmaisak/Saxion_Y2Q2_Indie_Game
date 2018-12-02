@@ -169,7 +169,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
         UpdateTrackingProgress();
     }
 
-    private void OnDisable() => fsm.Disable();
+    void OnDisable() => fsm.Disable();
 
     protected override void OnDestroy()
     {
@@ -335,6 +335,10 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 
         // TODO would be better with attachedObjectHit == head, with head being assigned in the inspector.
         new OnEnemyDied(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
+
+        if (indicator != null)
+            Destroy(indicator.gameObject);
+        indicator = null;
     }
 
     private void ChangeStates()
