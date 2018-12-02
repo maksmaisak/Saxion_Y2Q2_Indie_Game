@@ -18,8 +18,6 @@ public class RagdollOnDeath : MonoBehaviour
 			SetRigidbodiesActive(true);
 			animator.enabled = false;
 		};
-
-		this.Delay(3f, () => GetComponent<Health>().DealDamage(100));
 	}
 
 	void SetRigidbodiesActive(bool isActive)
@@ -27,7 +25,6 @@ public class RagdollOnDeath : MonoBehaviour
 		foreach (var rb in rigidbodies)
 		{
 			rb.isKinematic = !isActive;
-			rb.detectCollisions = isActive;
 		}
 	}
 }
