@@ -88,6 +88,11 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 
     private Animator playerAnimator;
     
+    void OnValidate()
+    {
+        footstepsHearingRadiusWhileCovered = Mathf.Clamp(footstepsHearingRadiusWhileCovered, 0f, footstepsHearingRadius);
+    }
+    
     #if UNITY_EDITOR
     
     [CustomEditor(typeof(EnemyAI), editorForChildClasses: true)]
@@ -165,6 +170,9 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
                 Handles.color = hearingHandles;
                 footstepsHearingRadiusWhileCovered = 
                     Handles.RadiusHandle(rotation, position, footstepsHearingRadiusWhileCovered);
+
+                footstepsHearingRadiusWhileCovered =
+                    Mathf.Clamp(footstepsHearingRadiusWhileCovered, 0f, footstepsHearingRadius);
             }
 
             if (!EditorGUI.EndChangeCheck()) return;
@@ -202,7 +210,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 
     void ISerializationCallbackReceiver.OnAfterDeserialize() {}
 
-    private void Start()
+    void Start()
     {
         aiGUID = AIManager.instance.GetNextAssignableEntryId();
         AIManager.instance.RegisterAgent(this);
@@ -252,7 +260,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
             fsm.ChangeState<EnemyStateIdle>();
     }
 
-     void Update()
+    void Update()
     {
         isPlayerVisible = Visibility.CanSeeObject(visionOrigin, targetTransform, fov, fullViewRadius);
 
@@ -263,7 +271,8 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
         
         UpdateAwarenessLevel();
         UpdateStatesAndConditions();
-        UpdateTrackingProgress();}
+        UpdateTrackingProgress();
+    }
 
     void OnDisable() => fsm.Disable();
 
