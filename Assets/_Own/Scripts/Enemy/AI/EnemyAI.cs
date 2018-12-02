@@ -12,18 +12,18 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(NavMeshAgent), typeof(Health))]
 public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 {        
-    [Header("AI Vision Settings")] 
+    [Header("Vision")] 
     [SerializeField] Transform visionOrigin;
     [SerializeField] LayerMask blockingLayerMask = Physics.DefaultRaycastLayers;
     [SerializeField] [Range(0f, 360f)] float maxViewAngle = 60.0f;
     [SerializeField] float maxViewDistance = 20.0f;
     [SerializeField] float fullViewRadius = 5.0f;
-    [Header("AI Hearing Settings")]
-    [SerializeField] float defaultDisturbanceHearingRadius = 15f;
+    [Header("Hearing")]
     [SerializeField] float footstepsHearingRadius = 9.0f;
-    [SerializeField] float footstepsHearingRadiusWhileCovered = 4.0f; 
+    [SerializeField] float footstepsHearingRadiusWhileCovered = 4.0f;
+    [SerializeField] float defaultDisturbanceHearingRadius = 15f;
     [Space]
-    [Header("AI Settings")]
+    [Header("Behavior")]
     [SerializeField] float chaseAwarenessLevel = 2.0f;
     [SerializeField] float investigateAwarenessLevel = 1.0f;
     [SerializeField] float secondsToRememberPlayer = 2.0f;
@@ -32,15 +32,15 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     [SerializeField] float roaringRadius = 7.0f;
     [SerializeField] bool canPatrol = false;
     [Space]
-    [Header("AI Movement")]
+    [Header("Movement")]
     public float chaseSpeed = 2.3f;
     public float patrolSpeed = 0.6f;
     public float wanderSpeed = 1.4f;
     public float investigateSpeed = 1.2f;
     public float goBackSpeed = 1f;
-    [Header("AI Assignable")]
+    [Header("Assignables")]
     [SerializeField] GameObject indicatorPrefab;
-    [SerializeField] Transform trackerTransform;
+    [FormerlySerializedAs("trackerTransform")] [SerializeField] Transform indicatorLocation;
     [SerializeField] ShootingController _shootingController;
 
     [SerializeField] UnityEvent OnCallForAssistance;
@@ -121,9 +121,9 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
         indicator = CanvasObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
 
         Assert.IsNotNull(indicator);
-        Assert.IsNotNull(trackerTransform);
+        Assert.IsNotNull(indicatorLocation);
 
-        indicator.SetTrackedTransform(trackerTransform);
+        indicator.SetTrackedTransform(indicatorLocation);
         indicator.SetTrackedRenderer(GetComponentInChildren<Renderer>());
 
         playerAnimator = targetTransform.GetComponentInParent<Animator>();
