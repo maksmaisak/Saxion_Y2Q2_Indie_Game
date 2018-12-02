@@ -39,20 +39,12 @@ public class Bullet : MonoBehaviour
         bool wasAlive = health.isAlive;
         health.DealDamage(damage);
         bool didDie = wasAlive && health.isDead;
-        if (!didDie)
-        {
-            Debug.Log("Target didn't die");
-            return;
-        }
+        if (!didDie) return;
         
         var rb = collision.gameObject.GetComponentInParent<Rigidbody>();
-        if (rb == null)
-        {
-            Debug.Log("No Rigidbody found on dead target");
-            return;
-        }
+        if (rb == null) return;
         
-        Debug.Log(Vector3.Dot(-collision.impulse, collision.relativeVelocity));
+        //Debug.Log($"Bullet killed target. Collision: relativeVelocity: {collision.relativeVelocity}, impulse: {collision.impulse}");
         
         rb.AddForce(-collision.impulse * hitImpulseMultiplier, ForceMode.Impulse);
     }
