@@ -4,21 +4,19 @@ using UnityEngine.Assertions;
 
 public class BulletCollisionDetector : MonoBehaviour
 {
-    private EnemyAI agent;
     private const string bulletLayerName = "Bullet";
     private int bulletLayerIndex;
-    
-    private void Start()
-    {
-        agent = GetComponentInParent<EnemyAI>();
-        Assert.IsNotNull(agent);
 
+    public Action<Collision> OnBulletHit;
+    
+    void Awake()
+    {
         bulletLayerIndex = LayerMask.NameToLayer(bulletLayerName);
     }
     
-    private void OnCollisionEnter(Collision other)
+    void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.layer == bulletLayerIndex)
-            agent.SetAttachedObjectHit(gameObject);
+        if (collision.gameObject.layer == bulletLayerIndex)
+            OnBulletHit?.Invoke(collision);
     }
 }

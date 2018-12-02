@@ -27,6 +27,14 @@ public class FSM<AgentT> where AgentT : Component
         return currentState;
     }
 
+    public void Disable()
+    {
+        if (!currentState) return;
+
+        currentState.enabled = false;
+        currentState = null;
+    }
+
     public void Reset()
     {
         if (currentState != null)

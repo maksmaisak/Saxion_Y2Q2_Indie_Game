@@ -76,9 +76,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     public Rigidbody playerRigidbody { get; private set; }
     /********* PRIVATE *********/
 
-    private GameObject attachedObjectHit;
-    
-    private float awarenessLevelMultiplier = 1.0f;
+    private  float awarenessLevelMultiplier = 1.0f;
     private float hearingFootstepsDiff;
     private float lastAwarenesLevel;
     private float trackingTimeDiff;
@@ -88,7 +86,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     private bool isStateChangeRequired = false;
     private bool alreadyCallAssistance = false;
     private bool canInvestigateDisturbance = true;
-    private bool isAlreadyBeingHit = false;
 
     private Animator playerAnimator;
     
@@ -118,8 +115,8 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
             float fullViewRadius  = ai.fullViewRadius;
             float footstepsHearingRadius = ai.footstepsHearingRadius;
             float footstepsHearingRadiusWhileCovered = ai.footstepsHearingRadiusWhileCovered;
-            
-            Transform transform = ai.visionOrigin;
+
+            Transform transform = ai.visionOrigin ? ai.visionOrigin : ai.transform;
             Vector3 position = transform.position;
             Vector3 up = transform.up;
             Vector3 forward = transform.forward;
@@ -256,7 +253,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
             fsm.ChangeState<EnemyStateIdle>();
     }
 
-    private void Update()
+     void Update()
     {
         isPlayerVisible = Visibility.CanSeeObject(visionOrigin, targetTransform, fov, fullViewRadius);
 
@@ -267,7 +264,18 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
         
         UpdateAwarenessLevel();
         UpdateStatesAndConditions();
-        UpdateTrackingProgress();
+        UpdateTrackingProgress();}
+
+    void OnDisable() => fsm.Disable();
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        
+        if (indicator != null)
+            Destroy(indicator.gameObject);
+
+        indicator = null;
     }
 
     private void UpdateStatesAndConditions()
@@ -422,10 +430,9 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     {
         AIManager.instance.UnregisterAgent(this);
 
-        fsm.ChangeState<EnemyStateIdle>();
-
-        // TODO would be better with attachedObjectHit == head, with head being assigned in the inspector.
-        new OnEnemyDied(attachedObjectHit && attachedObjectHit.CompareTag("EnemyHead")).PostEvent();
+        if (indicator != null)
+            Destroy(indicator.gameObject);
+        indicator = null;
     }
 
     private void ChangeStates()
@@ -446,16 +453,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 
             fsm.ChangeState<EnemyStateInvestigate>();
         }
-    }
-
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-        
-        if (indicator != null)
-            Destroy(indicator.gameObject);
-
-        indicator = null;
     }
 
     public void SetWanderAfterInvestigation(bool enable)
@@ -525,18 +522,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
         Vector3 delta          = new Vector3(randomPoint.x, 0.0f, randomPoint.y);
         
         return investigation.distractionPoint + delta;
-    }
-
-    public void SetAttachedObjectHit(GameObject newGameObject)
-    {
-        if(isAlreadyBeingHit)
-            return;
-
-        isAlreadyBeingHit = true;
-
-        attachedObjectHit = newGameObject;
-
-        this.Delay(0.05f, () => isAlreadyBeingHit = false);
     }
 
     public bool CanStartNewInvestigation(Investigation investigation)
