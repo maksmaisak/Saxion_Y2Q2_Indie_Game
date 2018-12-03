@@ -5,6 +5,7 @@ using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
+using UnityEditor;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -32,6 +33,25 @@ public class PlayerShootingController : MyBehaviour
     
     private float timeWhenCanShoot;
     private PlayerCameraController cameraController;
+    
+#if UNITY_EDITOR
+    [CustomEditor(typeof(PlayerShootingController))]
+    public class DistractionOnDeathEditor : Editor
+    {
+        void OnSceneGUI()
+        {
+            var playerShootingController = (PlayerShootingController)target;
+            var shotOrigin = playerShootingController.bulletSpawnLocation;
+            if (!shotOrigin) shotOrigin = playerShootingController.transform;
+            
+            EditorUtils.UpdateHearingRadiusWithHandles(
+                playerShootingController, 
+                shotOrigin, 
+                ref playerShootingController.shotHearingRange
+            );
+        }
+    }
+#endif
     
     void Start()
     {
