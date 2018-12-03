@@ -23,7 +23,6 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] UnityEvent OnThrow;
 
     private bool isAttacking;
-    private bool canRaiseCombatEvent = true;
 
     void OnEnable()
     {
@@ -42,18 +41,19 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         new OnEnemyCombat(agent, true).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        new OnEnemyCombat(agent, false).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
+    }
+    
     void OnDisable()
     {
         StopAllCoroutines();
 
         agent.SetInvestigateNewDisturbance(true);
-        agent.SetNoCallAssistance(false);
-
-        if (canRaiseCombatEvent)
-            new OnEnemyCombat(agent, false).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
+        agent.SetNoCallAssistance(false);          
     }
-
-    private void OnApplicationQuit() => canRaiseCombatEvent = false;
 
     private IEnumerator MoveCoroutine()
     {

@@ -5,6 +5,7 @@ using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
+using UnityEditor;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -31,7 +32,27 @@ public class PlayerShootingController : MyBehaviour
     [SerializeField] UnityEvent OnShoot;
     
     private float timeWhenCanShoot;
+    private PlayerWeapon playerWeappon;
     private PlayerCameraController cameraController;
+    
+#if UNITY_EDITOR
+    [CustomEditor(typeof(PlayerShootingController))]
+    public class DistractionOnDeathEditor : Editor
+    {
+        void OnSceneGUI()
+        {
+            var playerShootingController = (PlayerShootingController)target;
+            var shotOrigin = playerShootingController.bulletSpawnLocation;
+            if (!shotOrigin) shotOrigin = playerShootingController.transform;
+            
+            EditorUtils.UpdateHearingRadiusWithHandles(
+                playerShootingController, 
+                shotOrigin, 
+                ref playerShootingController.shotHearingRange
+            );
+        }
+    }
+#endif
     
     void Start()
     {
@@ -44,6 +65,9 @@ public class PlayerShootingController : MyBehaviour
         if (!cameraController) cameraController = GetComponent<PlayerCameraController>();
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
 
+        playerWeappon = GetComponent<PlayerWeapon>();
+        Assert.IsNotNull(playerWeappon);
+        
         GetComponent<Health>().OnDeath += sender => enabled = false;
     }
 
@@ -51,7 +75,7 @@ public class PlayerShootingController : MyBehaviour
     {
         if (!aimingTarget) return;
         
-        if (Input.GetMouseButtonDown(0) && CanShoot())
+        if (cameraController.isSniping && playerWeappon.CanShootOrZoomIn() && Input.GetMouseButtonDown(0) && CanShoot())
         {
             Shoot();
             OnShoot.Invoke();
