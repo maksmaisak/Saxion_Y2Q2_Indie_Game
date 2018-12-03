@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 598857265}
   - component: {fileID: 598857267}
+  - component: {fileID: 598857270}
   - component: {fileID: 598857266}
   - component: {fileID: 598857268}
   - component: {fileID: 598857269}
@@ -197,6 +198,18 @@ MonoBehaviour:
   scoreBonuses:
     enemyKillRegular: 50
     enemyKillHeadshot: 100
+--- !u!114 &598857270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 598857264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a2f21c748134b86bdc3a41aeb8eedd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultDeliveryType: 1
 --- !u!1 &1477094561
 GameObject:
   m_ObjectHideFlags: 0

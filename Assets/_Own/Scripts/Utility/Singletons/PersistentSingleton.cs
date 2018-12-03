@@ -4,7 +4,6 @@ using System.Collections;
 public class PersistentSingleton<T> : MyBehaviour where T : PersistentSingleton<T>
 {
     private static T instanceCached;
-
     public static T instance
     {
         get
@@ -14,6 +13,19 @@ public class PersistentSingleton<T> : MyBehaviour where T : PersistentSingleton<
             if (instanceCached == null)
             {
                 instanceCached = FindInstance() ?? CreateInstance();
+            }
+
+            return instanceCached;
+        }
+    }
+    
+    public static bool exists
+    {
+        get
+        {
+            if (instanceCached == null)
+            {
+                instanceCached = FindInstance();
             }
 
             return instanceCached;
