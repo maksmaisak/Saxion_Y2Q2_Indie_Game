@@ -159,6 +159,9 @@ public class PlayerCameraController : MyBehaviour
     
     private void PointSniperCameraAtMouse()
     {
+        if (sniperZoomVirtualCamera)
+            return;
+        
         Assert.IsNotNull(sniperZoomVirtualCamera.LookAt);
         
         var pov = sniperZoomVirtualCamera.GetCinemachineComponent<CinemachinePOV>();
