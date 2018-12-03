@@ -2003,7 +2003,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000077682295834}
-  m_LocalRotation: {x: -0.03627734, y: 0.000000022503489, z: 0.0000006199099, w: 0.9993418}
+  m_LocalRotation: {x: 0.03627734, y: 2.274466e-11, z: 6.2655325e-10, w: -0.9993418}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2132,7 +2132,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1497783660311768}
-  m_LocalRotation: {x: 0.70090926, y: 4.0909485e-13, z: 0.000000014901161, w: 0.7132505}
+  m_LocalRotation: {x: 0.70090926, y: 1.396639e-12, z: 0.000000014901161, w: 0.7132505}
   m_LocalPosition: {x: 0.017730713, y: 4.4558682, z: -0.0001335144}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2438,7 +2438,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1752629989059712}
-  m_LocalRotation: {x: 0.70090926, y: 3.8664859e-13, z: 0.000000014901161, w: 0.7132505}
+  m_LocalRotation: {x: 0.70090926, y: 1.396577e-12, z: 0.000000014901161, w: 0.7132505}
   m_LocalPosition: {x: 0.017730713, y: 21.455868, z: -0.0001335144}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
   m_Children:
@@ -2892,8 +2892,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1036894842758646}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 70.88, y: 0.06, z: 51.12}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 69.68, y: 0, z: 51.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4583720002648704}
@@ -2938,7 +2938,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659476796608624}
-  m_LocalRotation: {x: 0.03627734, y: -0.000000018039671, z: -0.0000004969438, w: -0.9993418}
+  m_LocalRotation: {x: -0.03627734, y: -5.6180643e-11, z: -0.0000000015476234, w: 0.9993418}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3078,7 +3078,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1904720713988524}
-  m_LocalRotation: {x: 0.00000007515046, y: 0.03627734, z: -0.9993418, w: 0.0000021293215}
+  m_LocalRotation: {x: -0.0000000021935542, y: -0.03627734, z: 0.9993418, w: -0.0000000012948499}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3684,7 +3684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7b3528df3b8476184f346f7d979755f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAcidAudioSource: {fileID: 0}
+  damageAcidAudioSource: {fileID: 82711292505515742}
 --- !u!114 &114063270392840728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3938,17 +3938,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 95306213840604752}
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 114121882692121566}
         m_MethodName: set_Priority
         m_Mode: 3
@@ -3959,6 +3948,28 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 95306213840604752}
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Death
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 54588048182450140}
+        m_MethodName: set_isKinematic
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
