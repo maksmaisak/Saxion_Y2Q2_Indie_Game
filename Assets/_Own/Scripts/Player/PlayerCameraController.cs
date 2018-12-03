@@ -19,7 +19,7 @@ struct CameraNoiseConfig
     public float frequencyGain;
 }
 
-public class PlayerCameraController : MonoBehaviour
+public class PlayerCameraController : MyBehaviour
 {
     [SerializeField] CinemachineFreeLook primaryVirtualCamera;
     [SerializeField] CinemachineVirtualCamera sniperZoomVirtualCamera;
@@ -28,12 +28,10 @@ public class PlayerCameraController : MonoBehaviour
     
     [Header("Zoom & Field Of View")]
     [SerializeField] float zoomSpeed = 10f;
-    [SerializeField] float primaryMaxFov = 40f;
-    [SerializeField] float primaryMinFov = 40f;
     [SerializeField] float sniperMaxFov = 10f;
     [SerializeField] float sniperMinFov = 5f;
     [SerializeField] bool invertScroll = false;
-    [SerializeField] float currentFov;
+    [SerializeField] float currentSniperFov;
 
     [Header("Sniper camera shake")]
     [SerializeField] private CameraNoiseConfig sniperCameraShakeStanding  = CameraNoiseConfig.Default;
@@ -56,14 +54,12 @@ public class PlayerCameraController : MonoBehaviour
         Assert.IsNotNull(mouse);
         sniperZoomVirtualCamera.LookAt = mouse;
 
-        hardLookAtMouseSniperCamera = MakeHardLookAtMouseSniperCamera();
+        hardLookAtMouseSniperCamera  = MakeHardLookAtMouseSniperCamera();
         hardLookAtMousePrimaryCamera = MakeHardLookAtMousePrimaryCamera();
-        currentFov = primaryVirtualCamera.m_Lens.FieldOfView;
-        isSniping = currentFov < primaryMinFov;
         
         renderers = GetComponentsInChildren<Renderer>();
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
-        GetComponent<Health>().OnDeath += OnDeath;
+        GetComponent<Health>().OnDeath += sender => enabled = false;
         
         var levelCanvas = LevelCanvas.Get();
         activeInThirdPersonOnly = levelCanvas.activeInThirdPersonOnly;
@@ -72,69 +68,72 @@ public class PlayerCameraController : MonoBehaviour
 
     void Update()
     {
+        if (!isSniping && Input.GetMouseButtonDown(1)) isSniping = true;
+        else if (isSniping && Input.GetMouseButtonUp(1)) isSniping = false;
+        
         UpdateZoom();
         
         UpdateCameras();
-        
-        foreach (Renderer r in renderers) r.enabled = !isSniping;
-
-        if (activeInThirdPersonOnly) activeInThirdPersonOnly.SetActive(!isSniping);
-        if (activeInSniperZoomOnly) activeInSniperZoomOnly.SetActive(isSniping);
+        UpdateRendererVisibility();
+        UpdateCanvasObjectVisibility();
 
         UpdateSniperCameraShake();
     }
 
-    private void OnDeath(Health health)
+    void OnDisable()
     {
-        currentFov = primaryMaxFov;
-        UpdateCameras();
+        isSniping = false;
         
-        if (activeInThirdPersonOnly) activeInThirdPersonOnly.SetActive(false);
-        if (activeInSniperZoomOnly) activeInSniperZoomOnly.SetActive(false);
+        UpdateCameras();
+        UpdateRendererVisibility();
+        UpdateCanvasObjectVisibility();
         
         enabled = false;
     }
     
     private void UpdateZoom()
     {
+        if (!isSniping) return;
+        
         float scrollAmount = Input.GetAxis("Mouse ScrollWheel");
         float zoomAmount = -scrollAmount * zoomSpeed;
         if (invertScroll) zoomAmount = -zoomAmount;
 
-        currentFov += zoomAmount;
+        currentSniperFov += zoomAmount;
     }
 
     private void UpdateCameras()
     {
-        if (!isSniping && currentFov < primaryMinFov) // From primary to sniper
-        {
-            isSniping = true;
-            PointSniperCameraAtMouse();
-        }
-        else if (isSniping && currentFov > sniperMaxFov) // From sniper to primary
-        {
-            isSniping = false;
-            PointPrimaryCameraAtMouse();
-        }
-        
-        if (isSniping) currentFov = Mathf.Clamp(currentFov, sniperMinFov, sniperMaxFov);
-        else currentFov = Mathf.Clamp(currentFov, primaryMinFov, primaryMaxFov);
-        
-        primaryVirtualCamera.m_Lens.FieldOfView = sniperZoomVirtualCamera.m_Lens.FieldOfView = currentFov;
-
         if (isSniping)
         {
+            currentSniperFov = Mathf.Clamp(currentSniperFov, sniperMinFov, sniperMaxFov);
+            sniperZoomVirtualCamera.m_Lens.FieldOfView = currentSniperFov;
+            
             sniperZoomVirtualCamera.Priority = 10;
             primaryVirtualCamera.Priority = 1;
+
+            PointPrimaryCameraAtMouse();
         }
         else
         {
+            currentSniperFov = sniperMaxFov;
+            
             sniperZoomVirtualCamera.Priority = 1;
             primaryVirtualCamera.Priority = 10;
+
+            PointSniperCameraAtMouse();
         }
-        
-        if (isSniping) PointPrimaryCameraAtMouse();
-        else PointSniperCameraAtMouse();
+    }
+
+    private void UpdateRendererVisibility()
+    {
+        foreach (Renderer r in renderers) r.enabled = !isSniping;
+    }
+
+    private void UpdateCanvasObjectVisibility()
+    {
+        if (activeInThirdPersonOnly) activeInThirdPersonOnly.SetActive(!isSniping);
+        if (activeInSniperZoomOnly) activeInSniperZoomOnly.SetActive(isSniping);
     }
 
     private void UpdateSniperCameraShake()

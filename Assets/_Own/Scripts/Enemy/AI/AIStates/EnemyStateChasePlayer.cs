@@ -23,26 +23,37 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] UnityEvent OnThrow;
 
     private bool isAttacking;
+    private bool canRaiseCombatEvent = true;
 
     void OnEnable()
     {
-        agent.navMeshAgent.speed = agent.chaseSpeed;
-        agent.minimumAwarenessLevelThreshold = minimumChaseTimeThreshold;
+        agent.navMeshAgent.speed                = agent.chaseSpeed;
+        agent.minimumAwarenessLevelThreshold    = minimumChaseTimeThreshold;
 
         agent.SetNoCallAssistance(true);
         agent.SetInvestigateNewDisturbance(false);
 
+        agent.indicator.ShowAlertDetectedPlayer();
+
         StartCoroutine(MoveCoroutine());
         StartCoroutine(MeleeAttackCoroutine());
         StartCoroutine(RangedAttackCoroutine());
+
+        new OnEnemyCombat(agent, true).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
     }
 
     void OnDisable()
     {
         StopAllCoroutines();
+
         agent.SetInvestigateNewDisturbance(true);
         agent.SetNoCallAssistance(false);
+
+        if (canRaiseCombatEvent)
+            new OnEnemyCombat(agent, false).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
     }
+
+    private void OnApplicationQuit() => canRaiseCombatEvent = false;
 
     private IEnumerator MoveCoroutine()
     {
@@ -67,7 +78,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
                         Time.deltaTime * faceTargetSpeed
                     );
                 }
-            }          
+            }
 
             yield return null;
         }
@@ -124,6 +135,9 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     
     private bool IsCloserToTargetThan(float maxDistance)
     {
+        if (agent.isPlayerVisible)
+            return agent.navMeshAgent.remainingDistance < maxDistance;
+
         Vector3 toTarget = agent.targetTransform.position - transform.position;
         return toTarget.sqrMagnitude < maxDistance * maxDistance;
     }

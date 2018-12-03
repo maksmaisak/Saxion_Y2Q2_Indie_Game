@@ -1,11 +1,10 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
-public class NotificationManager : MyBehaviour, IEventReceiver<EnemyDeath>
+public class NotificationManager : MyBehaviour, IEventReceiver<OnEnemyDied>
 {
-    [SerializeField] string onHeadshotDeadEnemyText = "Enemy killed (Headshot)";
-    [SerializeField] string onDeadEnemyText = "Enemy killed.";
+    [SerializeField] string onHeadshotDeadEnemyText = "MUTANT KILLED";
+    [SerializeField] string onDeadEnemyText = "HEADSHOT";
     [SerializeField] TMP_Text deathNotificationDisplayText;
     [SerializeField] CanvasGroup hitCanvasGroup;
     [SerializeField] FadeZoom fadeZoom;
@@ -16,7 +15,7 @@ public class NotificationManager : MyBehaviour, IEventReceiver<EnemyDeath>
         Debug.Assert(hitCanvasGroup);
     }
 
-    public void On(EnemyDeath message)
+    public void On(OnEnemyDied message)
     {
         // TODO: Create a pop up text object instead of setting the text?
         if (message.wasHeadshot)

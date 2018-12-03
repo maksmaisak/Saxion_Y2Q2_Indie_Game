@@ -13,7 +13,7 @@ class SnapShootingImprecision
     public float angle = 5f;
 }
 
-public class PlayerShootingController : MonoBehaviour
+public class PlayerShootingController : MyBehaviour
 {
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnLocation;
@@ -26,7 +26,6 @@ public class PlayerShootingController : MonoBehaviour
     
     [Header("Enemy shot hearing")]
     [SerializeField] float shotDistractionPriority = 2.0f;
-    [SerializeField] bool overrideEnemyHearingRange = true;
     [SerializeField] float shotHearingRange = 30f;
 
     [SerializeField] UnityEvent OnShoot;
@@ -36,6 +35,8 @@ public class PlayerShootingController : MonoBehaviour
     
     void Start()
     {
+        CursorHelper.SetLock(true);
+        
         if (!aimingTarget) aimingTarget = FindObjectOfType<AimingTarget>().transform;
         Assert.IsNotNull(aimingTarget);
                 
@@ -44,11 +45,6 @@ public class PlayerShootingController : MonoBehaviour
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
 
         GetComponent<Health>().OnDeath += sender => enabled = false;
-    }
-    
-    void OnApplicationPause(bool pauseStatus)
-    {
-        CursorHelper.SetLock(!pauseStatus);
     }
 
     void Update()
@@ -61,7 +57,7 @@ public class PlayerShootingController : MonoBehaviour
             OnShoot.Invoke();
         }
     }
-
+    
     private void Shoot()
     {
         Vector3 targetPosition = aimingTarget.transform.position;
@@ -76,11 +72,7 @@ public class PlayerShootingController : MonoBehaviour
         var bullet = Instantiate(bulletPrefab, position, Quaternion.LookRotation(bulletForward));
         bullet.GetComponent<Rigidbody>().velocity = bulletForward * bulletSpeed;
 
-        new Distraction(
-            transform.position, 
-            shotDistractionPriority, 
-            overrideEnemyHearingRange ? (float?)shotHearingRange : null
-        ).PostEvent();
+        new Distraction(transform.position, shotDistractionPriority, shotHearingRange).PostEvent();
 
         timeWhenCanShoot = Time.time + reloadInterval;
     }
