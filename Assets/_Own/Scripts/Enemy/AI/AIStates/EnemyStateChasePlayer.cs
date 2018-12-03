@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class EnemyStateChasePlayer : FSMState<EnemyAI>
@@ -18,27 +19,40 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] float minShootingDistance = 10f;
     [SerializeField] [Range(0f, 1f)] float rangedAttackProbabilityPerSecond = 0.5f;
     [SerializeField] [Range(0f, 1f)] float firstRangedAttackProbability = 0.8f;
+    [Space] 
+    [SerializeField] UnityEvent OnThrow;
 
     private bool isAttacking;
 
     void OnEnable()
     {
-        agent.navMeshAgent.speed = agent.chaseSpeed;
-        agent.minimumAwarenessLevelThreshold = minimumChaseTimeThreshold;
+        agent.navMeshAgent.speed                = agent.chaseSpeed;
+        agent.minimumAwarenessLevelThreshold    = minimumChaseTimeThreshold;
 
         agent.SetNoCallAssistance(true);
         agent.SetInvestigateNewDisturbance(false);
 
+        agent.indicator.ShowAlertDetectedPlayer();
+
         StartCoroutine(MoveCoroutine());
         StartCoroutine(MeleeAttackCoroutine());
         StartCoroutine(RangedAttackCoroutine());
+
+        new OnEnemyCombat(agent, true).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        new OnEnemyCombat(agent, false).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
+    }
+    
     void OnDisable()
     {
         StopAllCoroutines();
+
         agent.SetInvestigateNewDisturbance(true);
-        agent.SetNoCallAssistance(false);
+        agent.SetNoCallAssistance(false);          
     }
 
     private IEnumerator MoveCoroutine()
@@ -64,7 +78,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
                         Time.deltaTime * faceTargetSpeed
                     );
                 }
-            }          
+            }
 
             yield return null;
         }
@@ -95,7 +109,6 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         
         while (true)
         {
-
             float chance = firstRangedAttackProbability;
 
             if (isFirstShot)
@@ -110,6 +123,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
                 if (agent.shootingController.ShootAt(agent.targetTransform.gameObject))
                 {
                     isFirstShot = false;
+                    OnThrow.Invoke();
                     yield return new WaitForSeconds(shootingCooldown);
                 }
                 isAttacking = false;
@@ -121,6 +135,9 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     
     private bool IsCloserToTargetThan(float maxDistance)
     {
+        if (agent.isPlayerVisible)
+            return agent.navMeshAgent.remainingDistance < maxDistance;
+
         Vector3 toTarget = agent.targetTransform.position - transform.position;
         return toTarget.sqrMagnitude < maxDistance * maxDistance;
     }

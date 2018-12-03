@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class PlayerDamageFeedback : MonoBehaviour
 {
+    [SerializeField] AudioSource damageAcidAudioSource;
+    
     private DamageOverlay damageOverlay;
     
     void Start()
@@ -16,5 +18,7 @@ public class PlayerDamageFeedback : MonoBehaviour
         if (newValue >= oldValue) return;
         
         damageOverlay.ShowDamage(oldValue - newValue);
+        
+        if (damageAcidAudioSource) damageAcidAudioSource.Play();
     }
 }

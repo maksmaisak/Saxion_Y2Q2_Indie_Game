@@ -14,6 +14,9 @@ public class LevelCanvas : Singleton<LevelCanvas>
     [SerializeField] DamageOverlay _damageOverlay;
     public DamageOverlay damageOverlay => _damageOverlay;
 
+    [SerializeField] GameObject _indicatorsRoot;
+    public GameObject indicatorsRoot => _indicatorsRoot;
+
     public static LevelCanvas Get()
     {
         Assert.IsTrue(exists, "Level canvas not found! Put in the canvas prefab if it's not there.");

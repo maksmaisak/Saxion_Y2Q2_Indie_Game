@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
+using UnityEditor;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -12,7 +14,7 @@ class SnapShootingImprecision
     public float angle = 5f;
 }
 
-public class PlayerShootingController : MonoBehaviour
+public class PlayerShootingController : MyBehaviour
 {
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnLocation;
@@ -20,15 +22,42 @@ public class PlayerShootingController : MonoBehaviour
     [SerializeField] Animator playerAnimator;
     [SerializeField] float reloadInterval = 1f;
     [SerializeField] float bulletSpeed = 20f;
-    [SerializeField] float shotDistractionPriority = 4.0f;
     [SerializeField] SnapShootingImprecision snapShootingImprecisionStanding;
     [SerializeField] SnapShootingImprecision snapShootingImprecisionCrouching;
+    
+    [Header("Enemy shot hearing")]
+    [SerializeField] float shotDistractionPriority = 2.0f;
+    [SerializeField] float shotHearingRange = 30f;
 
+    [SerializeField] UnityEvent OnShoot;
+    
     private float timeWhenCanShoot;
+    private PlayerWeapon playerWeappon;
     private PlayerCameraController cameraController;
+    
+#if UNITY_EDITOR
+    [CustomEditor(typeof(PlayerShootingController))]
+    public class DistractionOnDeathEditor : Editor
+    {
+        void OnSceneGUI()
+        {
+            var playerShootingController = (PlayerShootingController)target;
+            var shotOrigin = playerShootingController.bulletSpawnLocation;
+            if (!shotOrigin) shotOrigin = playerShootingController.transform;
+            
+            EditorUtils.UpdateHearingRadiusWithHandles(
+                playerShootingController, 
+                shotOrigin, 
+                ref playerShootingController.shotHearingRange
+            );
+        }
+    }
+#endif
     
     void Start()
     {
+        CursorHelper.SetLock(true);
+        
         if (!aimingTarget) aimingTarget = FindObjectOfType<AimingTarget>().transform;
         Assert.IsNotNull(aimingTarget);
                 
@@ -36,24 +65,23 @@ public class PlayerShootingController : MonoBehaviour
         if (!cameraController) cameraController = GetComponent<PlayerCameraController>();
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
 
+        playerWeappon = GetComponent<PlayerWeapon>();
+        Assert.IsNotNull(playerWeappon);
+        
         GetComponent<Health>().OnDeath += sender => enabled = false;
-    }
-    
-    void OnApplicationPause(bool pauseStatus)
-    {
-        CursorHelper.SetLock(!pauseStatus);
     }
 
     void Update()
     {
         if (!aimingTarget) return;
         
-        if (CanShoot() && Input.GetMouseButtonDown(0))
+        if (cameraController.isSniping && playerWeappon.CanShootOrZoomIn() && Input.GetMouseButtonDown(0) && CanShoot())
         {
             Shoot();
+            OnShoot.Invoke();
         }
     }
-
+    
     private void Shoot()
     {
         Vector3 targetPosition = aimingTarget.transform.position;
@@ -68,7 +96,7 @@ public class PlayerShootingController : MonoBehaviour
         var bullet = Instantiate(bulletPrefab, position, Quaternion.LookRotation(bulletForward));
         bullet.GetComponent<Rigidbody>().velocity = bulletForward * bulletSpeed;
 
-        new Distraction(transform.position, shotDistractionPriority).PostEvent();
+        new Distraction(transform.position, shotDistractionPriority, shotHearingRange).PostEvent();
 
         timeWhenCanShoot = Time.time + reloadInterval;
     }

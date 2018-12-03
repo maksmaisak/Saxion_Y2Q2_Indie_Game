@@ -3,11 +3,12 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>
+public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>, IEventReceiver<OnEnemyCombat>
 {
     private int nextAIEntry = 0;
 
     private readonly List<EnemyAI> agents                 = new List<EnemyAI>();
+    private readonly List<EnemyAI> agentsInCombat         = new List<EnemyAI>();
     private readonly List<Investigation> investigations   = new List<Investigation>();
 
     public void RegisterAgent(EnemyAI newAgent) => agents.Add(newAgent);
@@ -20,7 +21,9 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>
         nextAIEntry++;
         return nextAIEntry;
     }
-    
+
+    public List<EnemyAI> GetAllAgentsInCombat() => agentsInCombat;
+
     public List<EnemyAI> GetAllAssistAgentsInRange(EnemyAI initiator, float radius, bool checkLineOfSight = false)
     {
         List<EnemyAI> assistList = new List<EnemyAI>();
@@ -54,6 +57,13 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>
         return assistList;
     }
 
+    public void On(OnEnemyCombat combat)
+    {
+        if (combat.enterCombat)
+            agentsInCombat.Add(combat.agent);
+        else agentsInCombat.Remove(combat.agent);
+    }
+
     public void On(Distraction distraction)
     {
         Investigation investigation = new Investigation(distraction);
@@ -64,17 +74,16 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>
 
         if (investigation.agents.Count == 0)
             return;
-        
+
         investigation.Start();
         investigation.OnInvestigationFinish += OnInvestigationFinish;
-        
         investigations.Add(investigation);
     }
 
     private void OnInvestigationFinish(Investigation investigation) => investigations.Remove(investigation);
-    
+
     private void Start() => StartCoroutine(UpdateInvestigationsCoroutine());
-    
+
     protected override void OnDestroy()
     {
         base.OnDestroy();
