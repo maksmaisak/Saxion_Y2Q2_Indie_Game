@@ -98,7 +98,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 76a4fff12648144f9b24f4194a142bf7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 06a930b663014984b9ae8267749d83db, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -124,7 +124,12 @@ MonoBehaviour:
   colorAggressive: {r: 1, g: 0, b: 0, a: 1}
   imageAggressive: {fileID: 114888419188914738}
   currentValue: 0
-  hearingAlertSettings:
+  heardSomethingAlertSettings:
+    maxScale: {x: 1.5, y: 1.5, z: 1.5}
+    duration: 0.2
+    vibrato: 1
+    elasticity: 10
+  detectedPlayerAlertSettings:
     maxScale: {x: 1.5, y: 1.5, z: 1.5}
     duration: 0.2
     vibrato: 1
@@ -203,7 +208,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 76a4fff12648144f9b24f4194a142bf7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 06a930b663014984b9ae8267749d83db, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -230,7 +235,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 76a4fff12648144f9b24f4194a142bf7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 06a930b663014984b9ae8267749d83db, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1

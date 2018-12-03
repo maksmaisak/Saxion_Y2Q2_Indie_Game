@@ -660,6 +660,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224938964193925790}
   - component: {fileID: 222451561990705786}
+  - component: {fileID: 114028908883080398}
   m_Layer: 5
   m_Name: Ammo
   m_TagString: Untagged
@@ -1041,6 +1042,18 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114028908883080398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657439533892280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e64a813601ec6047b1bee1ea1949c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoText: {fileID: 114079275777191924}
 --- !u!114 &114036410437961922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2805,7 +2818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 4
-  m_AspectRatio: 2
+  m_AspectRatio: 1.7777778
 --- !u!114 &114687140318542950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2852,7 +2865,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: bdb40df5a7bc243af9441fd124ad6161, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c59e78a290f308f4f83a570c3b9e8bcb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3566,10 +3579,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 42.1
-  m_fontSizeBase: 36
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
