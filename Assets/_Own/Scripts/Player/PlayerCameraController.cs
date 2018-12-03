@@ -159,7 +159,7 @@ public class PlayerCameraController : MyBehaviour
     
     private void PointSniperCameraAtMouse()
     {
-        if (sniperZoomVirtualCamera)
+        if (!sniperZoomVirtualCamera)
             return;
         
         Assert.IsNotNull(sniperZoomVirtualCamera.LookAt);
