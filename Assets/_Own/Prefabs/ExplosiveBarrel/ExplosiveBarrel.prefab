@@ -561,7 +561,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distractionPriority: 10
-  overrideEnemyHearingRadius: 1
   enemyHearingRadius: 40
 --- !u!114 &114301665864641422
 MonoBehaviour:
@@ -670,10 +669,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.26248932
-  m_Height: 0.92490625
+  m_Radius: 0.3549872
+  m_Height: 1.3376584
   m_Direction: 1
-  m_Center: {x: 0, y: 0.37632072, z: 0}
+  m_Center: {x: 0, y: 0.38185298, z: 0}
 --- !u!198 &198167944117201804
 ParticleSystem:
   m_ObjectHideFlags: 1
