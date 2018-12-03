@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33871792211749932}
   - component: {fileID: 23574799412085786}
   - component: {fileID: 95527990435106918}
+  - component: {fileID: 135114643467814392}
   m_Layer: 0
   m_Name: CarWheel
   m_TagString: Untagged
@@ -36,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1129820999135022}
   m_LocalRotation: {x: -0.6949677, y: 0.13046043, z: 0.13046043, w: 0.6949677}
-  m_LocalPosition: {x: 18.944, y: -0.032, z: -8.349}
+  m_LocalPosition: {x: 77.813, y: -0.025, z: 31.266}
   m_LocalScale: {x: 4.7764735, y: 4.7764735, z: 4.7764735}
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,3 +103,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!135 &135114643467814392
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1129820999135022}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.12
+  m_Center: {x: 0, y: 0, z: 0}
