@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerWeapon : MyBehaviour, IEventReceiver<OnAmmoLooted>
+public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
 {
     [SerializeField] int baseClipSize = 5;
     [SerializeField] int maxMagazines = 3;
@@ -24,16 +24,16 @@ public class PlayerWeapon : MyBehaviour, IEventReceiver<OnAmmoLooted>
     }
     
     /********* PUBLIC *********/
-    public delegate void OnAmmoChangedHandler(int newValue);
+    public delegate void OnAmmoChangedHandler(int currentAmmo, int totalAmmo);
     public event OnAmmoChangedHandler OnAmmoChanged;
     
     /********* PRIVATE *********/
     private bool isReloading;
 
-    private Magazine currentMagazine;    
+    private Magazine currentMagazine;
     private List<Magazine> magazines = new List<Magazine>();  
     private PlayerShootingController shootingController;
-    
+
     private void Start()
     {
         currentMagazine = new Magazine(baseClipSize);
@@ -41,6 +41,9 @@ public class PlayerWeapon : MyBehaviour, IEventReceiver<OnAmmoLooted>
         for (int i = 0; i < startingNumberOfMagazines; i++)
             if (magazines.Count <= maxMagazines)
                 magazines.Add(new Magazine(baseClipSize));
+
+        // Delay hud update
+        this.Delay(0.05f, () => OnAmmoChanged?.Invoke(currentMagazine.ammoCount, GetTotalAmmoInMagazines()));
     }
 
     private void Update()
@@ -61,9 +64,9 @@ public class PlayerWeapon : MyBehaviour, IEventReceiver<OnAmmoLooted>
 
         // Otherwise calculate how many ammo is left in the current magazine and get it from the other one
         // this way no ammo is wasted
-        int ammo = 0;
-        int ammoLeft = currentMagazine.ammoCount;
-        int ammoNeeded = currentMagazine.clipSize - ammoLeft;
+        int ammo        = 0;
+        int ammoLeft    = currentMagazine.ammoCount;
+        int ammoNeeded  = currentMagazine.clipSize - ammoLeft;
 
         List<Magazine> magazinesToRemove = new List<Magazine>();
 
@@ -102,12 +105,21 @@ public class PlayerWeapon : MyBehaviour, IEventReceiver<OnAmmoLooted>
         {
             isReloading                = false;
             currentMagazine.ammoCount += ammo;
-            OnAmmoChanged?.Invoke(currentMagazine.ammoCount);
+            OnAmmoChanged?.Invoke(currentMagazine.ammoCount, GetTotalAmmoInMagazines());
         });
     }
 
+    private int GetTotalAmmoInMagazines()
+    {
+        int totalAmmo = 0;
+        foreach (Magazine magazine in magazines)
+            totalAmmo += magazine.ammoCount;
+
+        return totalAmmo;
+    }
+
     public void DeductAmmo()
-    {       
+    {
         currentMagazine.ammoCount--;
 
         if (currentMagazine.ammoCount < 0)
@@ -116,7 +128,11 @@ public class PlayerWeapon : MyBehaviour, IEventReceiver<OnAmmoLooted>
             Reload();
         }
 
-        OnAmmoChanged?.Invoke(currentMagazine.ammoCount);
+        int totalAmmo = 0;
+        foreach (Magazine magazine in magazines)
+            totalAmmo += magazine.ammoCount;
+
+        OnAmmoChanged?.Invoke(currentMagazine.ammoCount, totalAmmo);
     }
 
     public void IncreaseAmmo(int increment)
@@ -160,10 +176,10 @@ public class PlayerWeapon : MyBehaviour, IEventReceiver<OnAmmoLooted>
             }
         }
         else currentMagazine.ammoCount = newAmount;
-        
-        OnAmmoChanged?.Invoke(currentMagazine.ammoCount);
+
+        OnAmmoChanged?.Invoke(currentMagazine.ammoCount, GetTotalAmmoInMagazines());
     }
-    
+
     public bool CanShootOrZoomIn()
     {
         return currentMagazine != null && currentMagazine.ammoCount > 0 &&

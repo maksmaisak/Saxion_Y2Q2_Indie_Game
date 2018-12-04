@@ -45,7 +45,7 @@ public class PlayerCameraController : MyBehaviour
     private GameObject activeInThirdPersonOnly;
     private GameObject activeInSniperZoomOnly;
 
-    private PlayerWeapon playerWeapon;
+    private PlayerAmmoManager playerAmmoManager;
     
     void Start()
     {
@@ -58,8 +58,8 @@ public class PlayerCameraController : MyBehaviour
 
         hardLookAtMouseSniperCamera  = MakeHardLookAtMouseSniperCamera();
         hardLookAtMousePrimaryCamera = MakeHardLookAtMousePrimaryCamera();
-        playerWeapon                 = GetComponent<PlayerWeapon>();
-        Assert.IsNotNull(playerWeapon);
+        playerAmmoManager                 = GetComponent<PlayerAmmoManager>();
+        Assert.IsNotNull(playerAmmoManager);
         
         renderers = GetComponentsInChildren<Renderer>();
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
@@ -72,11 +72,11 @@ public class PlayerCameraController : MyBehaviour
 
     void Update()
     {
-        if (!isSniping && playerWeapon.CanShootOrZoomIn() && Input.GetMouseButtonDown(1)) isSniping = true;
-        else if (isSniping && (Input.GetMouseButtonUp(1) || !playerWeapon.CanShootOrZoomIn())) isSniping = false;
-        
+        if (!isSniping && playerAmmoManager.CanShootOrZoomIn() && Input.GetMouseButtonDown(1)) isSniping = true;
+        else if (isSniping && (Input.GetMouseButtonUp(1) || !playerAmmoManager.CanShootOrZoomIn())) isSniping = false;
+
         UpdateZoom();
-        
+
         UpdateCameras();
         UpdateRendererVisibility();
         UpdateCanvasObjectVisibility();
