@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Assertions;
 
-public class MenuScreen : TransitionableScreen
+public class FadeZoomScreen : TransitionableScreen
 {
 	[SerializeField] FadeZoom fadeZoom;
 
