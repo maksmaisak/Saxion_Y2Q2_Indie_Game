@@ -127,12 +127,23 @@ public abstract class Indicator : MonoBehaviour
     {
         float alpha = GetAlpha();
 
+        List<Image> imagesToBeRemoved = new List<Image>();
+        
         foreach (Image image in images)
         {
+            if (image == null)
+            {
+                imagesToBeRemoved.Add(image);
+                continue;
+            }
+
             Color color = image.color;
             color.a = alpha;
             image.color = color;
         }
+
+        foreach (Image image in imagesToBeRemoved)
+            images.Remove(image);
     }
 
     private float GetAlpha()

@@ -10,13 +10,12 @@ public class PlayerLootController : MonoBehaviour
     [SerializeField] LayerMask blockingLayerMask;
     [SerializeField] string lootActionButtonName = "Loot";
 
-    private EnemyAI currentLootAgent = null;
-    private EnemyLootIndicator currentLootIndicator = null;
-
-    private const float rememberLootingProgressInSeconds = 0.6f;
+    /********* PRIVATE *********/
+    private bool isLooting;
     private float lootingProgress;
     
-    private bool isLooting;
+    private EnemyLootable currentLoot = null;
+    private EnemyLootIndicator currentLootIndicator = null;   
     
     private void Update()
     {
@@ -28,13 +27,13 @@ public class PlayerLootController : MonoBehaviour
     {        
         if (Input.GetButtonDown(lootActionButtonName))
         {            
-            currentLootAgent  = SelectLootTarget();
+            currentLoot  = SelectLootTarget();
 
-            if (currentLootAgent != null)
+            if (currentLoot != null)
             {                
                 lootingProgress       = 0;
                 isLooting             = true;
-                currentLootIndicator  = currentLootAgent.lootIndicator;
+                currentLootIndicator  = currentLoot.lootIndicator;
             }
         } 
         else if (isLooting && Input.GetButtonUp(lootActionButtonName))
@@ -57,22 +56,22 @@ public class PlayerLootController : MonoBehaviour
             // Update indicator
             currentLootIndicator.SetState(Mathf.InverseLerp(0f, 1f, lootingProgress));
 
-            if (lootingProgress >= 1f && currentLootAgent)
+            if (lootingProgress >= 1f && currentLoot)
             {
-                currentLootAgent.Loot();
-                currentLootAgent     = null;
+                currentLoot.Loot();
+                currentLoot     = null;
                 currentLootIndicator = null;
                 isLooting            = false;
             }
         }
     }
     
-    private EnemyAI SelectLootTarget()
+    private EnemyLootable SelectLootTarget()
     {
         List<EnemyAI> agentsDead = AIManager.instance.GetAllAgentsDead()
             .OrderBy(x => (x.transform.position - transform.position).sqrMagnitude).ToList();
       
-        currentLootAgent     = null;
+        currentLoot     = null;
         currentLootIndicator = null;
         
         foreach (EnemyAI agent in agentsDead)
@@ -80,8 +79,12 @@ public class PlayerLootController : MonoBehaviour
             if (agent == null)
                 continue;
 
+            EnemyLootable loot = agent.GetComponent<EnemyLootable>();
+            if(!loot)
+                continue;
+            
             // Skip if there is nothing to loot
-            if (agent.isLooted)
+            if (loot.isLooted)
                 continue;
 
             Vector3 ownPosition   = transform.position;
@@ -97,7 +100,7 @@ public class PlayerLootController : MonoBehaviour
             if (Vector3.Angle(delta, transform.forward) > lootMaxAngle * 0.5f)
                 continue;
 
-            return agent;
+            return loot;
         }
 
         return null;

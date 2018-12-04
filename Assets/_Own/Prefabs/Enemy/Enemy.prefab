@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 114824004397904264}
   - component: {fileID: 114998865380716300}
   - component: {fileID: 114655431840501490}
+  - component: {fileID: 114210375256023920}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -2427,8 +2428,6 @@ MonoBehaviour:
   wanderSpeed: 1.89
   investigateSpeed: 1.41
   goBackSpeed: 1
-  lootIndicatorPrefab: {fileID: 1536027338821604, guid: 8b9f4b46ca191c5479f051f7a22a69ac,
-    type: 2}
   awarenessLevelIndicatorPrefab: {fileID: 1536027338821604, guid: 2990bb28c724247a48f2bff6ab46fb05,
     type: 2}
   indicatorLocation: {fileID: 4159333755516054}
@@ -2459,6 +2458,21 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114210375256023920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305885103597862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf220a890f40c9489ed287719a43f85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootIndicatorPrefab: {fileID: 1536027338821604, guid: 8b9f4b46ca191c5479f051f7a22a69ac,
+    type: 2}
+  minAmmo: 1
+  maxAmmo: 3
 --- !u!114 &114228402616606448
 MonoBehaviour:
   m_ObjectHideFlags: 1

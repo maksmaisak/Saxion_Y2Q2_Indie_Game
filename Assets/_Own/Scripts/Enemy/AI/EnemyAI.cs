@@ -38,7 +38,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     public float goBackSpeed = 1f;
 
     [Header("Assignables")] 
-    [SerializeField] GameObject lootIndicatorPrefab;
     [FormerlySerializedAs("indicatorPrefab")] [SerializeField] GameObject awarenessLevelIndicatorPrefab;
     [FormerlySerializedAs("trackerTransform")] [SerializeField] Transform indicatorLocation;
     [SerializeField] ShootingController _shootingController;
@@ -63,8 +62,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     public float awarenessLevel { get; private set; }
     public float lastSeenTime { get; private set; }
     public float minimumAwarenessLevelThreshold { get; set; }
-
-    public bool isLooted { get; private set; }
+    
     public bool isPlayerVisible { get; private set; }
     public bool isInvestigating { get; set; }
     public bool canDelayInvestigation { get; private set; }
@@ -74,7 +72,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     public int aiGUID { get; private set; }
 
     public Investigation currentInvestigation { get; private set; }
-    public EnemyLootIndicator lootIndicator { get; private set; }
     public EnemyIndicator awarenessLevelIndicator { get; private set; }
     public Rigidbody playerRigidbody { get; private set; }
     /********* PRIVATE *********/
@@ -248,8 +245,6 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 
         playerRigidbody = targetTransform.GetComponentInParent<Rigidbody>();
         Assert.IsNotNull(playerRigidbody);
-        
-        Assert.IsNotNull(lootIndicatorPrefab);
 
         fsm             = new FSM<EnemyAI>(this);
         health          = GetComponent<Health>();
@@ -458,8 +453,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 
         AIManager.instance.RegisterDeadAgent(this);
         
-        lootIndicator = CanvasObjectBuilder.CreateAndAddObjectToCanvas(lootIndicatorPrefab)?.GetComponent<EnemyLootIndicator>();
-        lootIndicator.SetTrackedRenderer(GetComponentInChildren<Renderer>());
+        GetComponent<EnemyLootable>().ShowIndicator();
     }
 
     private void ChangeStates()
@@ -563,7 +557,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
             if (investigation.startTime - currentInvestigation.startTime < secondsBetweenInvestigations)
                 return false;
 
-        float distanceSqr = (investigation.distractionPoint - transform.position).sqrMagnitude;
+        float distanceSqr   = (investigation.distractionPoint - transform.position).sqrMagnitude;
         float hearingRadius = investigation.enemyHearingRadius;
         return distanceSqr <= hearingRadius * hearingRadius;
     }
@@ -574,12 +568,4 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     }
 
     public bool IsPlayerCrouching() => playerAnimator.GetBool("Crouch");
-
-    public void Loot()
-    {
-        isLooted = true;
-        if(lootIndicator != null)
-            Destroy(lootIndicator.gameObject);
-        lootIndicator = null;
-    }
 }
