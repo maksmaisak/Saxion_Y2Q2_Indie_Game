@@ -1,15 +1,26 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : PersistentSingleton<LevelManager>
 {
+    [Header("Levels")]
     [SerializeField] string mainMenuSceneName  = "MainMenu";
     [SerializeField] string tutorialSceneName  = "Tutorial";
     [SerializeField] string mainLevelSceneName = "Main";
 
+    [Header("Loading screen")]
+    [SerializeField] Canvas loadingScreenCanvas;
+    [SerializeField] Image loadingProgressBar;
+
+    private AsyncOperation currentLevelLoadingOperation;
+
     protected override void Awake()
     {
         base.Awake();
+        
+        if (loadingScreenCanvas && currentLevelLoadingOperation == null) loadingScreenCanvas.gameObject.SetActive(false);
 
         if (SceneManager.sceneCount == 1 && SceneManager.GetActiveScene().name == "__preload")
         {
@@ -33,17 +44,43 @@ public class LevelManager : PersistentSingleton<LevelManager>
     
     public void RestartCurrentLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        new OnLevelStarted()
-            .SetDeliveryType(MessageDeliveryType.Immediate)
-            .PostEvent();
+        LoadLevel(SceneManager.GetActiveScene().name);
     }
-
-    public void LoadLevel(string levelName)
+    
+    public void LoadLevel(string levelSceneName, bool pauseTimeWhileLoading = true)
     {
         Scene currentScene = SceneManager.GetActiveScene();
-        didRestartLevel = currentScene.IsValid() && currentScene.name == levelName;
+        didRestartLevel = currentScene.IsValid() && currentScene.name == levelSceneName;
         
-        SceneManager.LoadScene(levelName);
+        if (loadingScreenCanvas) loadingScreenCanvas.gameObject.SetActive(true);
+        if (pauseTimeWhileLoading) Time.timeScale = 0f;
+
+        StartCoroutine(UpdateProgressBarCoroutine());
+        
+        currentLevelLoadingOperation = SceneManager.LoadSceneAsync(levelSceneName);
+        StartCoroutine(UpdateProgressBarCoroutine());
+        currentLevelLoadingOperation.completed += ao =>
+        {
+            Time.timeScale = 1f;
+            if (loadingScreenCanvas) loadingScreenCanvas.gameObject.SetActive(false);
+            new OnLevelStarted()
+                .SetDeliveryType(MessageDeliveryType.Immediate)
+                .PostEvent();
+
+            currentLevelLoadingOperation = null;
+            StopAllCoroutines();
+        };
+    }
+
+    private IEnumerator UpdateProgressBarCoroutine()
+    {
+        while (currentLevelLoadingOperation != null)
+        {
+            if (loadingProgressBar) loadingProgressBar.fillAmount = currentLevelLoadingOperation.progress;
+            
+            yield return null;
+        }
+
+        if (loadingProgressBar) loadingProgressBar.fillAmount = 0f;
     }
 }
