@@ -122,7 +122,7 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
     {
         currentMagazine.ammoCount--;
 
-        if (currentMagazine.ammoCount < 0)
+        if (currentMagazine.ammoCount <= 0)
         {
             currentMagazine.ammoCount = 0;
             Reload();
