@@ -13,7 +13,15 @@ public class PauseScreen : FadeZoomScreen,
         if (isCurrentlySelected) TransitionOut();
         else TransitionIn();
     }
-    
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        
+        if (isCurrentlySelected) 
+            Time.timeScale = initialTimeScale;
+    }
+
     public void On(OnPlayerDied message) => MakeSureItsUnpaused();
     public void On(OnLevelCompleted message) => MakeSureItsUnpaused();
 

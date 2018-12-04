@@ -37,6 +37,7 @@ public class LevelManager : PersistentSingleton<LevelManager>
     {
         didRestartLevel = false;
         SceneManager.LoadScene(mainMenuSceneName);
+        CursorHelper.SetLock(false);
     }
 
     public void StartTutorial() => LoadLevel(tutorialSceneName);
