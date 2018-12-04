@@ -27902,6 +27902,7 @@ GameObject:
   - component: {fileID: 1321876943}
   - component: {fileID: 1321876944}
   - component: {fileID: 1321876945}
+  - component: {fileID: 1321876946}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -27970,6 +27971,21 @@ MonoBehaviour:
   m_MaximumFOV: 40
   m_MinimumOrthoSize: 1
   m_MaximumOrthoSize: 100
+--- !u!114 &1321876946
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1321876942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
+  m_AmplitudeGain: 2
+  m_FrequencyGain: 0.25
+  mNoiseOffsets: {x: 448.82773, y: -766.8292, z: -561.4949}
 --- !u!1 &1323178289
 GameObject:
   m_ObjectHideFlags: 0
@@ -31131,7 +31147,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1466033450}
-  m_LocalRotation: {x: 0.016758882, y: 0.97080666, z: 0.07122333, w: -0.2284313}
+  m_LocalRotation: {x: 0.030477878, y: 0.96450615, z: 0.12858239, w: -0.2286169}
   m_LocalPosition: {x: 60.2, y: 0.91, z: 44.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -37977,7 +37993,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1812738839}
-  m_LocalRotation: {x: 0.016758882, y: 0.97080666, z: 0.07122333, w: -0.2284313}
+  m_LocalRotation: {x: 0.030477878, y: 0.96450615, z: 0.12858239, w: -0.2286169}
   m_LocalPosition: {x: 60.2, y: 0.91, z: 44.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
