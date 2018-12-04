@@ -52,7 +52,7 @@
                 if (agent.isPlayerVisible)
                     investigationTimeDiff = investigationDuration;
     
-                if (agent.navMeshAgent.remainingDistance <=
+                if (!agent.navMeshAgent.pathPending && agent.navMeshAgent.remainingDistance <=
                     agent.navMeshAgent.stoppingDistance)
                 {
                     if (currentTween == null)

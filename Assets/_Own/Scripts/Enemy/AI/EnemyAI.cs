@@ -523,9 +523,11 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     
     public void StartAttackPlayer()
     {
-        isStateChangeRequired   = true;
-        awarenessLevel          = chaseAwarenessLevel + 0.2f; // Set this manually to prevent changing states multiple times
+        lastSeenTime            = Time.time;
+        awarenessLevel          = chaseAwarenessLevel + 0.2f;
+        canDelayInvestigation   = false;
         lastKnownPlayerPosition = targetTransform.position;
+        fsm.ChangeState<EnemyStateChasePlayer>();
     }
     
     public float GetTimeSinceLastPlayerSeen()
