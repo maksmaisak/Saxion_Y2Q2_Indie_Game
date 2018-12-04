@@ -5,6 +5,13 @@ using UnityEngine.Assertions;
 public class MenuScreen : TransitionableScreen
 {
 	[SerializeField] FadeZoom fadeZoom;
+
+	protected override void OnStartUnselected()
+	{
+		canvasGroup.alpha = 0f;
+		canvasGroup.interactable = false;
+		canvasGroup.blocksRaycasts = false;
+	}
 	
 	protected override void OnTransitionIn()
 	{

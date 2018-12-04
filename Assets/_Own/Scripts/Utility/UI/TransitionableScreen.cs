@@ -30,6 +30,7 @@ public class TransitionableScreen : MyBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
 
         if (startSelected) TransitionIn();
+        else OnStartUnselected();
     }
 
     protected virtual void LateUpdate()
@@ -59,6 +60,8 @@ public class TransitionableScreen : MyBehaviour
         previousScreens.Push(this);
         currentlySelected = null;
     }
+
+    public void TransitionToPreviousScreen() => TransitionToPrevious();
 
     public static void TransitionToPrevious()
     {
@@ -99,6 +102,7 @@ public class TransitionableScreen : MyBehaviour
         screen.onTransitionOut.Invoke();
     }
 
+    protected virtual void OnStartUnselected() {}
     protected virtual void OnTransitionIn() {}
     protected virtual void OnTransitionOut() {}
 
