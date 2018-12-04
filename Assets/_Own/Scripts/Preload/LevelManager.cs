@@ -63,12 +63,13 @@ public class LevelManager : PersistentSingleton<LevelManager>
         {
             Time.timeScale = 1f;
             if (loadingScreenCanvas) loadingScreenCanvas.gameObject.SetActive(false);
-            new OnLevelStarted()
-                .SetDeliveryType(MessageDeliveryType.Immediate)
-                .PostEvent();
 
             currentLevelLoadingOperation = null;
             StopAllCoroutines();
+                        
+            new OnLevelStarted()
+                .SetDeliveryType(MessageDeliveryType.Immediate)
+                .PostEvent();
         };
     }
 
