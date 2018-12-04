@@ -15,7 +15,7 @@ public class FadeZoomScreen : TransitionableScreen
 	protected override void OnTransitionIn()
 	{
 		fadeZoom.FadeIn(canvasGroup, transform);
-		SelectFirstButton();
+		//SelectFirstButton();
 	}
 
 	protected override void OnTransitionOut()

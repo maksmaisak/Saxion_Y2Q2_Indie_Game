@@ -699,7 +699,7 @@ GameObject:
   - component: {fileID: 224489738357357662}
   - component: {fileID: 114231317040877630}
   - component: {fileID: 225212991676883082}
-  - component: {fileID: 114909942105647248}
+  - component: {fileID: 114782568792717968}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
@@ -1996,8 +1996,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114909942105647248}
-        m_MethodName: RestartLevel
+      - m_Target: {fileID: 114782568792717968}
+        m_MethodName: RestartCurrentLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3223,8 +3223,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114909942105647248}
-        m_MethodName: RestartLevel
+      - m_Target: {fileID: 114782568792717968}
+        m_MethodName: RestartCurrentLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3468,8 +3468,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114909942105647248}
-        m_MethodName: RestartLevel
+      - m_Target: {fileID: 114782568792717968}
+        m_MethodName: QuitToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3997,6 +3997,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114782568792717968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560689857365490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7bfa30a889274ddeb22c470af26b9d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114805254122973024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4519,17 +4530,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &114909942105647248
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1560689857365490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aff396508bf7442f939cd93eaa87e3e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114917728800450330
 MonoBehaviour:
   m_ObjectHideFlags: 1

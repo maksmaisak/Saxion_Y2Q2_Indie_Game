@@ -52,7 +52,7 @@ public class DeathScreen : MyBehaviour, IEventReceiver<OnPlayerDied>
 					CursorHelper.SetLock(false);
 					buttons.interactable = true;
 					buttons.blocksRaycasts = true;
-					buttons.GetComponentInChildren<Button>()?.Select();
+					//buttons.GetComponentInChildren<Button>()?.Select();
 				})
 				.Append(
 					buttons

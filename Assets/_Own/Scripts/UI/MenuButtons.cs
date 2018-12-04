@@ -8,5 +8,6 @@ public class MenuButtons : MonoBehaviour
 	public void StartTutorial() => LevelManager.instance.StartTutorial();
 	public void StartMainLevel() => LevelManager.instance.StartMainLevel();
 	public void QuitToMainMenu() => LevelManager.instance.GoToMainMenu();
+	public void RestartCurrentLevel() => LevelManager.instance.RestartCurrentLevel();
 	public void QuitToDesktop() => Quit.ToDesktop();
 }
