@@ -7,6 +7,7 @@ public class EnemyCharacter : MonoBehaviour
 {
     [SerializeField] float movingTurnSpeed = 360f;
     [SerializeField] float stationaryTurnSpeed = 180f;
+    [SerializeField] float runSpeed = 4.25f;
     [SerializeField] float moveSpeedMultiplier = 1f;
     [SerializeField] float animSpeedMultiplier = 1f;
     [SerializeField] float groundCheckDistance = 0.1f;
@@ -63,6 +64,8 @@ public class EnemyCharacter : MonoBehaviour
     public void Move(Vector3 move)
     {
         // TODO change forward amount based on magnitude.
+
+        float desiredSpeed = move.magnitude;
         
         // convert the world relative moveInput vector into a local-relative
         // turn amount and forward amount required to head in the desired
@@ -71,15 +74,16 @@ public class EnemyCharacter : MonoBehaviour
         move = transform.InverseTransformDirection(move);
         CheckGroundStatus();
         move = Vector3.ProjectOnPlane(move, groundNormal);
+        
         turnAmount = Mathf.Atan2(move.x, move.z);
-        forwardAmount = move.z;
+        forwardAmount = desiredSpeed / runSpeed;
 
         ApplyExtraTurnRotation();
 
         if (!isGrounded) ApplyExtraGravity();
 
         // send input and other state parameters to the animator
-        UpdateAnimator(move); 
+        UpdateAnimator(desiredSpeed);
     }
     
     private void CheckGroundStatus()
@@ -111,14 +115,14 @@ public class EnemyCharacter : MonoBehaviour
         rigidbody.AddForce(Physics.gravity * (gravityMultiplier - 1f));
     }
     
-    private void UpdateAnimator(Vector3 move)
+    private void UpdateAnimator(float desiredSpeed)
     {
         animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
         animator.SetFloat("Turn"   , turnAmount   , 0.1f, Time.deltaTime);
 
-        if (isGrounded && move.sqrMagnitude > 0f) 
+        if (isGrounded && desiredSpeed > 0f) 
             animator.speed = animSpeedMultiplier;
-        else 
+        else
             animator.speed = 1f;
     }
 }
