@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class StatsTracker : Singleton<StatsTracker>,
+public class StatsTracker : PersistentSingleton<StatsTracker>,
     IEventReceiver<OnLevelStarted>,
     IEventReceiver<OnEnemyDied>
 {

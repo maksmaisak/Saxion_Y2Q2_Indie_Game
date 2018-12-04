@@ -8,7 +8,4 @@ public static class SceneNames
     // possible, but there's no time.
     
     public const string preload = "__preload";
-    public const string mainMenuName = "main_menu";
-    public const string mainLevelName = "main";
-    public const string mainResolutionScreenName = "main_resolution_screen";
 }
