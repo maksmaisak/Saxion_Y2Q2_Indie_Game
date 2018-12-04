@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] UnityEvent OnHit;
             
     private void OnCollisionEnter(Collision collision)
-    {
+    {        
         if (string.IsNullOrWhiteSpace(ignoreTag) || !collision.gameObject.CompareTag(ignoreTag))
         {
             var health = collision.gameObject.GetComponentInChildren<Health>();
