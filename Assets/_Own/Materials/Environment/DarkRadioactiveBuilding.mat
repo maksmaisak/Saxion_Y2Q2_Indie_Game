@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: CityLamp
+  m_Name: DarkRadioactiveBuilding
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
   m_LightmapFlags: 4
@@ -19,7 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 3a791cb7674d0a8498273991737a4858, type: 3}
+        m_Texture: {fileID: 2800000, guid: 704c84318a5b6ec469b67e87fc82af08, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -39,19 +39,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 416b6f973cb92d443a3142153fd9e3ff, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7418e85df21eff74ab31493413de5b43, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: ffb4b5987afad3b4ca7a2f58b1b1e8d3, type: 3}
+        m_Texture: {fileID: 2800000, guid: cbc40a5328e447a4390f51b33cdb329d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: a38c7ec9b3d83d346bb12f6be6661f19, type: 3}
+        m_Texture: {fileID: 2800000, guid: a3f4ee5ec508ff74bbc5e0419c9b5540, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: bf7ba313fb94ccf46a770bf8219f5003, type: 3}
+        m_Texture: {fileID: 2800000, guid: 115bae8011298e24db36ace6e66cce6c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -59,7 +59,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _GlossMapScale: 0.033
+    - _GlossMapScale: 0
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
