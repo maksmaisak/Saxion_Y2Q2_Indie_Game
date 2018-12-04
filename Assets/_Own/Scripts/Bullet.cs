@@ -11,9 +11,16 @@ public class Bullet : MonoBehaviour
     [SerializeField] float hitImpulseMultiplier = 1f;
     [Space] 
     [SerializeField] UnityEvent OnHit;
-            
+
+    private bool didHit = false;
+    
     private void OnCollisionEnter(Collision collision)
     {
+        if (didHit)
+            return;
+
+        didHit = true;
+        
         if (string.IsNullOrWhiteSpace(ignoreTag) || !collision.gameObject.CompareTag(ignoreTag))
         {
             var health = collision.gameObject.GetComponentInChildren<Health>();

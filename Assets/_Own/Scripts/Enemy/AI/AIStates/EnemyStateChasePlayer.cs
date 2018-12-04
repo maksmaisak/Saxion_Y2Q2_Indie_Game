@@ -32,7 +32,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         agent.SetNoCallAssistance(true);
         agent.SetInvestigateNewDisturbance(false);
 
-        agent.indicator.ShowAlertDetectedPlayer();
+        agent.awarenessLevelIndicator.ShowAlertDetectedPlayer();
 
         StartCoroutine(MoveCoroutine());
         StartCoroutine(MeleeAttackCoroutine());
@@ -61,7 +61,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         {
             agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
 
-            if (agent.navMeshAgent.remainingDistance < agent.navMeshAgent.stoppingDistance)
+            if (!agent.navMeshAgent.pathPending && agent.navMeshAgent.remainingDistance < agent.navMeshAgent.stoppingDistance)
             {
                 if (!agent.isPlayerVisible)
                     if (agent.GetTimeSinceLastPlayerSeen() > secondsToEvadeMode)

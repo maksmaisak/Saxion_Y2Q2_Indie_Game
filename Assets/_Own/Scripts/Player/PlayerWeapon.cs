@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerWeapon : MonoBehaviour
+public class PlayerWeapon : MyBehaviour, IEventReceiver<OnAmmoLooted>
 {
-    [SerializeField] int clipSize = 5;
+    [SerializeField] int baseClipSize = 5;
     [SerializeField] int maxMagazines = 3;
     [SerializeField] int startingNumberOfMagazines = 2;
     [SerializeField] float reloadAnimationLength = 2f;
@@ -36,11 +36,11 @@ public class PlayerWeapon : MonoBehaviour
     
     private void Start()
     {
-        currentMagazine = new Magazine(clipSize);
+        currentMagazine = new Magazine(baseClipSize);
 
         for (int i = 0; i < startingNumberOfMagazines; i++)
             if (magazines.Count <= maxMagazines)
-                magazines.Add(new Magazine(clipSize));
+                magazines.Add(new Magazine(baseClipSize));
     }
 
     private void Update()
@@ -119,9 +119,56 @@ public class PlayerWeapon : MonoBehaviour
         OnAmmoChanged?.Invoke(currentMagazine.ammoCount);
     }
 
+    public void IncreaseAmmo(int increment)
+    {
+        int newAmount = currentMagazine.ammoCount + increment;
+
+        if (newAmount > currentMagazine.clipSize)
+        {
+            currentMagazine.ammoCount = currentMagazine.clipSize;
+            int ammoLeftover          = newAmount - currentMagazine.clipSize;
+
+            for (int i = 0; i < magazines.Count; i++)
+            {
+                if (ammoLeftover <= 0)
+                    break;
+
+                Magazine magazine = magazines[i];
+                if(magazine == null)
+                    continue;
+
+                // magazine is already full so continue
+                if(magazine.ammoCount == magazine.clipSize)
+                    continue;
+
+                int newMagazineAmount = magazine.ammoCount + ammoLeftover;
+
+                if (newMagazineAmount > magazine.clipSize)
+                {
+                    magazine.ammoCount = magazine.clipSize;
+                    ammoLeftover = newMagazineAmount - magazine.clipSize;
+                }
+                else magazine.ammoCount = newMagazineAmount;
+            }
+
+            // Put the remaining ammo into a new clip
+            if (ammoLeftover > 0 && magazines.Count < maxMagazines)
+            {
+                Magazine magazine = new Magazine(baseClipSize);
+                magazine.ammoCount = Mathf.Clamp(ammoLeftover, 0, magazine.clipSize);
+                magazines.Add(magazine);
+            }
+        }
+        else currentMagazine.ammoCount = newAmount;
+        
+        OnAmmoChanged?.Invoke(currentMagazine.ammoCount);
+    }
+    
     public bool CanShootOrZoomIn()
     {
         return currentMagazine != null && currentMagazine.ammoCount > 0 &&
             !isReloading;
     }
+
+    public void On(OnAmmoLooted loot) => IncreaseAmmo(loot.ammoAmount);
 }

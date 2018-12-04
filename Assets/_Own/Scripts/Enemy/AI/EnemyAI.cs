@@ -36,8 +36,9 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     public float wanderSpeed = 1.4f;
     public float investigateSpeed = 1.2f;
     public float goBackSpeed = 1f;
-    [Header("Assignables")]
-    [SerializeField] GameObject indicatorPrefab;
+
+    [Header("Assignables")] 
+    [FormerlySerializedAs("indicatorPrefab")] [SerializeField] GameObject awarenessLevelIndicatorPrefab;
     [FormerlySerializedAs("trackerTransform")] [SerializeField] Transform indicatorLocation;
     [SerializeField] ShootingController _shootingController;
 
@@ -61,7 +62,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     public float awarenessLevel { get; private set; }
     public float lastSeenTime { get; private set; }
     public float minimumAwarenessLevelThreshold { get; set; }
-
+    
     public bool isPlayerVisible { get; private set; }
     public bool isInvestigating { get; set; }
     public bool canDelayInvestigation { get; private set; }
@@ -71,7 +72,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     public int aiGUID { get; private set; }
 
     public Investigation currentInvestigation { get; private set; }
-    public EnemyIndicator indicator { get; private set; }
+    public EnemyIndicator awarenessLevelIndicator { get; private set; }
     public Rigidbody playerRigidbody { get; private set; }
     /********* PRIVATE *********/
 
@@ -230,14 +231,14 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
         }
         Assert.IsNotNull(targetTransform);
 
-        Assert.IsNotNull(indicatorPrefab);
-        indicator = CanvasObjectBuilder.CreateAndAddObjectToCanvas(indicatorPrefab)?.GetComponent<EnemyIndicator>();
+        Assert.IsNotNull(awarenessLevelIndicatorPrefab);
+        awarenessLevelIndicator = CanvasObjectBuilder.CreateAndAddObjectToCanvas(awarenessLevelIndicatorPrefab)?.GetComponent<EnemyIndicator>();
 
-        Assert.IsNotNull(indicator);
+        Assert.IsNotNull(awarenessLevelIndicator);
         Assert.IsNotNull(indicatorLocation);
 
-        indicator.SetTrackedTransform(indicatorLocation);
-        indicator.SetTrackedRenderer(GetComponentInChildren<Renderer>());
+        awarenessLevelIndicator.SetTrackedTransform(indicatorLocation);
+        awarenessLevelIndicator.SetTrackedRenderer(GetComponentInChildren<Renderer>());
 
         playerAnimator = targetTransform.GetComponentInParent<Animator>();
         Assert.IsNotNull(playerAnimator);
@@ -288,10 +289,10 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     {
         base.OnDestroy();
         
-        if (indicator != null)
-            Destroy(indicator.gameObject);
+        if (awarenessLevelIndicator != null)
+            Destroy(awarenessLevelIndicator.gameObject);
 
-        indicator = null;
+        awarenessLevelIndicator = null;
     }
 
     private void UpdateStatesAndConditions()
@@ -352,7 +353,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
             t = 1f + Mathf.InverseLerp(investigateAwarenessLevel, chaseAwarenessLevel, awarenessLevel);
 
         // Update EnemyIndicator color
-        indicator.SetState(t);
+        awarenessLevelIndicator?.SetState(t);
     }
 
     private void CallAssistance()
@@ -446,9 +447,13 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     {
         AIManager.instance.UnregisterAgent(this);
 
-        if (indicator != null)
-            Destroy(indicator.gameObject);
-        indicator = null;
+        if (awarenessLevelIndicator != null)
+            Destroy(awarenessLevelIndicator.gameObject);
+        awarenessLevelIndicator = null;
+
+        AIManager.instance.RegisterDeadAgent(this);
+        
+        GetComponent<EnemyLootable>().ShowIndicator();
     }
 
     private void ChangeStates()
@@ -505,7 +510,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
         if (isInvestigating)
             navMeshAgent.SetDestination(lastInvestigatePosition.Value);
         
-        indicator.ShowAlertHeardSomething();
+        awarenessLevelIndicator.ShowAlertHeardSomething();
 
         fsm.ChangeState<EnemyStateInvestigate>();
     }
@@ -518,9 +523,11 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
     
     public void StartAttackPlayer()
     {
-        isStateChangeRequired   = true;
-        awarenessLevel          = chaseAwarenessLevel + 0.2f; // Set this manually to prevent changing states multiple times
+        lastSeenTime            = Time.time;
+        awarenessLevel          = chaseAwarenessLevel + 0.2f;
+        canDelayInvestigation   = false;
         lastKnownPlayerPosition = targetTransform.position;
+        fsm.ChangeState<EnemyStateChasePlayer>();
     }
     
     public float GetTimeSinceLastPlayerSeen()
@@ -552,7 +559,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
             if (investigation.startTime - currentInvestigation.startTime < secondsBetweenInvestigations)
                 return false;
 
-        float distanceSqr = (investigation.distractionPoint - transform.position).sqrMagnitude;
+        float distanceSqr   = (investigation.distractionPoint - transform.position).sqrMagnitude;
         float hearingRadius = investigation.enemyHearingRadius;
         return distanceSqr <= hearingRadius * hearingRadius;
     }
