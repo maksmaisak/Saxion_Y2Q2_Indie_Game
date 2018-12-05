@@ -9,8 +9,10 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>, IEve
 
     private readonly List<EnemyAI> agents                 = new List<EnemyAI>();
     private readonly List<EnemyAI> agentsInCombat         = new List<EnemyAI>();
+    private readonly List<EnemyAI> agentsDead             = new List<EnemyAI>();
     private readonly List<Investigation> investigations   = new List<Investigation>();
 
+    public void RegisterDeadAgent(EnemyAI agent) => agentsDead.Add(agent);
     public void RegisterAgent(EnemyAI newAgent) => agents.Add(newAgent);
     public void UnregisterAgent(EnemyAI newAgent) => agents.Remove(newAgent);
 
@@ -22,7 +24,9 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>, IEve
         return nextAIEntry;
     }
 
+    public List<EnemyAI> GetAllAgents() => agentsDead;
     public List<EnemyAI> GetAllAgentsInCombat() => agentsInCombat;
+    public List<EnemyAI> GetAllAgentsDead() => agentsDead;
 
     public List<EnemyAI> GetAllAssistAgentsInRange(EnemyAI initiator, float radius, bool checkLineOfSight = false)
     {

@@ -1,13 +1,12 @@
 ﻿using System;
-using Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Health))]
 public class PlayerDeath : MyBehaviour, IEventReceiver<OnLevelCompleted>
 {
-	[SerializeField] float levelRestartDelay = 5f;
+	[SerializeField] bool restartAutomatically;
+	[SerializeField] float autoRestartDelay = 12f;
 	
 	private Health health;
 	
@@ -18,10 +17,14 @@ public class PlayerDeath : MyBehaviour, IEventReceiver<OnLevelCompleted>
 		health.OnDeath += OnDeath;
 	}
 
-	private void OnDeath(Health health)
+	private void OnDeath(Health sender)
 	{
 		new OnPlayerDied().PostEvent();
-		this.Delay(levelRestartDelay, LevelManager.instance.RestartCurrentLevel);
+		
+		if (restartAutomatically)
+		{
+			this.Delay(autoRestartDelay, LevelManager.instance.RestartCurrentLevel);
+		}
 	}
 
 	public void On(OnLevelCompleted message)

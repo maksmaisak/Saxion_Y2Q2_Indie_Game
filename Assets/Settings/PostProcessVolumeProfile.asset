@@ -55,7 +55,7 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   gradingMode:
-    overrideState: 0
+    overrideState: 1
     value: 1
   externalLut:
     overrideState: 0
@@ -90,11 +90,11 @@ MonoBehaviour:
     overrideState: 0
     value: 1
   temperature:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -23
   tint:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -6
   colorFilter:
     overrideState: 0
     value: {r: 1, g: 1, b: 1, a: 1}
@@ -102,8 +102,8 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   saturation:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -26
   brightness:
     overrideState: 0
     value: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   contrast:
-    overrideState: 0
+    overrideState: 1
     value: 0
   mixerRedOutRedIn:
     overrideState: 0
@@ -141,14 +141,14 @@ MonoBehaviour:
     overrideState: 0
     value: 100
   lift:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 0.82172596, y: 0.9011325, z: 1, w: 0.12806831}
   gamma:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 0.9587428, y: 1, z: 0.9541271, w: 0.042689428}
   gain:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 0.95109457, y: 0.9021889, z: 1, w: 0}
   masterCurve:
     overrideState: 0
     value:
@@ -1369,7 +1369,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.5
+    value: 0.1
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -1387,7 +1387,7 @@ MonoBehaviour:
     value: -12
   thicknessModifier:
     overrideState: 1
-    value: 1
+    value: 1.91
   directLightingStrength:
     overrideState: 0
     value: 0
@@ -1420,7 +1420,7 @@ MonoBehaviour:
     value: 0.5
   softKnee:
     overrideState: 1
-    value: 0.5
+    value: 0.514
   clamp:
     overrideState: 1
     value: 10
@@ -1469,10 +1469,10 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.55
+    value: 0.593
   smoothness:
     overrideState: 1
-    value: 0.4
+    value: 0.421
   roundness:
     overrideState: 1
     value: 0

@@ -20,6 +20,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] [Range(0f, 1f)] float rangedAttackProbabilityPerSecond = 0.5f;
     [SerializeField] [Range(0f, 1f)] float firstRangedAttackProbability = 0.8f;
     [Space] 
+    [SerializeField] UnityEvent OnMeleeAttack;
     [SerializeField] UnityEvent OnThrow;
 
     private bool isAttacking;
@@ -32,7 +33,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         agent.SetNoCallAssistance(true);
         agent.SetInvestigateNewDisturbance(false);
 
-        agent.indicator.ShowAlertDetectedPlayer();
+        agent.awarenessLevelIndicator.ShowAlertDetectedPlayer();
 
         StartCoroutine(MoveCoroutine());
         StartCoroutine(MeleeAttackCoroutine());
@@ -41,18 +42,14 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         new OnEnemyCombat(agent, true).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-        new OnEnemyCombat(agent, false).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
-    }
-    
     void OnDisable()
     {
         StopAllCoroutines();
 
         agent.SetInvestigateNewDisturbance(true);
-        agent.SetNoCallAssistance(false);          
+        agent.SetNoCallAssistance(false);
+        
+        new OnEnemyCombat(agent, false).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
     }
 
     private IEnumerator MoveCoroutine()
@@ -61,7 +58,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         {
             agent.navMeshAgent.SetDestination(agent.lastKnownPlayerPosition);
 
-            if (agent.navMeshAgent.remainingDistance < agent.navMeshAgent.stoppingDistance)
+            if (!agent.navMeshAgent.pathPending && agent.navMeshAgent.remainingDistance < agent.navMeshAgent.stoppingDistance)
             {
                 if (!agent.isPlayerVisible)
                     if (agent.GetTimeSinceLastPlayerSeen() > secondsToEvadeMode)
@@ -91,6 +88,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
             if (!isAttacking && IsCloserToTargetThan(maxMeleeStartDistance))
             {
                 isAttacking = true;
+                OnMeleeAttack.Invoke();
                 yield return new WaitForSeconds(meleeTime);
 
                 if (IsCloserToTargetThan(maxMeleeDamageDistance))

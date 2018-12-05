@@ -78,7 +78,7 @@ public class ShootingController
         return null;
     }
 
-    private void Shoot(Vector3 position, Vector3 startVelocity)
+    public void Shoot(Vector3 position, Vector3 startVelocity)
     {
         Assert.IsNotNull(bulletPrefab);
         

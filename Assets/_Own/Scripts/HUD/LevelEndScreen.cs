@@ -66,7 +66,7 @@ public class LevelEndScreen : MyBehaviour, IEventReceiver<OnLevelCompleted>
                     CursorHelper.SetLock(false);
                     buttons.interactable = true;
                     buttons.blocksRaycasts = true;
-                    buttons.GetComponentInChildren<Button>()?.Select();
+                    //buttons.GetComponentInChildren<Button>()?.Select();
                 })
                 .Append(
                     buttons
