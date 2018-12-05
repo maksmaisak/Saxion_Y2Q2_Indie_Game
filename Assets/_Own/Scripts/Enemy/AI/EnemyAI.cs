@@ -549,6 +549,9 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
 
     public bool CanStartNewInvestigation(Investigation investigation)
     {
+        if (investigation == null)
+            return false;
+
         if (health.isDead)
             return false;
 
