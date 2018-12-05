@@ -16,10 +16,8 @@ public class BreakpointShootAndKill : TutorialBreakpoint
     private string textShoot;
     private bool didTargetDie;
     
-    protected override void Start()
-    {
-        base.Start();
-        
+    void Start()
+    {        
         playerCameraController = FindObjectOfType<PlayerCameraController>();
 
         Assert.IsNotNull(textMeshAim);

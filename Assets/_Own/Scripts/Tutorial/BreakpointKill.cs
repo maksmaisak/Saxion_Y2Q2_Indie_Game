@@ -8,10 +8,8 @@ public class BreakpointKill : TutorialBreakpoint
     
     private bool didTargetDie;
     
-    protected override void Start()
-    {
-        base.Start();
-        
+    void Start()
+    {        
         Assert.IsNotNull(target);
         target.OnDeath += sender => didTargetDie = true;
     }
