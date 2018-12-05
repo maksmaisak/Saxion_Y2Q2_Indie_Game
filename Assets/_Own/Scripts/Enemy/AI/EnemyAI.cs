@@ -227,7 +227,7 @@ public class EnemyAI : MyBehaviour, ISerializationCallbackReceiver
         else
         {
             Debug.LogWarning("No PlayerVisibilityCenter found. Defaulting to transform of `PlayerCharacter`");
-            targetTransform = GameObject.Find("PlayerCharacter")?.transform;
+            targetTransform = GameObject.Find("Player")?.transform;
         }
         Assert.IsNotNull(targetTransform);
 
