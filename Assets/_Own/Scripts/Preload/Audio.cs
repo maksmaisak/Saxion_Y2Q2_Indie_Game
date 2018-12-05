@@ -31,7 +31,7 @@ public class Audio : PersistentSingleton<Audio>
     private void Start()
     {
         aiManager = AIManager.instance;
-        SceneHelper.instance.OnActiveSceneChange += PlayMainMenuSoundTrackIfFound;
+       SceneManager.activeSceneChanged += OnActiveSceneChange;
     }
     
     protected override void Awake()
@@ -51,6 +51,8 @@ public class Audio : PersistentSingleton<Audio>
         combatSoundtrackAudioSource.clip     = combatSoundTrack;
         combatSoundtrackAudioSource.loop     = true;
         combatSoundtrackAudioSource.Play();
+
+        mainMenuSoundtrackAudioSource.loop = true;
 
         PlayMainMenuSoundTrackIfFound();
     }
@@ -101,6 +103,8 @@ public class Audio : PersistentSingleton<Audio>
         }
     }
 
+    void OnActiveSceneChange(Scene currentScene, Scene nextScene) => this.Delay(0.1f, PlayMainMenuSoundTrackIfFound);
+
     void PlayMainMenuSoundTrackIfFound()
     {
         bool isMainMenuSceneFound = false;
@@ -118,15 +122,18 @@ public class Audio : PersistentSingleton<Audio>
         if (!isMainMenuSceneFound)
         {
             mainMenuSoundtrackAudioSource.DOFade(0, 2.0f)
-                .onComplete += mainMenuSoundtrackAudioSource.Stop;
-            soundtrackAudioSource.Play();
+                .OnComplete(() =>
+                {
+                    mainMenuSoundtrackAudioSource.Stop();
+                    soundtrackAudioSource.Play();
+                });
         }
         else
         {
-            mainMenuSoundtrackAudioSource.loop = true;
-            mainMenuSoundtrackAudioSource.Play();
-            
             soundtrackAudioSource.Stop();
+
+            mainMenuSoundtrackAudioSource.volume = 0.8f;
+            mainMenuSoundtrackAudioSource.Play();
         }
     }
 }
