@@ -32,7 +32,7 @@ public class PlayerShootingController : MyBehaviour
     [SerializeField] UnityEvent OnShoot;
     
     private float timeWhenCanShoot;
-    private PlayerWeapon playerWeappon;
+    private PlayerAmmoManager playerAmmoManager;
     private PlayerCameraController cameraController;
     
 #if UNITY_EDITOR
@@ -65,8 +65,8 @@ public class PlayerShootingController : MyBehaviour
         if (!cameraController) cameraController = GetComponent<PlayerCameraController>();
         if (!playerAnimator) playerAnimator = GetComponentInChildren<Animator>();
 
-        playerWeappon = GetComponent<PlayerWeapon>();
-        Assert.IsNotNull(playerWeappon);
+        playerAmmoManager = GetComponent<PlayerAmmoManager>();
+        Assert.IsNotNull(playerAmmoManager);
         
         GetComponent<Health>().OnDeath += sender => enabled = false;
     }
@@ -75,7 +75,7 @@ public class PlayerShootingController : MyBehaviour
     {
         if (!aimingTarget) return;
         
-        if (cameraController.isSniping && playerWeappon.CanShootOrZoomIn() && Input.GetMouseButtonDown(0) && CanShoot())
+        if (cameraController.isSniping && playerAmmoManager.CanShootOrZoomIn() && Input.GetMouseButtonDown(0) && CanShoot())
         {
             Shoot();
             OnShoot.Invoke();

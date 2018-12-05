@@ -11,27 +11,27 @@ public class PlayerAmmoDisplayer : MonoBehaviour
     {
         Assert.IsNotNull(ammoText);
         
-        PlayerWeapon playerWeapon   = GetPlayerWeapon();
+        PlayerAmmoManager playerWeapon   = GetPlayerWeapon();
         playerWeapon.OnAmmoChanged += UpdateAmmo;
     }
 
-    PlayerWeapon GetPlayerWeapon()
+    PlayerAmmoManager GetPlayerWeapon()
     {
         const string playerTag = "Player";
         
         var playerWeapon = GameObject
             .FindGameObjectsWithTag("Player")
-            .Select(go => go.GetComponentInChildren<PlayerWeapon>())
+            .Select(go => go.GetComponentInChildren<PlayerAmmoManager>())
             .FirstOrDefault(h => h != null);
         if (playerWeapon) return playerWeapon;
 
         const string PlayerGameObjectName = "Player";
         Debug.LogWarning($"Player not found by tag {playerTag}. Trying to find by gameObject name {PlayerGameObjectName}");
-        return GameObject.Find(PlayerGameObjectName)?.GetComponentInChildren<PlayerWeapon>();
+        return GameObject.Find(PlayerGameObjectName)?.GetComponentInChildren<PlayerAmmoManager>();
     }
 
-    void UpdateAmmo(int newAmmo)
+    void UpdateAmmo(int currentAmmo, int totalAmmoInMagazines)
     {
-        ammoText.SetText(newAmmo.ToString());
+        ammoText.SetText($"{currentAmmo}/{totalAmmoInMagazines}");
     }
 }

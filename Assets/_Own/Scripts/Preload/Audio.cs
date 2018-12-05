@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Audio : Singleton<Audio>
+public class Audio : PersistentSingleton<Audio>
 {
     [Header("Soundtrack")]
     [SerializeField] AudioSource soundtrackAudioSource;

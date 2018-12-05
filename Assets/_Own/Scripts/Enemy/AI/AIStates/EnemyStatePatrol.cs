@@ -15,7 +15,6 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
     
     /********* PRIVATE *********/
     private int waypointIndex = 0;
-    private bool isCurrentWaypointReached = false;
     
     private Vector3 currentWaypoint = Vector3.zero;
     
@@ -30,8 +29,6 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
             agent.fsm.ChangeState<EnemyStateIdle>();
             return;
         }
-
-        isCurrentWaypointReached         = false;
  
         if (currentWaypoint.Equals(Vector3.zero))
             currentWaypoint = waypoints[waypointIndex];
@@ -47,13 +44,11 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
     {
         while (enabled)
         {
-            if ((waypoints[waypointIndex] - agent.transform.position).sqrMagnitude <=
-                waypointStoppingDistance * waypointStoppingDistance)
-                isCurrentWaypointReached = true;
-            
-            if (isCurrentWaypointReached)
+            if (!agent.navMeshAgent.pathPending &&
+                agent.navMeshAgent.remainingDistance <=
+                Mathf.Max(agent.navMeshAgent.stoppingDistance, waypointStoppingDistance)
+            )
             {
-                isCurrentWaypointReached = false;
                 currentWaypoint = GetNextWaypoint();
                 agent.navMeshAgent.SetDestination(currentWaypoint);
             }
@@ -64,11 +59,7 @@ public class EnemyStatePatrol : FSMState<EnemyAI>, ISerializationCallbackReceive
 
     Vector3 GetNextWaypoint()
     {
-        waypointIndex++;
-
-        if (waypointIndex >= waypoints.Count - 1)
-            waypointIndex = 0;
-
+        waypointIndex = (waypointIndex + 1) % waypoints.Count;
         return waypoints[waypointIndex];
     }
 
