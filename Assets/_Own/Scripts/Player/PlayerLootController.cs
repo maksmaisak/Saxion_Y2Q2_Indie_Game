@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerLootController : MonoBehaviour
 {
     [SerializeField] float lootDistance = 2f;
     [Tooltip("Set the angle at which the player can see the lootable objects")]
     [SerializeField] float lootMaxAngle = 45.0f;
-    [SerializeField] LayerMask blockingLayerMask;
     [SerializeField] string lootActionButtonName = "Loot";
+    [SerializeField] private UnityEvent OnLoot;
 
     /********* PRIVATE *********/
     private bool isLooting;
@@ -62,6 +63,7 @@ public class PlayerLootController : MonoBehaviour
                 currentLoot     = null;
                 currentLootIndicator = null;
                 isLooting            = false;
+                OnLoot.Invoke();
             }
         }
     }
