@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class BreakpointControls : TutorialBreakpoint
+public class BreakpointWASD : TutorialBreakpoint
 {
-    protected override bool ReleaseCondition()
+    protected override bool DisappearCondition()
     {
         return Input.GetButtonDown("Vertical") || Input.GetButtonDown("Horizontal");
     }

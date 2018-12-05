@@ -11,7 +11,7 @@ public class BreakpointTimeout : TutorialBreakpoint
         timeOfActivation = Time.unscaledTime;
     }
 
-    protected override bool ReleaseCondition()
+    protected override bool DisappearCondition()
     {
         return wasTriggered && Time.unscaledTime - timeOfActivation > duration;
     }
