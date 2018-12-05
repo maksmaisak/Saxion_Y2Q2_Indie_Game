@@ -12,12 +12,12 @@ public class ButtonClickSoundsManager : MonoBehaviour
 		if (!audioSource) audioSource = GetComponent<AudioSource>();
 		Assert.IsNotNull(audioSource);
 
-		SceneHelper.instance.OnActiveSceneChange += AssignSoundToButtons;
+		SceneHelper.instance.OnActiveSceneChange += AssignCallbacksToAllButtons;
 		
-		AssignSoundToButtons();
+		AssignCallbacksToAllButtons();
 	}
 	
-	void AssignSoundToButtons()
+	void AssignCallbacksToAllButtons()
 	{
 		foreach (Button button in FindObjectsOfType<Button>())
 			button.onClick.AddListener(() => audioSource.Play());

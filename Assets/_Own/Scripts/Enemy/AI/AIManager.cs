@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>, IEventReceiver<OnEnemyCombat>
+public class AIManager : PersistentSingleton<AIManager>, IEventReceiver<Distraction>, IEventReceiver<OnEnemyCombat>
 {
     private int nextAIEntry = 0;
 
