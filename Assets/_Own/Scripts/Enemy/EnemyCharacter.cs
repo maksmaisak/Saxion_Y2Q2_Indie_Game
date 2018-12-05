@@ -10,7 +10,7 @@ public class EnemyCharacter : MonoBehaviour
     [SerializeField] float runSpeed = 4.25f;
     [SerializeField] float moveSpeedMultiplier = 1f;
     [SerializeField] float animSpeedMultiplier = 1f;
-    [SerializeField] float groundCheckDistance = 0.1f;
+    [SerializeField] float groundCheckDistance = 0.2f;
     [SerializeField] float gravityMultiplier = 1f;
     
     private Animator animator;
@@ -19,6 +19,7 @@ public class EnemyCharacter : MonoBehaviour
 
     private bool isGrounded;
     private Vector3 groundNormal;
+    private float currentGroundCheckDistance;
     
     private float forwardAmount;
     private float turnAmount;
@@ -34,6 +35,8 @@ public class EnemyCharacter : MonoBehaviour
             navMeshAgent.updateRotation = false;
             navMeshAgent.updatePosition = true;
         }
+
+        currentGroundCheckDistance = groundCheckDistance;
     }
 
     void Update()
@@ -87,20 +90,19 @@ public class EnemyCharacter : MonoBehaviour
     }
     
     private void CheckGroundStatus()
-    {
-        float checkDistance = rigidbody.velocity.y < 0f ? groundCheckDistance : 0.01f;
-        
+    {        
         RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, out hitInfo, checkDistance))
+        if (Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, out hitInfo, currentGroundCheckDistance))
         {
             groundNormal = hitInfo.normal;
             animator.applyRootMotion = isGrounded = true;
+            currentGroundCheckDistance = groundCheckDistance;
         }
         else
         {
-            isGrounded = false;
             groundNormal = Vector3.up;
             animator.applyRootMotion = isGrounded = false;
+            currentGroundCheckDistance = rigidbody.velocity.y > 0f ? 0.01f : groundCheckDistance;
         }
     }
 
