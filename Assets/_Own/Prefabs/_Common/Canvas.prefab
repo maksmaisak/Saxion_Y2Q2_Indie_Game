@@ -1149,6 +1149,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
+--- !u!1 &1928082752253130
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224481534422225294}
+  - component: {fileID: 222551452290726700}
+  - component: {fileID: 114316863449628990}
+  m_Layer: 5
+  m_Name: TMP SubMeshUI [Neighbor SDF Material + LiberationSans SDF Atlas]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1934093414524522
 GameObject:
   m_ObjectHideFlags: 1
@@ -1646,7 +1663,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 5
+  m_text: 5/10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 27ac11eca28024c989fbef93bbf6457b, type: 2}
   m_sharedMaterial: {fileID: 21740996585818392, guid: 27ac11eca28024c989fbef93bbf6457b,
@@ -1674,7 +1691,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 27.8
+  m_fontSize: 18.65
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1715,14 +1732,14 @@ MonoBehaviour:
   m_margin: {x: -0.773975, y: 0.5130834, z: 0.2858017, w: 0.46614283}
   m_textInfo:
     textComponent: {fileID: 114079275777191924}
-    characterCount: 1
+    characterCount: 4
     spriteCount: 0
     spaceCount: 0
-    wordCount: 1
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1
-    materialCount: 1
+    materialCount: 2
   m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -1732,7 +1749,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 114316863449628990}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -2459,6 +2476,34 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114316863449628990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928082752253130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_spriteAsset: {fileID: 0}
+  m_material: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
+  m_isDefaultMaterial: 0
+  m_padding: 0.5
+  m_canvasRenderer: {fileID: 222551452290726700}
+  m_TextComponent: {fileID: 114079275777191924}
+  m_materialReferenceIndex: 1
 --- !u!114 &114347894680215034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5286,6 +5331,13 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1360021020645056}
   m_CullTransparentMesh: 0
+--- !u!222 &222551452290726700
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928082752253130}
+  m_CullTransparentMesh: 0
 --- !u!222 &222562093702922620
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -5638,7 +5690,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -0.15362549, y: 42}
+  m_AnchoredPosition: {x: -0.15332031, y: 42}
   m_SizeDelta: {x: -346.4, y: 335.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224116847780912896
@@ -5743,14 +5795,15 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 224481534422225294}
   m_Father: {fileID: 224938964193925790}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.62999725, y: -7.94}
-  m_SizeDelta: {x: 30.92, y: 21.84}
+  m_AnchoredPosition: {x: -35.742, y: -7.94}
+  m_SizeDelta: {x: 101.15, y: 21.84}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224197066366512448
 RectTransform:
@@ -6075,6 +6128,24 @@ RectTransform:
   m_AnchoredPosition: {x: 393.47675, y: -206.41666}
   m_SizeDelta: {x: 786.9535, y: 82.566666}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224481534422225294
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928082752253130}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224191043966052760}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224489738357357662
 RectTransform:
   m_ObjectHideFlags: 1
@@ -6093,7 +6164,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 86.523254, y: -195}
+  m_AnchoredPosition: {x: 86.52344, y: -195}
   m_SizeDelta: {x: -173.04651, y: 247.7}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224499570338009200
@@ -6376,7 +6447,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 106.57001, y: -92.85498}
+  m_AnchoredPosition: {x: 106.569824, y: -92.85498}
   m_SizeDelta: {x: 346.19995, y: 61.650024}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224714081030143922
