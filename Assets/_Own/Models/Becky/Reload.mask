@@ -1,0 +1,194 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Reload
+  m_Mask: 00000000000000000000000000000000000000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Becky_body1
+    m_Weight: 0
+  - m_Path: CTRL_Master
+    m_Weight: 0
+  - m_Path: CTRL_Master/LLCTRL_foot
+    m_Weight: 0
+  - m_Path: CTRL_Master/LLCTRL_foot/LLInvert_foot_roll
+    m_Weight: 0
+  - m_Path: CTRL_Master/LLCTRL_foot/LLInvert_foot_roll/LLInvert_toe
+    m_Weight: 0
+  - m_Path: CTRL_Master/LLCTRL_foot/LLInvert_foot_roll/LLInvert_toe/LLIK_toe
+    m_Weight: 0
+  - m_Path: CTRL_Master/LLCTRL_foot/LLInvert_foot_roll/LLInvert_toe/LLInvert_foot
+    m_Weight: 0
+  - m_Path: CTRL_Master/LLCTRL_foot/LLInvert_foot_roll/LLInvert_toe/LLInvert_foot/LLIK_foot
+    m_Weight: 0
+  - m_Path: CTRL_Master/LLCTRL_foot/LLInvert_foot_roll/LLInvert_toe/LLInvert_foot/LLInvert_ankle
+    m_Weight: 0
+  - m_Path: CTRL_Master/LLCTRL_foot/LLInvert_foot_roll/LLInvert_toe/LLInvert_foot/LLInvert_ankle/LLIK_leg
+    m_Weight: 0
+  - m_Path: CTRL_Master/RCTRL_foot
+    m_Weight: 0
+  - m_Path: CTRL_Master/RCTRL_foot/RInvert_foot_roll
+    m_Weight: 0
+  - m_Path: CTRL_Master/RCTRL_foot/RInvert_foot_roll/RInvert_toe
+    m_Weight: 0
+  - m_Path: CTRL_Master/RCTRL_foot/RInvert_foot_roll/RInvert_toe/RIK_toe
+    m_Weight: 0
+  - m_Path: CTRL_Master/RCTRL_foot/RInvert_foot_roll/RInvert_toe/RInvert_foot
+    m_Weight: 0
+  - m_Path: CTRL_Master/RCTRL_foot/RInvert_foot_roll/RInvert_toe/RInvert_foot/RIK_foot
+    m_Weight: 0
+  - m_Path: CTRL_Master/RCTRL_foot/RInvert_foot_roll/RInvert_toe/RInvert_foot/RInvert_ankle
+    m_Weight: 0
+  - m_Path: CTRL_Master/RCTRL_foot/RInvert_foot_roll/RInvert_toe/RInvert_foot/RInvert_ankle/RIK_leg
+    m_Weight: 0
+  - m_Path: JOINTS
+    m_Weight: 1
+  - m_Path: JOINTS/Spine
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/Lleg
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/Lleg/LHip
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/Lleg/LHip/Lknee
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/Lleg/LHip/Lknee/Lankle
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/Lleg/LHip/Lknee/Lankle/Lfoot
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/Lleg/LHip/Lknee/Lankle/Lfoot/Ltoe
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/RHip
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/RHip/Rknee
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/RHip/Rknee/Rankle
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/RHip/Rknee/Rankle/Rfoot
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/RHip/Rknee/Rankle/Rfoot/Rtoe
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/head
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/head/top_of_the_head
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/LLitle_finger_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/LLitle_finger_1/LLitle_finger_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/LLitle_finger_1/LLitle_finger_2/LLitle_finger_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/LLitle_finger_1/LLitle_finger_2/LLitle_finger_3/LLitle_finger_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/LMiddle_finger_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/LMiddle_finger_1/LMiddle_finger_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/LMiddle_finger_1/LMiddle_finger_2/LMiddle_finger_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/LMiddle_finger_1/LMiddle_finger_2/LMiddle_finger_3/LMiddle_finger_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lnext_to_little_finger_finger_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lnext_to_little_finger_finger_1/Lnext_to_little_finger_finger_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lnext_to_little_finger_finger_1/Lnext_to_little_finger_finger_2/Lnext_to_little_finger_finger_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lnext_to_little_finger_finger_1/Lnext_to_little_finger_finger_2/Lnext_to_little_finger_finger_3/Lnext_to_little_finger_finger_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lpoint__finger_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lpoint__finger_1/Lpoint__finger_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lpoint__finger_1/Lpoint__finger_2/Lpoint__finger_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lpoint__finger_1/Lpoint__finger_2/Lpoint__finger_3/Lpoint__finger_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lthumb_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lthumb_1/Lthumb_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lthumb_1/Lthumb_2/Lthumb_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/LCL_inside/LCL_outside/Lshoulder/Lelbow/Lwrist/Lthumb_1/Lthumb_2/Lthumb_3/Lthumb_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1
+    m_Weight: 0
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/RLitle_finger_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/RLitle_finger_1/RLitle_finger_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/RLitle_finger_1/RLitle_finger_2/RLitle_finger_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/RLitle_finger_1/RLitle_finger_2/RLitle_finger_3/RLitle_finger_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/RMiddle_finger_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/RMiddle_finger_1/RMiddle_finger_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/RMiddle_finger_1/RMiddle_finger_2/RMiddle_finger_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/RMiddle_finger_1/RMiddle_finger_2/RMiddle_finger_3/RMiddle_finger_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rnext_to_little_finger_finger_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rnext_to_little_finger_finger_1/Rnext_to_little_finger_finger_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rnext_to_little_finger_finger_1/Rnext_to_little_finger_finger_2/Rnext_to_little_finger_finger_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rnext_to_little_finger_finger_1/Rnext_to_little_finger_finger_2/Rnext_to_little_finger_finger_3/Rnext_to_little_finger_finger_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rpoint__finger_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rpoint__finger_1/Rpoint__finger_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rpoint__finger_1/Rpoint__finger_2/Rpoint__finger_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rpoint__finger_1/Rpoint__finger_2/Rpoint__finger_3/Rpoint__finger_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rthumb_1
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rthumb_1/Rthumb_2
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rthumb_1/Rthumb_2/Rthumb_3
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/Rthumb_1/Rthumb_2/Rthumb_3/Rthumb_4
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/transform25
+    m_Weight: 1
+  - m_Path: JOINTS/Spine/spine_5_pelvis/spine_4/spine_2_belly_soft/spine_1ribcage/neck1/RCL_inside1/RCL_outside1/R_arm/Rshoulder/Relbow/Rwrist/transform25/joint1
+    m_Weight: 1
