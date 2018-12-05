@@ -42,18 +42,14 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
         new OnEnemyCombat(agent, true).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-        new OnEnemyCombat(agent, false).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
-    }
-    
     void OnDisable()
     {
         StopAllCoroutines();
 
         agent.SetInvestigateNewDisturbance(true);
-        agent.SetNoCallAssistance(false);          
+        agent.SetNoCallAssistance(false);
+        
+        new OnEnemyCombat(agent, false).SetDeliveryType(MessageDeliveryType.Immediate).PostEvent();
     }
 
     private IEnumerator MoveCoroutine()
