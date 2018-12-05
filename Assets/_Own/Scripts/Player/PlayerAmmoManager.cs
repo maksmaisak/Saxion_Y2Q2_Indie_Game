@@ -33,9 +33,11 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
     private Magazine currentMagazine;
     private List<Magazine> magazines = new List<Magazine>();  
     private PlayerShootingController shootingController;
+    private Animator playerAnimator;
 
     private void Start()
     {
+        playerAnimator  = GetComponent<Animator>();
         currentMagazine = new Magazine(baseClipSize);
 
         for (int i = 0; i < startingNumberOfMagazines; i++)
@@ -98,8 +100,8 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
         foreach (Magazine magazine in magazinesToRemove)
             magazines.Remove(magazine);
 
-        // TODO: Play reloading animation
-
+        playerAnimator.SetTrigger("Reload");
+        
         isReloading = true;
         this.Delay(reloadAnimationLength, () =>
         {
@@ -167,10 +169,10 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
                 else magazine.ammoCount = newMagazineAmount;
             }
 
-            // Put the remaining ammo into a new clip
+            // Put the remaining ammo into a new magazine
             if (ammoLeftover > 0 && magazines.Count < maxMagazines)
             {
-                Magazine magazine = new Magazine(baseClipSize);
+                Magazine magazine  = new Magazine(baseClipSize);
                 magazine.ammoCount = Mathf.Clamp(ammoLeftover, 0, magazine.clipSize);
                 magazines.Add(magazine);
             }
