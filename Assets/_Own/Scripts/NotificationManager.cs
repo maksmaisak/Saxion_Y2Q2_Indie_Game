@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NotificationManager : MyBehaviour, IEventReceiver<OnEnemyDied>
 {
@@ -8,6 +9,7 @@ public class NotificationManager : MyBehaviour, IEventReceiver<OnEnemyDied>
     [SerializeField] TMP_Text deathNotificationDisplayText;
     [SerializeField] CanvasGroup hitCanvasGroup;
     [SerializeField] FadeZoom fadeZoom;
+    [SerializeField] UnityEvent OnEnemyDied;
 
     private void Start()
     {
@@ -22,7 +24,9 @@ public class NotificationManager : MyBehaviour, IEventReceiver<OnEnemyDied>
             deathNotificationDisplayText.text = onHeadshotDeadEnemyText;
         else
             deathNotificationDisplayText.text = onDeadEnemyText;
-        
+
+        OnEnemyDied.Invoke();
+
         fadeZoom.FadeIn(hitCanvasGroup, hitCanvasGroup.transform);
         fadeZoom.FadeOut(hitCanvasGroup, hitCanvasGroup.transform, true);
     }
