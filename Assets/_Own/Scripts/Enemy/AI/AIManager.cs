@@ -86,7 +86,10 @@ public class AIManager : PersistentSingleton<AIManager>, IEventReceiver<Distract
 
     private void OnInvestigationFinish(Investigation investigation) => investigations.Remove(investigation);
 
-    private void Start() => StartCoroutine(UpdateInvestigationsCoroutine());
+    private void Start()
+    {
+        StartCoroutine(UpdateInvestigationsCoroutine());
+    }
 
     protected override void OnDestroy()
     {
@@ -94,6 +97,18 @@ public class AIManager : PersistentSingleton<AIManager>, IEventReceiver<Distract
         
         StopAllCoroutines();
         agents.Clear();
+    }
+
+    private void OnActiveSceneChanged()
+    {
+        agents.Clear();
+        agentsDead.Clear();
+        agentsInCombat.Clear();
+
+        foreach (Investigation investigation in investigations)
+            investigation.agents.Clear();
+
+        investigations.Clear();
     }
 
     private IEnumerator UpdateInvestigationsCoroutine()
