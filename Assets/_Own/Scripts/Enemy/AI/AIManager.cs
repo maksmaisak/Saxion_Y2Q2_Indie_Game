@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AIManager : PersistentSingleton<AIManager>, IEventReceiver<Distraction>, IEventReceiver<OnEnemyCombat>
 {
@@ -73,7 +74,7 @@ public class AIManager : PersistentSingleton<AIManager>, IEventReceiver<Distract
         Investigation investigation = new Investigation(distraction);
 
         foreach (EnemyAI agent in agents)
-            if (agent.CanStartNewInvestigation(investigation))
+            if (agent && agent.CanStartNewInvestigation(investigation))
                 investigation.AssignAgent(agent);
 
         if (investigation.agents.Count == 0)
@@ -89,6 +90,7 @@ public class AIManager : PersistentSingleton<AIManager>, IEventReceiver<Distract
     private void Start()
     {
         StartCoroutine(UpdateInvestigationsCoroutine());
+        SceneManager.activeSceneChanged += OnActiveSceneChange;
     }
 
     protected override void OnDestroy()
@@ -99,8 +101,10 @@ public class AIManager : PersistentSingleton<AIManager>, IEventReceiver<Distract
         agents.Clear();
     }
 
-    private void OnActiveSceneChanged()
+    private void OnActiveSceneChange(Scene currentScene, Scene nextScene)
     {
+        StopAllCoroutines();
+
         agents.Clear();
         agentsDead.Clear();
         agentsInCombat.Clear();
@@ -121,7 +125,7 @@ public class AIManager : PersistentSingleton<AIManager>, IEventReceiver<Distract
 
             if(investigationCount == 0)
                 continue;
-            
+
             for (int i = investigationCount - 1; i >= 0; i--)
             {
                 Investigation investigation = investigations[i];
