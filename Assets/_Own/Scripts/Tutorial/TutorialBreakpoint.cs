@@ -8,7 +8,9 @@ public abstract class TutorialBreakpoint : MonoBehaviour
 {
     [SerializeField] Transform uiTransform;
     [SerializeField] float appearDuration = 0.4f;
+    [SerializeField] float appearDelay = 0f;
     [SerializeField] float disappearDuration = 0.4f;
+    [SerializeField] float disappearDelay = 0f;
     [SerializeField] float timescaleWhenSlow = 0.01f;
     [SerializeField] bool dontStartIfConditionMetEarly;
 
@@ -23,6 +25,7 @@ public abstract class TutorialBreakpoint : MonoBehaviour
             .From()
             .SetEase(Ease.InExpo)
             .SetUpdate(isIndependentUpdate: true)
+            .SetDelay(appearDelay)
             .Pause();
     }
 
@@ -64,7 +67,7 @@ public abstract class TutorialBreakpoint : MonoBehaviour
             .DOScale(Vector3.zero, disappearDuration)
             .SetEase(Ease.InExpo)
             .SetUpdate(isIndependentUpdate: true)
-            .Pause();
+            .SetDelay(disappearDelay);
         
         TimeHelper.timeScale = 1f;
         enabled = false;
