@@ -192,7 +192,7 @@ ModelImporter:
     4300000: Becky_body1
     7400000: Run BECKY
     7400002: Idle BECKY
-    7400004: Crouch BECKY
+    7400004: Crouching BECKY
     7400006: Jump up BECKY
     7400008: Jump mid BECKY
     7400010: Jump down BECKY
@@ -200,6 +200,7 @@ ModelImporter:
     7400014: A Pose BECKY
     7400016: Reload BECKY
     7400018: 'Gun up BECKY '
+    7400020: Crouching still BECKY
     9500000: //RootNode
     13700000: Becky_body1
   externalObjects:
@@ -297,7 +298,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Crouch BECKY
+      name: Crouching BECKY
       takeName: Take 001
       firstFrame: 60
       lastFrame: 70
@@ -520,6 +521,34 @@ ModelImporter:
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Crouching still BECKY
+      takeName: Take 001
+      firstFrame: 56
+      lastFrame: 56
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 1
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 56
     isReadable: 1
   meshes:
     lODScreenPercentages: []
