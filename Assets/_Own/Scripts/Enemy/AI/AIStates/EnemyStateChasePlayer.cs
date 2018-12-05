@@ -20,6 +20,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] [Range(0f, 1f)] float rangedAttackProbabilityPerSecond = 0.5f;
     [SerializeField] [Range(0f, 1f)] float firstRangedAttackProbability = 0.8f;
     [Space] 
+    [SerializeField] UnityEvent OnMeleeAttack;
     [SerializeField] UnityEvent OnThrow;
 
     private bool isAttacking;
@@ -91,6 +92,7 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
             if (!isAttacking && IsCloserToTargetThan(maxMeleeStartDistance))
             {
                 isAttacking = true;
+                OnMeleeAttack.Invoke();
                 yield return new WaitForSeconds(meleeTime);
 
                 if (IsCloserToTargetThan(maxMeleeDamageDistance))
