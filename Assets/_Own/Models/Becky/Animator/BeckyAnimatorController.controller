@@ -13,43 +13,43 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Turn
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Crouch
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: OnGround
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Jump
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: JumpLeg
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Death
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -71,23 +71,23 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400004, guid: c803fc1bf2efded4b96212d533897516, type: 3}
+    m_Motion: {fileID: 7400002, guid: 18ada064abdb9cc4e97b313831b6a240, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 0.5
+    m_TimeScale: 0.25
     m_CycleOffset: 0
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400004, guid: c803fc1bf2efded4b96212d533897516, type: 3}
+    m_Motion: {fileID: 7400002, guid: 18ada064abdb9cc4e97b313831b6a240, type: 3}
     m_Threshold: 1.5238096
     m_Position: {x: 0, y: 0.02}
-    m_TimeScale: 0.5
+    m_TimeScale: 0.25
     m_CycleOffset: 0
     m_DirectBlendParameter: Forward
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400002, guid: c803fc1bf2efded4b96212d533897516, type: 3}
+    m_Motion: {fileID: 7400000, guid: 18ada064abdb9cc4e97b313831b6a240, type: 3}
     m_Threshold: 3.047619
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
@@ -261,18 +261,18 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400018, guid: c803fc1bf2efded4b96212d533897516, type: 3}
+    m_Motion: {fileID: 7400020, guid: 18ada064abdb9cc4e97b313831b6a240, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
+    m_TimeScale: 0.1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400012, guid: c803fc1bf2efded4b96212d533897516, type: 3}
+    m_Motion: {fileID: 7400004, guid: 18ada064abdb9cc4e97b313831b6a240, type: 3}
     m_Threshold: 0.1984127
     m_Position: {x: 0, y: 1}
-    m_TimeScale: 2
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
     m_Mirror: 0
@@ -361,7 +361,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400010, guid: c803fc1bf2efded4b96212d533897516, type: 3}
+    m_Motion: {fileID: 7400010, guid: 18ada064abdb9cc4e97b313831b6a240, type: 3}
     m_Threshold: 20
     m_Position: {x: -9, y: 0}
     m_TimeScale: 0.1
@@ -369,7 +369,7 @@ BlendTree:
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400008, guid: c803fc1bf2efded4b96212d533897516, type: 3}
+    m_Motion: {fileID: 7400008, guid: 18ada064abdb9cc4e97b313831b6a240, type: 3}
     m_Threshold: 35
     m_Position: {x: 0, y: 0}
     m_TimeScale: 0.1
@@ -377,7 +377,7 @@ BlendTree:
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400006, guid: c803fc1bf2efded4b96212d533897516, type: 3}
+    m_Motion: {fileID: 7400006, guid: 18ada064abdb9cc4e97b313831b6a240, type: 3}
     m_Threshold: 40
     m_Position: {x: 5, y: 0}
     m_TimeScale: 0.1
@@ -810,7 +810,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: New State
+  m_Name: Death
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -823,7 +823,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400016, guid: c803fc1bf2efded4b96212d533897516, type: 3}
+  m_Motion: {fileID: 7400012, guid: 18ada064abdb9cc4e97b313831b6a240, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
