@@ -1,13 +1,12 @@
 using System;
-using System.Linq;
-using System.Net.Configuration;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 public class Audio : PersistentSingleton<Audio>
 {
     [Header("Soundtrack")]
+    [SerializeField] AudioSource mainMenuSoundtrackAudioSource;
     [SerializeField] AudioSource soundtrackAudioSource;
     [SerializeField] AudioSource combatSoundtrackAudioSource;
     [SerializeField] AudioClip soundtrack;
@@ -32,6 +31,7 @@ public class Audio : PersistentSingleton<Audio>
     private void Start()
     {
         aiManager = AIManager.instance;
+        SceneHelper.instance.OnActiveSceneChange += PlayMainMenuSoundTrackIfFound;
     }
     
     protected override void Awake()
@@ -40,7 +40,7 @@ public class Audio : PersistentSingleton<Audio>
         
         if (!soundtrack) return;
         if (!soundtrackAudioSource) return;
-
+        
         soundtrackDefaultPitch = soundtrackAudioSource.pitch;
         soundtrackDefaultVolume = soundtrackAudioSource.volume;
 
@@ -51,6 +51,8 @@ public class Audio : PersistentSingleton<Audio>
         combatSoundtrackAudioSource.clip     = combatSoundTrack;
         combatSoundtrackAudioSource.loop     = true;
         combatSoundtrackAudioSource.Play();
+
+        PlayMainMenuSoundTrackIfFound();
     }
     
     public void SetMusicVolume(float normalizedTargetVolume, bool immediate = false)
@@ -96,6 +98,35 @@ public class Audio : PersistentSingleton<Audio>
             combatSoundtrackAudioSource
                 .DOFade(combatSoundTrackMaxVolume, combatFadeInDuration)
                 .OnComplete(() => isCombatSoundFadingIn = false);
+        }
+    }
+
+    void PlayMainMenuSoundTrackIfFound()
+    {
+        bool isMainMenuSceneFound = false;
+
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name.Equals("MainMenu"))
+            {
+                isMainMenuSceneFound = true;
+                break;
+            }
+        }
+
+        if (!isMainMenuSceneFound)
+        {
+            mainMenuSoundtrackAudioSource.DOFade(0, 2.0f)
+                .onComplete += mainMenuSoundtrackAudioSource.Stop;
+            soundtrackAudioSource.Play();
+        }
+        else
+        {
+            mainMenuSoundtrackAudioSource.loop = true;
+            mainMenuSoundtrackAudioSource.Play();
+            
+            soundtrackAudioSource.Stop();
         }
     }
 }
