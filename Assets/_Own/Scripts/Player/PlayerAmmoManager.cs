@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
 {
@@ -10,6 +11,7 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
     [SerializeField] int startingNumberOfMagazines = 2;
     [SerializeField] float reloadAnimationLength = 2f;
     [SerializeField] string reloadWeaponKey = "Reload";
+    [SerializeField] UnityEvent OnReload;
 
     public class Magazine
     {
@@ -103,6 +105,8 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
         playerAnimator.SetTrigger("Reload");
         
         isReloading = true;
+        this.Delay(0.2f, OnReload.Invoke);
+        
         this.Delay(reloadAnimationLength, () =>
         {
             isReloading                = false;
