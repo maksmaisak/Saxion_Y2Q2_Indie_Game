@@ -17,7 +17,7 @@ public abstract class TutorialBreakpoint : MonoBehaviour
 
     void Start()
     {
-        Assert.IsNotNull(uiTransform);
+        Assert.IsNotNull(uiTransform, "No UI transform assigned to " + this);
         appearTween = uiTransform
             .DOScale(Vector3.zero, appearDuration)
             .From()
