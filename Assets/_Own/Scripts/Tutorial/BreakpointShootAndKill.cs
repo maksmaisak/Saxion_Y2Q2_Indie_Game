@@ -20,13 +20,18 @@ public class BreakpointShootAndKill : TutorialBreakpoint
     {        
         playerCameraController = FindObjectOfType<PlayerCameraController>();
 
-        Assert.IsNotNull(textMeshAim);
-        textAim = textMeshAim.text;
-        textMeshAim.enabled = false;
-        
-        Assert.IsNotNull(textMeshShoot);
-        textShoot = textMeshShoot.text;
-        
+        if (textMeshAim)
+        {
+            textAim = textMeshAim.text;
+            textMeshAim.enabled = false;
+        }
+
+        if (textMeshShoot)
+        {
+            textShoot = textMeshShoot.text;
+            textMeshShoot.enabled = false;
+        }
+
         Assert.IsNotNull(target);
         target.OnDeath += sender => didTargetDie = true;
     }
@@ -36,14 +41,14 @@ public class BreakpointShootAndKill : TutorialBreakpoint
         base.Update();
         if (!isActive)
         {
-            textMeshAim.enabled = false;
-            textMeshShoot.enabled = false;
+            if (textMeshAim) textMeshAim.enabled = false;
+            if (textMeshShoot) textMeshShoot.enabled = false;
             return;
         }
 
-        if (!playerCameraController.isSniping)
+        if (!playerCameraController.isSniping && textMeshAim)
         {
-            textMeshShoot.enabled = false;
+            if (textMeshShoot) textMeshShoot.enabled = false;
             
             if (textMeshAim.enabled) return;
             textMeshAim.enabled = true;
@@ -53,9 +58,9 @@ public class BreakpointShootAndKill : TutorialBreakpoint
         }
         else
         {
-            textMeshAim.enabled = false;
+            if (textMeshAim) textMeshAim.enabled = false;
             
-            if (textMeshShoot.enabled) return;
+            if (!textMeshShoot || textMeshShoot.enabled) return;
             textMeshShoot.enabled = true;
             textMeshShoot.text = string.Empty;
             textMeshShoot.DOKill();
