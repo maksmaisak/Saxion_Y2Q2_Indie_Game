@@ -7,30 +7,16 @@ public class BreakpointShootAndKill : TutorialBreakpoint
 {
     [SerializeField] Health target;
 
-    [SerializeField] TMP_Text textMeshAim;
-    [SerializeField] TMP_Text textMeshShoot;
-    [SerializeField] float textAppearDuration = 1f;
-
+    [SerializeField] TutorialText[] visibleWhenNotSniping;
+    [SerializeField] TutorialText[] visibleWhenSniping;
+    [SerializeField] TutorialText[] visibleWhileActive;
+    
     private PlayerCameraController playerCameraController;
-    private string textAim;
-    private string textShoot;
     private bool didTargetDie;
     
     void Start()
     {        
         playerCameraController = FindObjectOfType<PlayerCameraController>();
-
-        if (textMeshAim)
-        {
-            textAim = textMeshAim.text;
-            textMeshAim.enabled = false;
-        }
-
-        if (textMeshShoot)
-        {
-            textShoot = textMeshShoot.text;
-            textMeshShoot.enabled = false;
-        }
 
         Assert.IsNotNull(target);
         target.OnDeath += sender => didTargetDie = true;
@@ -39,38 +25,30 @@ public class BreakpointShootAndKill : TutorialBreakpoint
     protected override void Update()
     {
         base.Update();
-        if (!isActive)
+        if (!enabled) return;
+        
+        if (playerCameraController.isSniping)
         {
-            if (textMeshAim) textMeshAim.enabled = false;
-            if (textMeshShoot) textMeshShoot.enabled = false;
-            return;
-        }
-
-        if (!playerCameraController.isSniping && textMeshAim)
-        {
-            if (textMeshShoot) textMeshShoot.enabled = false;
-            
-            if (textMeshAim.enabled) return;
-            textMeshAim.enabled = true;
-            textMeshAim.text = string.Empty;
-            textMeshAim.DOKill();
-            textMeshAim.DOText(textAim, textAppearDuration);
+            foreach (var tutorialText in visibleWhenSniping) tutorialText.Appear();
+            foreach (var tutorialText in visibleWhenNotSniping) tutorialText.Disappear();
         }
         else
         {
-            if (textMeshAim) textMeshAim.enabled = false;
-            
-            if (!textMeshShoot || textMeshShoot.enabled) return;
-            textMeshShoot.enabled = true;
-            textMeshShoot.text = string.Empty;
-            textMeshShoot.DOKill();
-            textMeshShoot.DOText(textShoot, textAppearDuration);
+            foreach (var tutorialText in visibleWhenSniping) tutorialText.Disappear();
+            foreach (var tutorialText in visibleWhenNotSniping) tutorialText.Appear();
         }
+    }
+    
+    protected override void OnActivate()
+    {
+        foreach (var tutorialText in visibleWhileActive) tutorialText.Appear();
     }
 
     protected override void OnDeactivate()
     {
-        gameObject.SetActive(false);
+        foreach (var tutorialText in visibleWhileActive) tutorialText.Disappear();
+        foreach (var tutorialText in visibleWhenSniping) tutorialText.Disappear();
+        foreach (var tutorialText in visibleWhenNotSniping) tutorialText.Disappear();
     }
 
     protected override bool DisappearCondition() => didTargetDie;

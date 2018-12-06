@@ -3871,9 +3871,10 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   target: {fileID: 1910703261}
-  textMeshAim: {fileID: 0}
-  textMeshShoot: {fileID: 1940669694}
-  textAppearDuration: 0.5
+  visibleWhenNotSniping: []
+  visibleWhenSniping: []
+  visibleWhileActive:
+  - {fileID: 1940669698}
 --- !u!65 &74909820
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12205,9 +12206,11 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   target: {fileID: 2044147324}
-  textMeshAim: {fileID: 759054458}
-  textMeshShoot: {fileID: 1939783026}
-  textAppearDuration: 0.5
+  visibleWhenNotSniping:
+  - {fileID: 759054462}
+  visibleWhenSniping:
+  - {fileID: 1939783030}
+  visibleWhileActive: []
 --- !u!65 &581631851
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12298,9 +12301,10 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   target: {fileID: 2056302887}
-  textMeshAim: {fileID: 0}
-  textMeshShoot: {fileID: 2047755744}
-  textAppearDuration: 0.5
+  visibleWhenNotSniping: []
+  visibleWhenSniping: []
+  visibleWhileActive:
+  - {fileID: 2047755748}
 --- !u!65 &587236839
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14498,6 +14502,7 @@ GameObject:
   - component: {fileID: 759054460}
   - component: {fileID: 759054459}
   - component: {fileID: 759054458}
+  - component: {fileID: 759054462}
   m_Layer: 0
   m_Name: Aim
   m_TagString: Untagged
@@ -14687,6 +14692,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &759054462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759054456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2085b0707518459da8a48505d626eef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 0}
+  appearDuration: 0.5
+  disappearDuration: 0.5
+  hideOnStart: 1
 --- !u!1 &772865192
 GameObject:
   m_ObjectHideFlags: 0
@@ -16328,7 +16348,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4426798771896372, guid: c26cc69c7969742be8e253fdad625a36, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.000000008644066
+      value: 0.00000000746473
       objectReference: {fileID: 0}
     - target: {fileID: 4426798771896372, guid: c26cc69c7969742be8e253fdad625a36, type: 2}
       propertyPath: m_LocalRotation.y
@@ -16340,7 +16360,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4426798771896372, guid: c26cc69c7969742be8e253fdad625a36, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -0.000000020342405
+      value: 0.000000012145037
       objectReference: {fileID: 0}
     - target: {fileID: 4426798771896372, guid: c26cc69c7969742be8e253fdad625a36, type: 2}
       propertyPath: m_RootOrder
@@ -25807,7 +25827,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4782428809561278, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008644066
+      value: -0.000000007464731
       objectReference: {fileID: 0}
     - target: {fileID: 4782428809561278, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.w
@@ -25819,7 +25839,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4696339124936922, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008644066
+      value: -0.000000007464731
       objectReference: {fileID: 0}
     - target: {fileID: 4696339124936922, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.w
@@ -25827,7 +25847,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4426737552660424, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.00000002980159
+      value: -0.000000029798965
       objectReference: {fileID: 0}
     - target: {fileID: 114118195448718590, guid: 9f73eb9de7b7c46fe8d8089be8c5a323,
         type: 2}
@@ -25840,7 +25860,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4136402711137062, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008644066
+      value: -0.000000007464731
       objectReference: {fileID: 0}
     - target: {fileID: 4136402711137062, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.w
@@ -25852,15 +25872,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4696339124936922, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.000000020342407
+      value: 0.000000012145038
       objectReference: {fileID: 0}
     - target: {fileID: 4782428809561278, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.000000020342407
+      value: 0.000000012145038
       objectReference: {fileID: 0}
     - target: {fileID: 4136402711137062, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.000000020342407
+      value: 0.000000012145038
       objectReference: {fileID: 0}
     - target: {fileID: 4000304900517084, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalPosition.z
@@ -25936,7 +25956,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4218539708063258, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.00000002980159
+      value: -0.000000029798965
       objectReference: {fileID: 0}
     - target: {fileID: 4218539708063258, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.x
@@ -36728,6 +36748,7 @@ GameObject:
   - component: {fileID: 1939783026}
   - component: {fileID: 1939783025}
   - component: {fileID: 1939783024}
+  - component: {fileID: 1939783030}
   m_Layer: 0
   m_Name: Shoot
   m_TagString: Untagged
@@ -36958,6 +36979,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1939783030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1939783022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2085b0707518459da8a48505d626eef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 0}
+  appearDuration: 0.5
+  disappearDuration: 0.5
+  hideOnStart: 1
 --- !u!1 &1940669690
 GameObject:
   m_ObjectHideFlags: 0
@@ -36972,6 +37008,7 @@ GameObject:
   - component: {fileID: 1940669694}
   - component: {fileID: 1940669693}
   - component: {fileID: 1940669692}
+  - component: {fileID: 1940669698}
   m_Layer: 0
   m_Name: Shoot
   m_TagString: Untagged
@@ -37196,6 +37233,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1940669698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1940669690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2085b0707518459da8a48505d626eef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 0}
+  appearDuration: 0.5
+  disappearDuration: 0.5
+  hideOnStart: 1
 --- !u!43 &1941186498
 Mesh:
   m_ObjectHideFlags: 0
@@ -38921,6 +38973,7 @@ GameObject:
   - component: {fileID: 2047755744}
   - component: {fileID: 2047755743}
   - component: {fileID: 2047755742}
+  - component: {fileID: 2047755748}
   m_Layer: 0
   m_Name: Shoot
   m_TagString: Untagged
@@ -39147,6 +39200,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2047755748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2047755740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2085b0707518459da8a48505d626eef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 0}
+  appearDuration: 0.5
+  disappearDuration: 0.5
+  hideOnStart: 1
 --- !u!43 &2053280214
 Mesh:
   m_ObjectHideFlags: 0

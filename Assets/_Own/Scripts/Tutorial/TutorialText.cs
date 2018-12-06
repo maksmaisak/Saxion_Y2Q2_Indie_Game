@@ -13,6 +13,7 @@ public class TutorialText : MonoBehaviour
     [SerializeField] bool hideOnStart = true;
 
     private string fullText;
+    private bool isShown = false;
 
     void Awake()
     {
@@ -20,12 +21,13 @@ public class TutorialText : MonoBehaviour
         if (!textMesh) return;
         
         fullText = textMesh.text;
-        if (hideOnStart) textMesh.enabled = false;
+        textMesh.enabled = isShown = !hideOnStart;
     }
     
     public void Appear()
     {
         if (!textMesh) return;
+        if (isShown) return;
         
         textMesh.DOKill();
         textMesh.text = string.Empty;
@@ -34,14 +36,20 @@ public class TutorialText : MonoBehaviour
         textMesh
             .DOText(fullText, appearDuration)
             .SetUpdate(isIndependentUpdate: true);
+
+        isShown = true;
     }
 
     public void Disappear()
     {
         if (!textMesh) return;
-        
+        if (!isShown) return;
+
+        textMesh.DOKill();
         textMesh
             .DOFade(0f, disappearDuration)
             .SetEase(Ease.InExpo);
+
+        isShown = false;
     }
 }

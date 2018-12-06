@@ -67,9 +67,9 @@ public abstract class TutorialBreakpoint : MonoBehaviour
         this.Delay(appearDelay, () =>
         {
             OnAppear.Invoke();
+            OnActivate();
             GetComponent<TutorialText>()?.Appear();
         });
-        OnActivate();
     }
 
     public void Disappear()
@@ -80,6 +80,7 @@ public abstract class TutorialBreakpoint : MonoBehaviour
             .AppendCallback(() =>
             {
                 OnDisappear.Invoke();
+                OnDeactivate();
                 GetComponent<TutorialText>()?.Disappear();
             });
 
