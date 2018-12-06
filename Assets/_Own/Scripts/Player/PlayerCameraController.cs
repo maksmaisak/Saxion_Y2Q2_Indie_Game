@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.Assertions;
+using DG.Tweening;
 
 [Serializable]
 struct CameraNoiseConfig
@@ -25,7 +26,13 @@ public class PlayerCameraController : MyBehaviour
     [SerializeField] CinemachineVirtualCamera sniperZoomVirtualCamera;
     [SerializeField] Transform mouse;
     [SerializeField] Animator playerAnimator;
-    
+
+    [Header("Hold Breath Settings")]
+    [SerializeField] string holdBreathButtonKey = "HoldBreath";
+    [SerializeField] float holdBreathPeriod = 3.0f;
+    [SerializeField] float holdBreathCooldown = 2.0f;
+    [SerializeField] AudioSource heartBeatAudioSource;
+
     [Header("Zoom & Field Of View")]
     [SerializeField] float zoomSpeed = 10f;
     [SerializeField] float sniperMaxFov = 10f;
@@ -34,8 +41,9 @@ public class PlayerCameraController : MyBehaviour
     [SerializeField] float currentSniperFov;
 
     [Header("Sniper camera shake")]
-    [SerializeField] private CameraNoiseConfig sniperCameraShakeStanding  = CameraNoiseConfig.Default;
-    [SerializeField] private CameraNoiseConfig sniperCameraShakeCrouching = CameraNoiseConfig.Default;
+    [SerializeField] CameraNoiseConfig sniperCameraShakeStanding  = CameraNoiseConfig.Default;
+    [SerializeField] CameraNoiseConfig sniperCameraShakeCrouching = CameraNoiseConfig.Default;
+    [SerializeField] CameraNoiseConfig sniperCameraShakeHoldingBreath = CameraNoiseConfig.Default;
 
     public bool isSniping { get; private set; }
     private CinemachineVirtualCamera hardLookAtMouseSniperCamera;
@@ -46,7 +54,13 @@ public class PlayerCameraController : MyBehaviour
     private GameObject activeInSniperZoomOnly;
 
     private PlayerAmmoManager playerAmmoManager;
-    
+
+    private bool canHoldBreath = true;
+    private bool isHoldingBreath;
+
+    private float holdBreathTimeDiff;
+    private float holdBreathCooldownTime;
+
     void Start()
     {
         Assert.IsNotNull(primaryVirtualCamera);
@@ -94,7 +108,7 @@ public class PlayerCameraController : MyBehaviour
         
         enabled = false;
     }
-    
+
     private void UpdateZoom()
     {
         if (!isSniping) return;
@@ -121,7 +135,7 @@ public class PlayerCameraController : MyBehaviour
         else
         {
             currentSniperFov = sniperMaxFov;
-            
+
             sniperZoomVirtualCamera.Priority = 1;
             primaryVirtualCamera.Priority = 10;
 
@@ -140,6 +154,47 @@ public class PlayerCameraController : MyBehaviour
         if (activeInSniperZoomOnly) activeInSniperZoomOnly.SetActive(isSniping);
     }
 
+    private void CheckHoldBreath(CinemachineBasicMultiChannelPerlin noise)
+    {
+        if (isSniping && canHoldBreath && Input.GetButtonDown(holdBreathButtonKey))
+        {
+            isHoldingBreath = true;
+            heartBeatAudioSource.DOFade(1, 0.5f);
+        }
+        else if (!isSniping || Input.GetButtonUp(holdBreathButtonKey))
+        {
+            if (Math.Abs(heartBeatAudioSource.volume) >= 0.01f)
+                heartBeatAudioSource.DOFade(0, 0.5f);
+
+            isHoldingBreath = false;
+        }
+
+        if (isHoldingBreath)
+        {
+            holdBreathTimeDiff      += Time.deltaTime;
+            noise.m_AmplitudeGain   *= sniperCameraShakeHoldingBreath.amplitudeGain;
+            noise.m_FrequencyGain   *= sniperCameraShakeHoldingBreath.frequencyGain;
+
+            if (holdBreathTimeDiff >= holdBreathPeriod)
+            {
+                canHoldBreath           = false;
+                isHoldingBreath         = false;
+                holdBreathCooldownTime  = Time.time + holdBreathCooldown;
+                heartBeatAudioSource.DOFade(0, 0.5f);
+            }
+        }
+        else if (!isHoldingBreath)
+        {
+            holdBreathTimeDiff = 0;
+
+            if (!canHoldBreath && Time.time >= holdBreathCooldownTime)
+            {
+                canHoldBreath           = true;
+                holdBreathCooldownTime  = 0;
+            }
+        }
+    }
+
     private void UpdateSniperCameraShake()
     {
         bool isCrouching = playerAnimator && playerAnimator.GetBool("Crouch");
@@ -155,8 +210,10 @@ public class PlayerCameraController : MyBehaviour
             noise.m_AmplitudeGain = sniperCameraShakeStanding.amplitudeGain;
             noise.m_FrequencyGain = sniperCameraShakeStanding.frequencyGain;
         }
+
+        CheckHoldBreath(noise);
     }
-    
+
     private void PointSniperCameraAtMouse()
     {
         if (!sniperZoomVirtualCamera) return;
