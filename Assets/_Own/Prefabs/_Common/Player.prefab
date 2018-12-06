@@ -2231,7 +2231,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1497783660311768}
-  m_LocalRotation: {x: 0.7047734, y: -0.00021307619, z: 0.02412482, w: 0.7090222}
+  m_LocalRotation: {x: 0.6917676, y: -0.00065160886, z: 0.02411696, w: 0.7217172}
   m_LocalPosition: {x: 0.017936707, y: 4.4560227, z: 0.007396698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2738,7 +2738,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1752629989059712}
-  m_LocalRotation: {x: 0.7047676, y: -0.00021258889, z: 0.024104215, w: 0.70902866}
+  m_LocalRotation: {x: 0.6917673, y: -0.00065055816, z: 0.024096372, w: 0.72171813}
   m_LocalPosition: {x: 0.017936707, y: 21.456022, z: 0.007396698}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
   m_Children:
@@ -3106,7 +3106,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659476796608624}
-  m_LocalRotation: {x: -0.0000000015871091, y: -0.9993418, z: -0.03627734, w: 5.7614018e-11}
+  m_LocalRotation: {x: -0.000000001586694, y: -0.9993418, z: -0.03627734, w: 5.759895e-11}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4371,13 +4371,14 @@ MonoBehaviour:
   playerAnimator: {fileID: 95306213840604752}
   holdBreathButtonKey: HoldBreath
   holdBreathPeriod: 3
-  holdBreathCooldown: 2
+  holdBreathCooldown: 1.5
   heartBeatAudioSource: {fileID: 82457185441707700}
   zoomSpeed: 5
   sniperMaxFov: 39
   sniperMinFov: 10
   invertScroll: 0
   currentSniperFov: 0
+  minAngleForSniping: 60
   sniperCameraShakeStanding:
     amplitudeGain: 2
     frequencyGain: 2

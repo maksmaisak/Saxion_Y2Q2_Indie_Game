@@ -39,6 +39,8 @@ public class PlayerCameraController : MyBehaviour
     [SerializeField] float sniperMinFov = 5f;
     [SerializeField] bool invertScroll = false;
     [SerializeField] float currentSniperFov;
+    [Tooltip("The required angle for the player to look towards camera direction in order to zoom in.")]
+    [SerializeField] float minAngleForSniping = 45.0f;
 
     [Header("Sniper camera shake")]
     [SerializeField] CameraNoiseConfig sniperCameraShakeStanding  = CameraNoiseConfig.Default;
@@ -86,8 +88,19 @@ public class PlayerCameraController : MyBehaviour
 
     void Update()
     {
-        if (!isSniping && !playerAmmoManager.isReloading && Input.GetMouseButtonDown(1)) isSniping = true;
+        if (!isSniping && !playerAmmoManager.isReloading && Input.GetMouseButtonDown(1))
+        {
+            if (Vector3.Angle(transform.forward, Camera.main.transform.forward) < minAngleForSniping * 0.5f)
+                isSniping = true;
+        }
         else if (isSniping && (playerAmmoManager.isReloading || Input.GetMouseButtonUp(1))) isSniping = false;
+
+        if (isSniping)
+        {
+            Vector3 cameraForwardTransform  = Camera.main.transform.forward;
+            cameraForwardTransform.y        = transform.forward.y;
+            transform.forward               = cameraForwardTransform;
+        }
 
         UpdateZoom();
 
@@ -101,11 +114,11 @@ public class PlayerCameraController : MyBehaviour
     void OnDisable()
     {
         isSniping = false;
-        
+
         UpdateCameras();
         UpdateRendererVisibility();
         UpdateCanvasObjectVisibility();
-        
+
         enabled = false;
     }
 
