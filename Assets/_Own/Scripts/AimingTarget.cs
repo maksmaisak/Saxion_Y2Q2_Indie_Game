@@ -22,7 +22,7 @@ public class AimingTarget : MonoBehaviour
         
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, maxRaycastDistance, raycastLayerMask))
+        if (Physics.Raycast(ray, out hit, maxRaycastDistance, raycastLayerMask, QueryTriggerInteraction.Ignore))
         {
             return hit.point;
         }

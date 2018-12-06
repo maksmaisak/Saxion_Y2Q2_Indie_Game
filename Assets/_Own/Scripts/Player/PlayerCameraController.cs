@@ -159,10 +159,8 @@ public class PlayerCameraController : MyBehaviour
     
     private void PointSniperCameraAtMouse()
     {
-        if (!sniperZoomVirtualCamera)
-            return;
-        
-        Assert.IsNotNull(sniperZoomVirtualCamera.LookAt);
+        if (!sniperZoomVirtualCamera) return;
+        if (!sniperZoomVirtualCamera.LookAt) return;
         
         var pov = sniperZoomVirtualCamera.GetCinemachineComponent<CinemachinePOV>();
         Vector3 eulerAngles = hardLookAtMouseSniperCamera.transform.eulerAngles;
