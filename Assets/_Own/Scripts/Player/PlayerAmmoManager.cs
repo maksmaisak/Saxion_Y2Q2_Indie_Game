@@ -28,9 +28,10 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
     /********* PUBLIC *********/
     public delegate void OnAmmoChangedHandler(int currentAmmo, int totalAmmo);
     public event OnAmmoChangedHandler OnAmmoChanged;
-    
+
+    public bool isReloading { get; private set; }
+
     /********* PRIVATE *********/
-    private bool isReloading;
 
     private Magazine currentMagazine;
     private List<Magazine> magazines = new List<Magazine>();  
@@ -186,7 +187,7 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
         OnAmmoChanged?.Invoke(currentMagazine.ammoCount, GetTotalAmmoInMagazines());
     }
 
-    public bool CanShootOrZoomIn()
+    public bool CanShoot()
     {
         return currentMagazine != null && currentMagazine.ammoCount > 0 &&
             !isReloading;

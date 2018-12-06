@@ -86,8 +86,8 @@ public class PlayerCameraController : MyBehaviour
 
     void Update()
     {
-        if (!isSniping && playerAmmoManager.CanShootOrZoomIn() && Input.GetMouseButtonDown(1)) isSniping = true;
-        else if (isSniping && (Input.GetMouseButtonUp(1) || !playerAmmoManager.CanShootOrZoomIn())) isSniping = false;
+        if (!isSniping && !playerAmmoManager.isReloading && Input.GetMouseButtonDown(1)) isSniping = true;
+        else if (isSniping && (playerAmmoManager.isReloading || Input.GetMouseButtonUp(1))) isSniping = false;
 
         UpdateZoom();
 

@@ -75,7 +75,7 @@ public class PlayerShootingController : MyBehaviour
     {
         if (!aimingTarget) return;
         
-        if (cameraController.isSniping && playerAmmoManager.CanShootOrZoomIn() && Input.GetMouseButtonDown(0) && CanShoot())
+        if (cameraController.isSniping && playerAmmoManager.CanShoot() && Input.GetMouseButtonDown(0) && CanShoot())
         {
             Shoot();
             OnShoot.Invoke();
