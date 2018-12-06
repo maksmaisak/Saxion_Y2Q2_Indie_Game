@@ -25,7 +25,7 @@ public class BreakpointShootAndKill : TutorialBreakpoint
     protected override void Update()
     {
         base.Update();
-        if (!enabled) return;
+        if (!isActive) return;
         
         if (playerCameraController.isSniping)
         {
