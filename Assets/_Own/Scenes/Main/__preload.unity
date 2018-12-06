@@ -195,6 +195,7 @@ GameObject:
   - component: {fileID: 598857266}
   - component: {fileID: 598857268}
   - component: {fileID: 598857269}
+  - component: {fileID: 598857271}
   m_Layer: 0
   m_Name: __app
   m_TagString: Untagged
@@ -238,8 +239,8 @@ MonoBehaviour:
   combatSoundTrack: {fileID: 8300000, guid: 5879eef93693f3143a08eaf837186462, type: 3}
   pitchChangeDuration: 0.5
   volumeChangeDuration: 0.1
-  combatSoundTrackMaxVolume: 0.84
-  combatFadeInDuration: 0.5
+  combatSoundTrackMaxVolume: 0.6
+  combatFadeInDuration: 0.8
   combatFadeOutDuration: 1.5
 --- !u!114 &598857267
 MonoBehaviour:
@@ -294,6 +295,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultDeliveryType: 1
+--- !u!114 &598857271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 598857264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -594688902, guid: f7b54ff4a43d4fcf81b4538b678e0bcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SurfaceParent: {fileID: 0}
+  m_FreezeUpdates: 0
+  m_VolumeType: 1
+  m_SphereRadius: 2
+  m_HalfBoxExtents: {x: 4, y: 4, z: 4}
+  m_LodType: 1
+  m_NumUpdatesBeforeRemoval: 10
+  m_SecondsBetweenUpdates: 2.5
+  m_CurrentRenderState: 1
+  m_VisualMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  m_OcclusionMaterial: {fileID: 15302, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &634387302
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,7 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e019fd4e91ac82d4f81788de23d5b9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 1251716584}
+  audioSource: {fileID: 0}
 --- !u!82 &1251716584
 AudioSource:
   m_ObjectHideFlags: 0
