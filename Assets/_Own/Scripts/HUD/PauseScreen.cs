@@ -4,10 +4,13 @@ public class PauseScreen : FadeZoomScreen,
     IEventReceiver<OnPlayerDied>,
     IEventReceiver<OnLevelCompleted>
 {
+    public static bool canPause { get; set; } = true;
+    
     private float initialTimeScale = 1f;
     
     void Update()
     {
+        if (!canPause) return;
         if (!Input.GetButtonDown("Pause")) return;
         
         if (isCurrentlySelected) TransitionOut();
