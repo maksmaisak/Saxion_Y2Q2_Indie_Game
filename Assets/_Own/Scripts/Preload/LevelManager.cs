@@ -33,6 +33,15 @@ public class LevelManager : PersistentSingleton<LevelManager>
     /// </summary>
     public bool didRestartLevel { get; private set; }
 
+    public bool isAtMainMenu
+    {
+        get
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            return currentScene.IsValid() && currentScene.name == mainMenuSceneName;
+        }
+    }
+    
     public void GoToMainMenu()
     {
         didRestartLevel = false;
@@ -81,7 +90,7 @@ public class LevelManager : PersistentSingleton<LevelManager>
                 .PostEvent();
         };
     }
-
+    
     private IEnumerator UpdateProgressBarCoroutine()
     {
         while (currentLevelLoadingOperation != null)
