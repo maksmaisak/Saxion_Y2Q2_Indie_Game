@@ -47,6 +47,14 @@ public class LevelManager : PersistentSingleton<LevelManager>
     {
         LoadLevel(SceneManager.GetActiveScene().name);
     }
+
+    public void LoadNextLevel()
+    {
+        if(SceneManager.GetActiveScene().name == tutorialSceneName)
+            LoadLevel(mainLevelSceneName);
+        else if(SceneManager.GetActiveScene().name == mainLevelSceneName)
+            LoadLevel(mainMenuSceneName);
+    }
     
     public void LoadLevel(string levelSceneName, bool pauseTimeWhileLoading = true)
     {
