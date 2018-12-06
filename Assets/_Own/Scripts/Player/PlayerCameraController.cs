@@ -93,13 +93,12 @@ public class PlayerCameraController : MyBehaviour
             if (Vector3.Angle(transform.forward, Camera.main.transform.forward) < minAngleForSniping * 0.5f)
                 isSniping = true;
         }
-        else if (isSniping && (playerAmmoManager.isReloading || Input.GetMouseButtonUp(1))) isSniping = false;
-
-        if (isSniping)
+        else if (isSniping && (playerAmmoManager.isReloading || Input.GetMouseButtonUp(1)))
         {
             Vector3 cameraForwardTransform  = Camera.main.transform.forward;
             cameraForwardTransform.y        = transform.forward.y;
             transform.forward               = cameraForwardTransform;
+            isSniping                       = false;
         }
 
         UpdateZoom();
