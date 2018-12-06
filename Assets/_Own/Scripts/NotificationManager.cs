@@ -19,11 +19,12 @@ public class NotificationManager : MyBehaviour, IEventReceiver<OnEnemyDied>
 
     public void On(OnEnemyDied message)
     {
-        // TODO: Create a pop up text object instead of setting the text?
+        int scoreBonus = StatsTracker.instance.getScoreBonuses.GetScoreFor(message);
+
         if (message.wasHeadshot)
-            deathNotificationDisplayText.text = onHeadshotDeadEnemyText;
+            deathNotificationDisplayText.text = onHeadshotDeadEnemyText + $" (+{scoreBonus})";
         else
-            deathNotificationDisplayText.text = onDeadEnemyText;
+            deathNotificationDisplayText.text = onDeadEnemyText + $" (+{scoreBonus})";
 
         OnEnemyDied.Invoke();
 
