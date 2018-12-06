@@ -63,7 +63,7 @@ public class Highlightable : MonoBehaviour
 		
 		Ray ray = new Ray(cameraPosition, delta);
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, distance, blockingLayers))
+		if (Physics.Raycast(ray, out hit, distance, blockingLayers, QueryTriggerInteraction.Ignore))
 		{
 			if (hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform) && !transform.IsChildOf(hit.collider.transform))
 			{

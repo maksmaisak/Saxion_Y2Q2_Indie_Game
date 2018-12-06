@@ -20,7 +20,7 @@ public class Visibility {
         }
 
         RaycastHit hit;
-        if (!Physics.Raycast(ownPosition, toOther, out hit, fov.maxDistance, fov.layerMask))
+        if (!Physics.Raycast(ownPosition, toOther, out hit, fov.maxDistance, fov.layerMask, QueryTriggerInteraction.Ignore))
         {
             Debug.DrawRay(ownPosition, toOther);
             return true;
