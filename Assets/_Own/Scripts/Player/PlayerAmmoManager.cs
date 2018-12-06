@@ -8,6 +8,7 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
 {
     [SerializeField] int baseClipSize = 5;
     [SerializeField] int maxMagazines = 3;
+    [SerializeField] int startingAmmo = 5;
     [SerializeField] int startingNumberOfMagazines = 2;
     [SerializeField] float reloadAnimationLength = 2f;
     [SerializeField] string reloadWeaponKey = "Reload";
@@ -42,6 +43,7 @@ public class PlayerAmmoManager : MyBehaviour, IEventReceiver<OnAmmoLooted>
     {
         playerAnimator  = GetComponent<Animator>();
         currentMagazine = new Magazine(baseClipSize);
+        currentMagazine.ammoCount = startingAmmo;
 
         for (int i = 0; i < startingNumberOfMagazines; i++)
             if (magazines.Count <= maxMagazines)
