@@ -2,8 +2,9 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>, IEventReceiver<OnEnemyCombat>
+public class AIManager : PersistentSingleton<AIManager>, IEventReceiver<Distraction>, IEventReceiver<OnEnemyCombat>
 {
     private int nextAIEntry = 0;
 
@@ -73,7 +74,7 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>, IEve
         Investigation investigation = new Investigation(distraction);
 
         foreach (EnemyAI agent in agents)
-            if (agent.CanStartNewInvestigation(investigation))
+            if (agent && agent.CanStartNewInvestigation(investigation))
                 investigation.AssignAgent(agent);
 
         if (investigation.agents.Count == 0)
@@ -86,7 +87,11 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>, IEve
 
     private void OnInvestigationFinish(Investigation investigation) => investigations.Remove(investigation);
 
-    private void Start() => StartCoroutine(UpdateInvestigationsCoroutine());
+    private void Start()
+    {
+        StartCoroutine(UpdateInvestigationsCoroutine());
+        SceneManager.activeSceneChanged += OnActiveSceneChange;
+    }
 
     protected override void OnDestroy()
     {
@@ -94,6 +99,20 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>, IEve
         
         StopAllCoroutines();
         agents.Clear();
+    }
+
+    private void OnActiveSceneChange(Scene currentScene, Scene nextScene)
+    {
+        StopAllCoroutines();
+
+        agents.Clear();
+        agentsDead.Clear();
+        agentsInCombat.Clear();
+
+        foreach (Investigation investigation in investigations)
+            investigation.agents.Clear();
+
+        investigations.Clear();
     }
 
     private IEnumerator UpdateInvestigationsCoroutine()
@@ -106,7 +125,7 @@ public class AIManager : Singleton<AIManager>, IEventReceiver<Distraction>, IEve
 
             if(investigationCount == 0)
                 continue;
-            
+
             for (int i = investigationCount - 1; i >= 0; i--)
             {
                 Investigation investigation = investigations[i];

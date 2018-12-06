@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Health))]
 public class PlayerHealthRegenerator : MyBehaviour, IEventReceiver<OnEnemyCombat>
@@ -11,17 +12,21 @@ public class PlayerHealthRegenerator : MyBehaviour, IEventReceiver<OnEnemyCombat
     [SerializeField] int healthRegenerationAmount = 5;
     [Tooltip("Enable this to use the amount as a percent instead of raw health.")]
     [SerializeField] bool regeneratePercent = false;
+    [SerializeField] UnityEvent OnEnterCombat;
+    [SerializeField] UnityEvent OnExitCombat;
 
     private Health health;
 
     public void On(OnEnemyCombat combat)
     {
         // If the enemy enters combat then don't start a new regeneration timer and stop the current one
-        if (combat.enterCombat) {
+        if (combat.enterCombat)
+        {
+            OnEnterCombat.Invoke();
             StopAllCoroutines();
             return;
         }
-
+        
         // Start a delay and check if the player is finally out of combat
         this.Delay(0.05f, () =>
         {
@@ -29,6 +34,8 @@ public class PlayerHealthRegenerator : MyBehaviour, IEventReceiver<OnEnemyCombat
             if (AIManager.instance.GetAllAgentsInCombat().Count > 0)
                 return;
 
+            OnExitCombat.Invoke();
+            
             // Start health regeneration out of combat
             StartCoroutine(RegenerateHealthCoroutine());
         });

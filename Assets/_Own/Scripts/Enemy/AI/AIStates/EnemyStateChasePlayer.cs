@@ -19,7 +19,8 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
     [SerializeField] float minShootingDistance = 10f;
     [SerializeField] [Range(0f, 1f)] float rangedAttackProbabilityPerSecond = 0.5f;
     [SerializeField] [Range(0f, 1f)] float firstRangedAttackProbability = 0.8f;
-    [Space] 
+    [Space]
+    [SerializeField] UnityEvent OnEnterChaseMode;
     [SerializeField] UnityEvent OnMeleeAttack;
     [SerializeField] UnityEvent OnThrow;
 
@@ -27,6 +28,8 @@ public class EnemyStateChasePlayer : FSMState<EnemyAI>
 
     void OnEnable()
     {
+        OnEnterChaseMode.Invoke();
+        
         agent.navMeshAgent.speed                = agent.chaseSpeed;
         agent.minimumAwarenessLevelThreshold    = minimumChaseTimeThreshold;
 
