@@ -59,7 +59,7 @@ public class Audio : PersistentSingleton<Audio>
         mainMenuSoundtrackAudioSource.volume = 0f;
         mainMenuSoundtrackAudioSource.loop   = true;
 
-        PlayMainMenuSoundTrackIfAtMainMenu();
+        this.DoNextFrame(PlayMainMenuSoundTrackIfAtMainMenu);
     }
     
     public void SetMusicVolume(float normalizedTargetVolume, bool immediate = false)
