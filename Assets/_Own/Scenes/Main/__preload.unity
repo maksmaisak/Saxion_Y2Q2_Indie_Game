@@ -232,16 +232,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e7af9a112d4b769bd12cf9671ae881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuSoundtrackAudioSource: {fileID: 634387304}
-  soundtrackAudioSource: {fileID: 1477094563}
-  combatSoundtrackAudioSource: {fileID: 1223568092}
-  soundtrack: {fileID: 8300000, guid: 359059f4ee9390b4f821e3107cc859ba, type: 3}
-  combatSoundTrack: {fileID: 8300000, guid: 5879eef93693f3143a08eaf837186462, type: 3}
   pitchChangeDuration: 0.5
   volumeChangeDuration: 0.1
-  combatSoundTrackMaxVolume: 0.6
+  soundtrack: {fileID: 8300000, guid: 359059f4ee9390b4f821e3107cc859ba, type: 3}
+  soundtrackAudioSource: {fileID: 1477094563}
+  mainMenuFadeInDuration: 1
+  mainMenuFadeOutDuration: 2
+  mainMenuSoundTrackMaxVolume: 0.6
+  mainMenuSoundtrackAudioSource: {fileID: 634387304}
+  combatSoundTrack: {fileID: 8300000, guid: 5879eef93693f3143a08eaf837186462, type: 3}
+  combatSoundtrackAudioSource: {fileID: 1223568092}
   combatFadeInDuration: 0.8
-  combatFadeOutDuration: 1.5
+  combatFadeOutDuration: 2
+  combatSoundTrackMaxVolume: 0.6
 --- !u!114 &598857267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -949,7 +952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e019fd4e91ac82d4f81788de23d5b9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 1251716584}
 --- !u!82 &1251716584
 AudioSource:
   m_ObjectHideFlags: 0

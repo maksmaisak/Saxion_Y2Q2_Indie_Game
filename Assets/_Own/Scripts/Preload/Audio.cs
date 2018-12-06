@@ -6,17 +6,24 @@ using UnityEngine.SceneManagement;
 public class Audio : PersistentSingleton<Audio>
 {
     [Header("Soundtrack")]
-    [SerializeField] AudioSource mainMenuSoundtrackAudioSource;
-    [SerializeField] AudioSource soundtrackAudioSource;
-    [SerializeField] AudioSource combatSoundtrackAudioSource;
-    [SerializeField] AudioClip soundtrack;
-    [SerializeField] AudioClip combatSoundTrack;
     [SerializeField] float pitchChangeDuration = 0.5f;
     [SerializeField] float volumeChangeDuration = 0.1f;
-    [SerializeField] float combatSoundTrackMaxVolume = 0.6f;
+    [SerializeField] AudioClip soundtrack;
+    [SerializeField] AudioSource soundtrackAudioSource;
+
+    [Header("Main Menu Sound Settings")]
+    [SerializeField] float mainMenuFadeInDuration = 1.0f;
+    [SerializeField] float mainMenuFadeOutDuration = 2.0f;
+    [SerializeField] float mainMenuSoundTrackMaxVolume = 0.6f;
+    [SerializeField] AudioSource mainMenuSoundtrackAudioSource;
+
+    [Header("Combat Sound Settings")]
+    [SerializeField] AudioClip combatSoundTrack;
+    [SerializeField] AudioSource combatSoundtrackAudioSource;
     [SerializeField] float combatFadeInDuration = 0.8f;
     [SerializeField] float combatFadeOutDuration = 1.5f;
-    
+    [SerializeField] float combatSoundTrackMaxVolume = 0.6f;
+
     private float soundtrackDefaultPitch;
     private float soundtrackDefaultVolume;
 
@@ -25,9 +32,9 @@ public class Audio : PersistentSingleton<Audio>
 
     private bool isCombatSoundFadingIn = false;
     private bool isCombatSoundFadingOut = false;
-    
+
     private AIManager aiManager;
-    
+
     private void Start()
     {
         aiManager = AIManager.instance;
@@ -52,7 +59,8 @@ public class Audio : PersistentSingleton<Audio>
         combatSoundtrackAudioSource.loop     = true;
         combatSoundtrackAudioSource.Play();
 
-        mainMenuSoundtrackAudioSource.loop = true;
+        mainMenuSoundtrackAudioSource.volume = 0f;
+        mainMenuSoundtrackAudioSource.loop   = true;
 
         PlayMainMenuSoundTrackIfFound();
     }
@@ -121,7 +129,7 @@ public class Audio : PersistentSingleton<Audio>
 
         if (!isMainMenuSceneFound)
         {
-            mainMenuSoundtrackAudioSource.DOFade(0, 2.0f)
+            mainMenuSoundtrackAudioSource.DOFade(0, mainMenuFadeOutDuration)
                 .OnComplete(() =>
                 {
                     mainMenuSoundtrackAudioSource.Stop();
@@ -132,8 +140,8 @@ public class Audio : PersistentSingleton<Audio>
         {
             soundtrackAudioSource.Stop();
 
-            mainMenuSoundtrackAudioSource.volume = 0.8f;
             mainMenuSoundtrackAudioSource.Play();
+            mainMenuSoundtrackAudioSource.DOFade(mainMenuSoundTrackMaxVolume, mainMenuFadeInDuration);
         }
     }
 }
