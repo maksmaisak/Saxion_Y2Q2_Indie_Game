@@ -6,7 +6,7 @@ public class StatsTracker : PersistentSingleton<StatsTracker>,
     IEventReceiver<OnEnemyDied>
 {
     [Serializable]
-    class ScoreBonuses
+    public class ScoreBonuses
     {
         [SerializeField] int enemyKillRegular  = 50;
         [SerializeField] int enemyKillHeadshot = 100;
@@ -18,11 +18,12 @@ public class StatsTracker : PersistentSingleton<StatsTracker>,
     }
 
     [SerializeField] ScoreBonuses scoreBonuses;
-    
+
+    public ScoreBonuses getScoreBonuses => scoreBonuses;
     public int score { get; private set; }
     public int numKills { get; private set; }
     public int numHeadshots { get; private set; }
-    
+
     public void On(OnEnemyDied message)
     {
         score += GetScoreFor(message);
