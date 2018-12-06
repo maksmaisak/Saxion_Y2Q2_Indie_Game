@@ -15,10 +15,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
+		[SerializeField] LayerMask m_LowHeadroomDetectionMask = Physics.DefaultRaycastLayers;
 
 		Rigidbody m_Rigidbody;
 		Animator m_Animator;
-		bool m_IsGrounded;
+        bool m_IsGrounded;
 		float m_OrigGroundCheckDistance;
 		const float k_Half = 0.5f;
 		float m_TurnAmount;
@@ -28,9 +29,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		Vector3 m_CapsuleCenter;
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
+        public float movementSpeedMultiplier { get; set; }
 
-
-		void Start()
+        void Start()
 		{
 			m_Animator = GetComponent<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
@@ -42,10 +43,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 		}
 
-
 		public void Move(Vector3 move, bool crouch, bool jump)
 		{
-
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
 			// direction.
@@ -72,7 +71,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			PreventStandingInLowHeadroom();
 
 			// send input and other state parameters to the animator
-			UpdateAnimator(move);
+			UpdateAnimator(move); 
 		}
 
 
@@ -89,7 +88,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			{
 				Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
 				float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
-				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, m_LowHeadroomDetectionMask, QueryTriggerInteraction.Ignore))
 				{
 					m_Crouching = true;
 					return;
@@ -107,7 +106,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			{
 				Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
 				float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
-				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, m_LowHeadroomDetectionMask, QueryTriggerInteraction.Ignore))
 				{
 					m_Crouching = true;
 				}
@@ -190,7 +189,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			// this allows us to modify the positional speed before it's applied.
 			if (m_IsGrounded && Time.deltaTime > 0)
 			{
-				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier * movementSpeedMultiplier) / Time.deltaTime;
 
 				// we preserve the existing y part of the current velocity.
 				v.y = m_Rigidbody.velocity.y;

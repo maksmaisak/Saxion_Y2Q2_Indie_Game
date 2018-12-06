@@ -29,7 +29,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
   m_Name: MotionBlur
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -55,7 +55,7 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   gradingMode:
-    overrideState: 0
+    overrideState: 1
     value: 1
   externalLut:
     overrideState: 0
@@ -90,20 +90,20 @@ MonoBehaviour:
     overrideState: 0
     value: 1
   temperature:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -35
   tint:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -11
   colorFilter:
     overrideState: 0
     value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
-    overrideState: 0
+    overrideState: 1
     value: 0
   saturation:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -1
   brightness:
     overrideState: 0
     value: 0
@@ -111,8 +111,8 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   contrast:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 4
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
@@ -141,14 +141,14 @@ MonoBehaviour:
     overrideState: 0
     value: 100
   lift:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 0.84268045, y: 0.86699325, z: 1, w: 0.07021873}
   gamma:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 1, y: 0.9328128, z: 0.88762236, w: -0.02386626}
   gain:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 0.9948351, y: 1, z: 0.9997817, w: 0.23866352}
   masterCurve:
     overrideState: 0
     value:
@@ -1369,7 +1369,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.5
+    value: 0.1
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -1387,7 +1387,7 @@ MonoBehaviour:
     value: -12
   thicknessModifier:
     overrideState: 1
-    value: 1
+    value: 2.4
   directLightingStrength:
     overrideState: 0
     value: 0
@@ -1414,16 +1414,16 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 2.5
+    value: 0.5
   threshold:
     overrideState: 1
-    value: 1
-  softKnee:
-    overrideState: 0
     value: 0.5
+  softKnee:
+    overrideState: 1
+    value: 0.514
   clamp:
-    overrideState: 0
-    value: 65472
+    overrideState: 1
+    value: 10
   diffusion:
     overrideState: 0
     value: 7
@@ -1431,10 +1431,10 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   color:
-    overrideState: 0
-    value: {r: 1, g: 1, b: 1, a: 1}
+    overrideState: 1
+    value: {r: 0, g: 1, b: 0.8888178, a: 1}
   fastMode:
-    overrideState: 0
+    overrideState: 1
     value: 0
   dirtTexture:
     overrideState: 0
@@ -1469,16 +1469,16 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.55
+    value: 0.31
   smoothness:
     overrideState: 1
-    value: 0.4
+    value: 1
   roundness:
     overrideState: 1
-    value: 0
+    value: 0.881
   rounded:
     overrideState: 1
-    value: 0
+    value: 1
   mask:
     overrideState: 0
     value: {fileID: 0}
@@ -1497,7 +1497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1

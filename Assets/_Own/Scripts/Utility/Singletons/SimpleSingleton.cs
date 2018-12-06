@@ -3,13 +3,8 @@ using System.Collections;
 
 public class SimpleSingleton<T> where T : class, new()
 {
-    private static T instance;
+    private static T _instance;
 
-    public static T Instance
-    {
-        get
-        {
-            return instance = instance ?? new T();
-        }
-    }
+    public static T instance => _instance = _instance ?? new T();
+    public static bool exists => _instance != null;
 }
