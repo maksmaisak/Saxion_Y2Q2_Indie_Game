@@ -10,7 +10,12 @@ ModelImporter:
     3300000: //RootNode
     4300000: Road_Cone
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: d5081f59b2bb47642be271fc789e111f, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

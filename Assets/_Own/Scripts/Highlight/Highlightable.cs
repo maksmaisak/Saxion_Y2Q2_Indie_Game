@@ -30,7 +30,7 @@ public class Highlightable : MonoBehaviour
 		cameraTransform = camera.transform;
 		
 		renderer = GetComponentInChildren<Renderer>();
-		Assert.IsNotNull(renderer, "No Renderer found on a Highlightable object. Can't determine bounds on screen.");
+		Assert.IsNotNull(renderer, this + ": No Renderer found on a Highlightable object. Can't determine bounds on screen.");
 		
 		Assert.IsNotNull(hudElementPrefab);
 		hudElement = CanvasObjectBuilder.CreateAndAddObjectToCanvas(hudElementPrefab);
