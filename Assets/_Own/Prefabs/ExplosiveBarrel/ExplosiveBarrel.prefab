@@ -375,8 +375,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1835732125736452}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 74.53056, y: 0, z: 42.728447}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -11.61, y: 0, z: -3.43}
+  m_LocalScale: {x: 1.14, y: 1.14, z: 1.14}
   m_Children:
   - {fileID: 4159249766635396}
   - {fileID: 4848991985519774}
@@ -427,7 +427,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 06b9705f5782a42b78e22159461c6234, type: 2}
+  - {fileID: 2100000, guid: 9bbaaea99ee9f1a4b822cec9e2a8f7ff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distractionPriority: 10
-  enemyHearingRadius: 40
+  enemyHearingRadius: 13.668228
 --- !u!114 &114301665864641422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -575,7 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 40
   explosionForce: 2000
-  radius: 8
+  radius: 5
   upwardsModifier: 0.5
   modifier: 1
 --- !u!114 &114426545430043158
@@ -669,10 +669,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.3549872
-  m_Height: 1.3376584
+  m_Radius: 0.361979
+  m_Height: 1.0429142
   m_Direction: 1
-  m_Center: {x: 0, y: 0.38185298, z: 0}
+  m_Center: {x: 0, y: 0.45654616, z: 0.000000026142388}
 --- !u!198 &198167944117201804
 ParticleSystem:
   m_ObjectHideFlags: 1

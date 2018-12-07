@@ -61,29 +61,67 @@ public class Highlightable : MonoBehaviour
 			return;
 		}
 		
-		Ray ray = new Ray(cameraPosition, delta);
-		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, distance, blockingLayers, QueryTriggerInteraction.Ignore))
-		{
-			if (hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform) && !transform.IsChildOf(hit.collider.transform))
-			{
-				hudElement.gameObject.SetActive(false);
-				return;
-			}
-		}
-
 		Rect viewportBounds = renderer.GetViewportBounds(camera);
+		if (!IsVisible(GetRaysToObjectInViewport(viewportBounds)))
+		{
+			hudElement.gameObject.SetActive(false);
+			return;
+		}
+		
+		var rectTransform = hudElement.GetComponent<RectTransform>();
+		Vector2 centerViewportPosition = viewportBounds.center;
 		Vector2 minViewportPosition = viewportBounds.min;
 		Vector2 maxViewportPosition = viewportBounds.max;
-		Vector2 centerViewportPosition = viewportBounds.center;
 		minViewportPosition = centerViewportPosition + (minViewportPosition - centerViewportPosition) * sizeMultiplier;
 		maxViewportPosition = centerViewportPosition + (maxViewportPosition - centerViewportPosition) * sizeMultiplier;
-
-		var rectTransform = hudElement.GetComponent<RectTransform>();
 		rectTransform.anchorMin = minViewportPosition;
 		rectTransform.anchorMax = maxViewportPosition;
 		rectTransform.anchoredPosition = Vector2.zero;
 		
 		hudElement.gameObject.SetActive(true);
+	}
+
+	private IEnumerable<Ray> GetRaysToObjectInViewport(Rect viewportBounds)
+	{
+		Rect bounds = ScaleRect(viewportBounds, 0.8f);
+		return new[]
+		{
+			bounds.min,
+			new Vector2(bounds.min.x, bounds.max.y),
+			new Vector2(bounds.max.x, bounds.min.y),
+			bounds.max,	
+			bounds.center
+		}
+		.Select(p => camera.ViewportPointToRay(p));
+	}
+
+	private static Rect ScaleRect(Rect rect, float multiplier)
+	{
+		Vector2 center = rect.center;
+		Vector2 min = center + (rect.min - center) * multiplier;
+		Vector2 max = center + (rect.max - center) * multiplier;
+		return Rect.MinMaxRect(min.x, min.y, max.x, max.y);
+	}
+
+	/// Assuming the object is closer than maxDistance
+	private bool IsVisible(IEnumerable<Ray> rays)
+	{
+		foreach (Ray ray in rays)
+		{
+			RaycastHit hit;
+
+			if (Physics.Raycast(ray, out hit, maxDistance, blockingLayers, QueryTriggerInteraction.Ignore))
+			{
+				if (hit.collider.gameObject == gameObject) return true;
+				if (hit.collider.transform.IsChildOf(transform)) return true;
+				if (transform.IsChildOf(hit.collider.transform)) return true;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

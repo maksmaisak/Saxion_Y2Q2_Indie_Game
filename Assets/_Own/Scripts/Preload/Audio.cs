@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class Audio : PersistentSingleton<Audio>
 {
     [Header("Soundtrack")]
-    [SerializeField] float pitchChangeDuration = 0.5f;
     [SerializeField] float volumeChangeDuration = 0.1f;
     [SerializeField] AudioClip soundtrack;
     [SerializeField] AudioSource soundtrackAudioSource;
@@ -24,7 +23,6 @@ public class Audio : PersistentSingleton<Audio>
     [SerializeField] float combatFadeOutDuration = 1.5f;
     [SerializeField] float combatSoundTrackMaxVolume = 0.6f;
 
-    private float soundtrackDefaultPitch;
     private float soundtrackDefaultVolume;
 
     private Tween soundtrackPitchTween;
@@ -48,21 +46,20 @@ public class Audio : PersistentSingleton<Audio>
         if (!soundtrack) return;
         if (!soundtrackAudioSource) return;
         
-        soundtrackDefaultPitch = soundtrackAudioSource.pitch;
         soundtrackDefaultVolume = soundtrackAudioSource.volume;
 
         soundtrackAudioSource.clip = soundtrack;
         soundtrackAudioSource.loop = true;
         soundtrackAudioSource.Play();
 
-        combatSoundtrackAudioSource.clip     = combatSoundTrack;
-        combatSoundtrackAudioSource.loop     = true;
+        combatSoundtrackAudioSource.clip = combatSoundTrack;
+        combatSoundtrackAudioSource.loop = true;
         combatSoundtrackAudioSource.Play();
 
         mainMenuSoundtrackAudioSource.volume = 0f;
         mainMenuSoundtrackAudioSource.loop   = true;
 
-        PlayMainMenuSoundTrackIfFound();
+        this.DoNextFrame(PlayMainMenuSoundTrackIfAtMainMenu);
     }
     
     public void SetMusicVolume(float normalizedTargetVolume, bool immediate = false)
@@ -76,7 +73,8 @@ public class Audio : PersistentSingleton<Audio>
         }
         
         soundtrackVolumeTween = soundtrackAudioSource
-            .DOFade(normalizedTargetVolume * soundtrackDefaultVolume, volumeChangeDuration);
+            .DOFade(normalizedTargetVolume * soundtrackDefaultVolume, volumeChangeDuration)
+            .SetUpdate(isIndependentUpdate: true);
     }
 
     private void Update()
@@ -111,37 +109,29 @@ public class Audio : PersistentSingleton<Audio>
         }
     }
 
-    void OnActiveSceneChange(Scene currentScene, Scene nextScene) => this.Delay(0.1f, PlayMainMenuSoundTrackIfFound);
+    void OnActiveSceneChange(Scene currentScene, Scene nextScene) => this.DoNextFrame(PlayMainMenuSoundTrackIfAtMainMenu);
 
-    void PlayMainMenuSoundTrackIfFound()
+    private void PlayMainMenuSoundTrackIfAtMainMenu()
     {
-        bool isMainMenuSceneFound = false;
-
-        for (int i = 0; i < SceneManager.sceneCount; i++)
+        if (LevelManager.instance.isAtMainMenu)
         {
-            Scene scene = SceneManager.GetSceneAt(i);
-            if (scene.name.Equals("MainMenu"))
-            {
-                isMainMenuSceneFound = true;
-                break;
-            }
-        }
-
-        if (!isMainMenuSceneFound)
-        {
-            mainMenuSoundtrackAudioSource.DOFade(0, mainMenuFadeOutDuration)
-                .OnComplete(() =>
-                {
-                    mainMenuSoundtrackAudioSource.Stop();
-                    soundtrackAudioSource.Play();
-                });
+            SetMusicVolume(0f);
+            
+            mainMenuSoundtrackAudioSource.Play();
+            mainMenuSoundtrackAudioSource.DOKill();
+            mainMenuSoundtrackAudioSource
+                .DOFade(mainMenuSoundTrackMaxVolume, mainMenuFadeInDuration)
+                .SetUpdate(isIndependentUpdate: true);
         }
         else
         {
-            soundtrackAudioSource.Stop();
-
-            mainMenuSoundtrackAudioSource.Play();
-            mainMenuSoundtrackAudioSource.DOFade(mainMenuSoundTrackMaxVolume, mainMenuFadeInDuration);
+            SetMusicVolume(1f);
+            
+            mainMenuSoundtrackAudioSource.DOKill();
+            mainMenuSoundtrackAudioSource
+                .DOFade(0f, mainMenuFadeOutDuration)
+                .SetUpdate(isIndependentUpdate: true)
+                .OnComplete(mainMenuSoundtrackAudioSource.Stop);
         }
     }
 }

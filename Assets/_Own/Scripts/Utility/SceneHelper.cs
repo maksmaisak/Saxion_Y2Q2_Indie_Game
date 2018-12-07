@@ -9,8 +9,10 @@ public class SceneHelper : PersistentSingleton<SceneHelper>
 
     private int currentSceneBuildIndex = -1;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        
         currentSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
