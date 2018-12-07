@@ -100,7 +100,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 1
+    agentRadius: 0.8
     agentHeight: 2
     agentSlope: 45
     agentClimb: 0.5
@@ -108,10 +108,10 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.33333334
+    cellSize: 0.26666668
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 1
+    accuratePlacement: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: e9999605a847af742a99b49aa2a09f2b, type: 2}
@@ -20214,7 +20214,7 @@ MonoBehaviour:
     spaceCount: 42
     wordCount: 38
     linkCount: 0
-    lineCount: 14
+    lineCount: 13
     pageCount: 1
     materialCount: 2
   m_havePropertiesChanged: 0
@@ -22522,7 +22522,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4426737552660424, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.00065740116
+      value: 0.0006574019
       objectReference: {fileID: 0}
     - target: {fileID: 4426737552660424, guid: 9f73eb9de7b7c46fe8d8089be8c5a323, type: 2}
       propertyPath: m_LocalRotation.z
