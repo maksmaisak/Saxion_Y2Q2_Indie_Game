@@ -105,8 +105,8 @@ public class EnemyCharacter : MonoBehaviour
         rigidbody.position = position;
         
         Vector3 delta = navMeshAgent.nextPosition - rigidbody.position;
-        if (delta.sqrMagnitude > navMeshAgent.radius * navMeshAgent.radius)
-            navMeshAgent.nextPosition = rigidbody.position + 0.9f * delta;
+        if (delta.sqrMagnitude > 0f)
+            navMeshAgent.nextPosition = rigidbody.position + 0.99f * delta;
     }
 
     private void CheckGroundStatus()
